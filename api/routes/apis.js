@@ -20,6 +20,8 @@ router.get('/images', function(req, res) {
 
 // Get Current Air Quilty Index
 router.get('/currentAQI', function(req, res) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
   r.table('air').filter({PublishTime: r.table('air').max('epochtime')('PublishTime')})
     .run(connection, function(err, cursor) {
     if (err) throw err;
@@ -47,7 +49,6 @@ router.get('/geojsonAQI', function(req, res) {
     if (err) throw err;
     cursor.toArray(function(err, result) {
       if (err) throw err;
-      console.log(JSON.stringify(result, null, 2));
       for(var i = 0, ilen = airstation.features.length; i < ilen; i++){
         for(var j = 0, jlen = result.length; j < jlen; j++){
           if(airstation.features[i].properties.SiteName == result[j].SiteName){
@@ -69,5 +70,50 @@ router.get('/geojsonAQI', function(req, res) {
     });
   });
 });
+
+// Geojson with seriesAQI
+// Get Current Air Quilty Index
+router.get('/seriesAQI/:siteName', function(req, res) {
+  var siteName = req.params.siteName;
+
+  console.log("Query SiteName : " + req.params.siteName);
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+
+  //r.table('air').filter({epochtime: r.table('air').max('epochtime')('epochtime'), })
+  //r.table("air").filter({SiteName : siteName}).orderBy(r.desc("epochtime"))
+  //r.table("air").filter({SiteName : siteName}).orderBy(r.desc("epochtime")).pluck(pollutant).map(r.row(pollutant)).limit(24)
+  r.table("air").filter({SiteName : siteName}).orderBy(r.desc("epochtime")).limit(12)
+      .run(connection, function(err, cursor) {
+    if (err) throw err;
+    var valueList = {
+      PSI: [],
+      SO2: [],
+      CO: [],
+      NO2: [],
+      O3: [],
+      PM10: [],
+      PM25: [],
+      FPMI: [],
+      PublishTime: []
+    };
+    cursor.each(function(err, row) {
+      if (err) throw err;
+      valueList.PSI.push(row.PSI);
+      valueList.SO2.push(row.SO2);
+      valueList.CO.push(row.CO);
+      valueList.NO2.push(row.NO2);
+      valueList.O3.push(row.O3);
+      valueList.PM10.push(row.PM10);
+      valueList.PM25.push(row['PM2.5']);
+      valueList.PublishTime.push(row.PublishTime);
+      if(valueList.PSI.length == 12){
+        console.log(JSON.stringify(valueList));
+        res.json(valueList);
+      }
+    });
+  });
+});
+
 
 module.exports = router;
