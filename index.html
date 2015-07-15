@@ -370,6 +370,8 @@
 
   <!--custome script for all page-->
   <script src="js/scripts.js"></script>
+  <script src="js/config.js"></script>
+  
   <!-- custom script for this page-->
   <script src="js/sparkline-chart.js"></script>
   <script src="js/easy-pie-chart.js"></script>
@@ -467,7 +469,7 @@
     $('#map').width($('.panel-body-map').width());
 
     // Get Air Quilty Data
-    $.getJSON("http://localhost:3000/api/geojsonAQI", function(data) {
+    $.getJSON(baseURL + "/api/geojsonAQI", function(data) {
       var listTable;
       var siteMenu = "";
       var geojson = L.geoJson(data, {
@@ -499,7 +501,7 @@
             +  " role=\"progressbar\" aria-valuenow=\""+ feature.properties.PSI
             + "\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: "
             + feature.properties.PSI + "% \"></div>"
-            + "<div class=\"progress-bar progress-bar-warning\""
+            + "<div class=\"progress-bar progress-bar-info\""
             + " role=\"progressbar\" aria-valuenow=\""
             + (100 - feature.properties.PSI) + "\" aria-valuemin=\"0\""
             + " aria-valuemax=\"100\" style=\"width: "
@@ -516,8 +518,9 @@
             $("#box-PSI").html(feature.properties.PSI);
             $("#box-PM10").html(feature.properties.PM10);
             $("#box-PM25").html(feature.properties['PM2.5']);
+            $("#box-WBGT").html(feature.properties.WBGT.toFixed(1));
 
-            var url = "http://localhost:3000/api/seriesAQI/" + feature.properties.SiteName;
+            var url = baseURL + "/api/seriesAQI/" + feature.properties.SiteName;
             $.getJSON(url, function(data) {
               //alert(JSON.stringify(data));
               $("#todayspark1").sparkline(data.PSI.reverse(), {
