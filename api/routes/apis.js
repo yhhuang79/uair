@@ -45,7 +45,7 @@ router.get('/stations', function(req, res) {
 router.get('/geojsonAQI', function(req, res) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  //console.log(wbgt);
+  console.log(wbgt);
   r.table('air').filter({epochtime: r.table('air').max('epochtime')('epochtime')})
       .run(connection, function(err, cursor) {
     if (err) throw err;
@@ -66,8 +66,10 @@ router.get('/geojsonAQI', function(req, res) {
             airstation.features[i].properties['FPMI'] = result[j].FPMI;
             airstation.features[i].properties['PublishTime'] = result[j].PublishTime;
           }
-          if(airstation.features[i].properties.SiteName == wbgt[j].SiteName){
-            airstation.features[i].properties['WBGT'] = wbgt[j].wbgto_max;
+        }
+        for(var k = 0, klen = wbgt.length; k < klen; k++){
+          if(airstation.features[i].properties.SiteName == wbgt[k].SiteName){
+            airstation.features[i].properties['WBGT'] = wbgt[k].wbgto_max;
           }
         }
       }
