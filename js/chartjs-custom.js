@@ -135,7 +135,7 @@ $(document).ready(function() {
     };
 
     var site = GetURLParameter('site');
-    var url = "http://localhost:3000/api/weeklyStat/" + site;
+    var url = baseURL + "/api/weeklyStat/" + site;
     $("#chart_title").html("觀測站：" + decodeURIComponent(site));
     $.getJSON(url, function(data) {
       WeeklyAirData = {
@@ -223,7 +223,7 @@ $(document).ready(function() {
 
     console.log(JSON.stringify(barChartData));
 
-    var url = "http://localhost:3000/api/seriesAQI/" + site;
+    var url = baseURL + "/api/seriesAQI/" + site;
     $.getJSON(url, function(data) {
       var lineChartData = {
           //labels : ["","","","","","","","","","","","","","","","","","","","","","","",""],
