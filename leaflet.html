@@ -8,7 +8,7 @@
     <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
     <link rel="shortcut icon" href="img/favicon.png">
 
-    <title>Blank | Creative - Bootstrap 3 Responsive Admin Template</title>
+    <title>TaiwanAir - Taiwan Urban Air Quilty Observe Dashboard</title>
 
     <!-- Bootstrap CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -47,7 +47,7 @@
             </div>
 
             <!--logo start-->
-            <a href="index.html" class="logo">Nice <span class="lite">Admin</span></a>
+            <a href="index.html" class="logo">TAIWAN <span class="lite">Air</span></a>
             <!--logo end-->
 
             <div class="nav search-row" id="top_menu">
@@ -198,35 +198,18 @@
               + "<tr><th>測站名稱</th><td>" + feature.properties.SiteName + "監測站"
               + "</td></tr>" + "<tr><th>縣市</th><td>" + feature.properties.County
               + "</td></tr>" + "<tr><th>狀態</th><td>" + feature.properties.Status
-              // + "</td></tr>" + "<tr><th>空氣污染指標</th><td>" + feature.properties.PSI
-              // + "</td></tr>" + "<tr><th>指標污染物</th><td>" + feature.properties.MajorPollutant
-              // + "</td></tr>" + "<tr><th>二氧化硫濃度</th><td>" + feature.properties.SO2
-              // + "</td></tr>" + "<tr><th>一氧化碳濃度</th><td>" + feature.properties.CO
-              // + "</td></tr>" + "<tr><th>二氧化氮濃度</th><td>" + feature.properties.NO2
-              // + "</td></tr>" + "<tr><th>臭氧濃度</th><td>" + feature.properties.O3
-              // + "</td></tr>" + "<tr><th>懸浮微粒濃度</th><td>" + feature.properties.PM10
-              // + "</td></tr>" + "<tr><th>細懸浮微粒濃度</th><td>" + feature.properties['PM2.5']
-              // + "</td></tr>" + "<tr><th>細懸浮微粒指標</th><td>" + feature.properties.FPMI
+              + "</td></tr>" + "<tr><th>空氣污染指標</th><td>" + feature.properties.PSI
+              + "</td></tr>" + "<tr><th>指標污染物</th><td>" + feature.properties.MajorPollutant
+              + "</td></tr>" + "<tr><th>二氧化硫濃度</th><td>" + feature.properties.SO2
+              + "</td></tr>" + "<tr><th>一氧化碳濃度</th><td>" + feature.properties.CO
+              + "</td></tr>" + "<tr><th>二氧化氮濃度</th><td>" + feature.properties.NO2
+              + "</td></tr>" + "<tr><th>臭氧濃度</th><td>" + feature.properties.O3
+              + "</td></tr>" + "<tr><th>懸浮微粒濃度</th><td>" + feature.properties.PM10
+              + "</td></tr>" + "<tr><th>細懸浮微粒濃度</th><td>" + feature.properties['PM2.5']
+              + "</td></tr>" + "<tr><th>細懸浮微粒指標</th><td>" + feature.properties.FPMI
               + "</td></tr>" + "<tr><th>資料更新時間</th><td>" + feature.properties.PublishTime
               + "</td></tr>" + "<tr><th>地址</th><td>" + feature.properties.SiteAddres
               + "</td></tr>" + "<table>";
-            listTable += "<tr><td>"
-              + "<img src=\"img/Germany.png\" style=\"height:18px; margin-top:-2px;\"></td>"
-              + "<td>" + feature.properties.SiteName + "</td>"
-              + "<td>" + feature.properties.PM10 + "</td>"
-              + "<td>" + feature.properties['PM2.5'] + "</td>"
-              + "<td><div class=\"progress thin\">"
-              +  "<div class=\"progress-bar progress-bar-danger\""
-              +  " role=\"progressbar\" aria-valuenow=\""+ feature.properties.PSI
-              + "\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: "
-              + feature.properties.PSI + "% \"></div>"
-              + "<div class=\"progress-bar progress-bar-warning\""
-              + " role=\"progressbar\" aria-valuenow=\""
-              + (100 - feature.properties.PSI) + "\" aria-valuemin=\"0\""
-              + " aria-valuemax=\"100\" style=\"width: "
-              + (100-feature.properties.PSI) + "%\"></div></div>"
-              + "<span class=\"sr-only\">" + feature.properties.PSI + "</span>"
-              + "</td></tr>";
             siteMenu += "<li><a class=\"\" href=\"chart-chartjs.html?site="
               + feature.properties.SiteName + "\">"
               + feature.properties.SiteName + "</a></li>";

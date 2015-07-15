@@ -590,6 +590,7 @@
       // Get Air Quilty Data
       $.getJSON(baseURL + "/api/geojsonAQI", function(data) {
         var html = "";
+        var siteMenu = "";
         $.each(data.features, function (key, val) {
           html += "<tr><th>"
             + val.properties.SiteName + "</th><th>"
@@ -602,9 +603,13 @@
             + val.properties.PM10 + "</th><th>"
             + val.properties['PM2.5'] + "</th><th>"
             + val.properties.PublishTime + "</th></tr>";
+          siteMenu += "<li><a class=\"\" href=\"chart-chartjs.html?site="
+            + val.properties.SiteName + "\">"
+            + val.properties.SiteName + "</a></li>";
         });
 
         $("#stationTable").html(html);
+        $('#siteMenu').html(siteMenu);
     });
   });
 
