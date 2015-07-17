@@ -371,7 +371,7 @@
   <!--custome script for all page-->
   <script src="js/scripts.js"></script>
   <script src="js/config.js"></script>
-  
+
   <!-- custom script for this page-->
   <script src="js/sparkline-chart.js"></script>
   <script src="js/easy-pie-chart.js"></script>
@@ -479,15 +479,6 @@
             + "<tr><th>測站名稱</th><td>" + feature.properties.SiteName + "監測站"
             + "</td></tr>" + "<tr><th>縣市</th><td>" + feature.properties.County
             + "</td></tr>" + "<tr><th>狀態</th><td>" + feature.properties.Status
-            // + "</td></tr>" + "<tr><th>空氣污染指標</th><td>" + feature.properties.PSI
-            // + "</td></tr>" + "<tr><th>指標污染物</th><td>" + feature.properties.MajorPollutant
-            // + "</td></tr>" + "<tr><th>二氧化硫濃度</th><td>" + feature.properties.SO2
-            // + "</td></tr>" + "<tr><th>一氧化碳濃度</th><td>" + feature.properties.CO
-            // + "</td></tr>" + "<tr><th>二氧化氮濃度</th><td>" + feature.properties.NO2
-            // + "</td></tr>" + "<tr><th>臭氧濃度</th><td>" + feature.properties.O3
-            // + "</td></tr>" + "<tr><th>懸浮微粒濃度</th><td>" + feature.properties.PM10
-            // + "</td></tr>" + "<tr><th>細懸浮微粒濃度</th><td>" + feature.properties['PM2.5']
-            // + "</td></tr>" + "<tr><th>細懸浮微粒指標</th><td>" + feature.properties.FPMI
             + "</td></tr>" + "<tr><th>資料更新時間</th><td>" + feature.properties.PublishTime
             + "</td></tr>" + "<tr><th>地址</th><td>" + feature.properties.SiteAddres
             + "</td></tr>" + "<table>";
@@ -561,9 +552,77 @@
           });
         }
       });
+      map.on('locationfound', function (e) {
+        var radius = e.accuracy / 2;
+			  L.marker(e.latlng).addTo(map)
+				    .bindPopup("You are within " + radius + " meters from this point").openPopup();
+			  L.circle(e.latlng, radius).addTo(map);
+        $.getJSON(baseURL + "/api/geojsonAQI", function(data) {
+          var nearbySiteName, nearbyPSI, nearbyPM10, nearbyPM25, nearbyWBGT, d=300000;
+          var geojson = L.geoJson(data, {
+            onEachFeature: function (feature, layer) {
+                //console.log(feature.geometry.coordinates +":"+ e.latlng);
+                var slatlng = L.latLng(feature.geometry.coordinates[1],feature.geometry.coordinates[0]);
+                if(slatlng.distanceTo(e.latlng) < d){
+                  nearbySiteName = feature.properties.SiteName;
+                  nearbyPSI = feature.properties.PSI;
+                  nearbyPM10 = feature.properties.PM10;
+                  nearbyPM25 = feature.properties['PM2.5'];
+                  nearbyWBGT = feature.properties.WBGT;
+                  d = slatlng.distanceTo(e.latlng);
+                  //console.log(d);
+                }
+            }
+          });
+          $("#box-PSI").html(nearbyPSI);
+          $("#box-PM10").html(nearbyPM10);
+          $("#box-PM25").html(nearbyPM25);
+          $("#box-WBGT").html(nearbyWBGT.toFixed(1));
+
+          var url = baseURL + "/api/seriesAQI/" + nearbySiteName;
+          $.getJSON(url, function(data) {
+            //alert(JSON.stringify(data));
+            $("#todayspark1").sparkline(data.PSI.reverse(), {
+                type: 'line',
+                width: '250',
+                height: '30',
+                lineColor: '#999',
+                fillColor: '#ffd4aa'});
+
+            $("#todayspark2").sparkline(data.SO2.reverse(), {
+                type: 'line',
+                width: '250',
+                height: '30',
+                lineColor: '#C5CED6',
+                fillColor: '#ffffaa'});
+
+            $("#todayspark3").sparkline(data.CO.reverse(), {
+                type: 'line',
+                width: '250',
+                height: '30',
+                lineColor: '#436B91',
+                fillColor: '#d4ffaa'});
+
+            $("#todayspark4").sparkline(data.O3.reverse(), {
+                type: 'line',
+                width: '250',
+                height: '30',
+                lineColor: '#486b60',
+                fillColor: '#aaffff'});
+
+            $("#todayspark5").sparkline(data.NO2.reverse(), {
+                type: 'line',
+                width: '250',
+                height: '30',
+                lineColor: '#436B91',
+                fillColor: '#aad4ff'});
+          });
+        });
+      });
       geojson.addTo(map);
       $('#observeStationList').html(listTable);
       $('#siteMenu').html(siteMenu);
+      map.locate({setView: true, maxZoom: 16});
     });
   });
 
