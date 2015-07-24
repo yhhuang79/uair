@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="http://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.Default.css">
     <link rel="stylesheet" href="http://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.24.0/L.Control.Locate.css">
     <link rel="stylesheet" href="assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.css">
+    <link rel="stylesheet" href="assets/leaflet-openweathermap/leaflet-openweathermap.css" />
     <!-- Custom styles -->
     <link href="css/style.css" rel="stylesheet">
     <link href="css/style-responsive.css" rel="stylesheet" />
@@ -144,7 +145,9 @@
   </section>
   <!-- container section end -->
     <!-- javascripts -->
-    <script src="js/jquery.js"></script>
+    <!-- <script src="js/jquery.js"></script> -->
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <!-- nice scroll -->
     <script src="js/jquery.scrollTo.min.js"></script>
@@ -156,6 +159,7 @@
     <script src="http://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js"></script>
     <script src="http://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.24.0/L.Control.Locate.js"></script>
     <script src="assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.js"></script>
+    <script src="assets/leaflet-openweathermap/leaflet-openweathermap.js"></script>
     <script src="assets/leaflet-heatmap/heatmap.js"></script>
     <script src="assets/leaflet-heatmap/leaflet-heatmap.js"></script>
     <script>
@@ -175,14 +179,24 @@
         zoomToBoundsOnClick: true,
         disableClusterinAtZoom: 8
       });
+      // Open Weather Map layer
+      var clouds = L.OWM.clouds({showLegend: false, opacity: 0.5});
+      var city = L.OWM.current({intervall: 15, lang: 'en'});
+      var precipitation = L.OWM.precipitation({opacity: 0.3});
+      var rain = L.OWM.rain({opacity: 0.3});
+      var wind = L.OWM.wind({opacity: 0.3});
+      var pressure = L.OWM.pressure({opacity: 0.3});
+      var overlayMaps = { "Clouds": clouds, "Precipitation":precipitation, "Rain":rain, "Wind":wind , "Pressure":pressure ,"Cities": city };
 
       map = L.map("map", {
         zoom: 8,
         center: [25.0391667, 121.525],
         layers: [mapquestOSM, markerClusters],
-        zoomControl: false,
+        zoomControl: true,
         attributionControl: false
       });
+
+      var layerControl = L.control.layers(overlayMaps).addTo(map);
 
       // Setup map width
       $('#map').width($('.panel-body-map').width());
