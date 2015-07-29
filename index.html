@@ -132,7 +132,7 @@
             <div class="row">
 				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
 					<div class="info-box blue-bg">
-						<i class="fa fa-flag-o"></i>
+						<i class="fa fa-tachometer"></i>
 						<div class="count" id="box-PSI">-.--</div>
 						<div class="title">PSI觀測值</div>
 					</div><!--/.info-box-->
@@ -148,7 +148,7 @@
 
 				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
 					<div class="info-box dark-bg">
-						<i class="fa fa-cloud"></i>
+						<i class="fa fa-soundcloud"></i>
 						<div class="count" id="box-PM25">-.--</div>
 						<div class="title">PM 2.5觀測值</div>
 					</div><!--/.info-box-->
@@ -156,7 +156,7 @@
 
 				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
 					<div class="info-box green-bg">
-						<i class="fa fa-flag-o"></i>
+						<i class="fa fa-globe"></i>
 						<div class="count" id="box-WBGT">-.--</div>
 						<div class="title">WBGT指數</div>
 					</div><!--/.info-box-->
@@ -483,7 +483,7 @@
             + "</td></tr>" + "<tr><th>地址</th><td>" + feature.properties.SiteAddres
             + "</td></tr>" + "<table>";
           listTable += "<tr><td>"
-            + "<img src=\"img/Germany.png\" style=\"height:18px; margin-top:-2px;\"></td>"
+            + "<img src=\"img/Taiwan.png\" style=\"height:18px; margin-top:-2px;\"></td>"
             + "<td>" + feature.properties.SiteName + "</td>"
             + "<td>" + feature.properties.PM10 + "</td>"
             + "<td>" + feature.properties['PM2.5'] + "</td>"
@@ -554,7 +554,8 @@
       });
       map.on('locationfound', function (e) {
         var radius = e.accuracy / 2;
-			  L.marker(e.latlng).addTo(map)
+        var myLocationIcon = new L.icon({iconUrl: 'img/currentLoc.png',iconAnchor:[14, 38]})
+			  L.marker(e.latlng, {icon: myLocationIcon}).addTo(map)
 				    .bindPopup("You are within " + radius + " meters from this point").openPopup();
 			  L.circle(e.latlng, radius).addTo(map);
         $.getJSON(baseURL + "/api/geojsonAQI", function(data) {
