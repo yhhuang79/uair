@@ -181,12 +181,13 @@
       });
       // Open Weather Map layer
       var clouds = L.OWM.clouds({showLegend: false, opacity: 0.5});
+      var temp = L.OWM.temperature({opacity: 0.5});
       var city = L.OWM.current({intervall: 15, lang: 'en'});
       var precipitation = L.OWM.precipitation({opacity: 0.3});
       var rain = L.OWM.rain({opacity: 0.3});
       var wind = L.OWM.wind({opacity: 0.3});
       var pressure = L.OWM.pressure({opacity: 0.3});
-      var overlayMaps = { "Clouds": clouds, "Precipitation":precipitation, "Rain":rain, "Wind":wind , "Pressure":pressure ,"Cities": city };
+      var overlayMaps = { "Clouds": clouds, "Temperature": temp, "Precipitation":precipitation, "Rain":rain, "Wind":wind , "Pressure":pressure ,"Cities": city };
 
       map = L.map("map", {
         zoom: 8,
