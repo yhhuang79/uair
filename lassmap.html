@@ -115,10 +115,10 @@
           <section class="wrapper">
 		  <div class="row">
 				<div class="col-lg-12">
-					<h3 class="page-header"><i class="fa fa fa-bars"></i> 地圖顯示</h3>
+					<h3 class="page-header"><i class="fa fa fa-bars"></i> LASS開源公益環境感測</h3>
 					<ol class="breadcrumb">
 						<li><i class="fa fa-home"></i><a href="index.html">Home</a></li>
-						<li><i class="fa fa-bars"></i>地圖顯示</li>
+						<li><i class="fa fa-bars"></i>LASS開源公益環境感測</li>
 					</ol>
 				</div>
 			</div>
@@ -128,7 +128,7 @@
 
                   <div class="panel panel-default">
                     <div class="panel-heading">
-                      <h2><i class="fa fa-map-marker red"></i><strong>觀測站地圖</strong></h2>
+                      <h2><i class="fa fa-map-marker red"></i><strong>LASS開源公益環境感測</strong></h2>
                       <div class="panel-actions">
                         <a href="index.html#" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
                         <a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
@@ -168,49 +168,13 @@
     <script src="assets/leaflet-heatmap/heatmap.js"></script>
     <script src="assets/leaflet-heatmap/leaflet-heatmap.js"></script>
     <script>
-    $(function(){
-      var map;
-      /* Basemap Layers */
-      var mapquestOSM = L.tileLayer("http://{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png", {
-        maxZoom: 19,
-        subdomains: ["otile1", "otile2", "otile3", "otile4"],
-        attribution: 'Tiles courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">. Map data (c) <a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> contributors, CC-BY-SA.'
-      });
-
-      /* Single marker cluster layer to hold all clusters */
-      var markerClusters = new L.MarkerClusterGroup({
-        spiderfyOnMaxZoom: true,
-        showCoverageOnHover: false,
-        zoomToBoundsOnClick: true,
-        disableClusterinAtZoom: 8
-      });
-      // Open Weather Map layer
-      var clouds = L.OWM.clouds({showLegend: false, opacity: 0.5});
-      var temp = L.OWM.temperature({opacity: 0.5});
-      var city = L.OWM.current({intervall: 15, lang: 'en'});
-      var precipitation = L.OWM.precipitation({opacity: 0.3});
-      var rain = L.OWM.rain({opacity: 0.3});
-      var wind = L.OWM.wind({opacity: 0.3});
-      var pressure = L.OWM.pressure({opacity: 0.3});
-      var overlayMaps = { "Clouds": clouds, "Temperature": temp, "Precipitation":precipitation, "Rain":rain, "Wind":wind , "Pressure":pressure ,"Cities": city };
-
-      map = L.map("map", {
-        zoom: 8,
-        center: [25.0391667, 121.525],
-        layers: [mapquestOSM, markerClusters],
-        zoomControl: true,
-        attributionControl: false
-      });
-
-      var layerControl = L.control.layers(overlayMaps).addTo(map);
-
-      // Setup map width
-      $('#map').width($('.panel-body-map').width());
-
+    var heatmapLayer;
+    function getAQI(){
       // Get Air Quilty Data
-      $.getJSON(baseURL + "/api/geojsonAQI", function(data) {
+      $.getJSON(baseURL + "/api/geojsonLASS", function(data) {
         var listTable;
         var siteMenu = "";
+        var airData = {max:76,data:[]};
         var geojson = L.geoJson(data, {
           onEachFeature: function (feature, layer) {
             //console.log("feture id : " + JSON.stringify(layer));
@@ -234,12 +198,71 @@
               + feature.properties.SiteName + "\">"
               + feature.properties.SiteName + "</a></li>";
             layer.bindPopup(content);
-
+            airData.data.push({
+              lat : feature.properties.TWD97Lat,
+              lng : feature.properties.TWD97Lon,
+              count : feature.properties['PM2.5']
+            });
           }
         });
-        geojson.addTo(map);
+        airData.max = airData.data.length;
+        heatmapLayer.setData(airData);
+        //geojson.addTo(map);
         $('#siteMenu').html(siteMenu);
       });
+    }
+    $(function(){
+      var map;
+      /* Basemap Layers */
+      var mapquestOSM = L.tileLayer("http://{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        subdomains: ["otile1", "otile2", "otile3", "otile4"],
+        attribution: 'Tiles courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">. Map data (c) <a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> contributors, CC-BY-SA.'
+      });
+
+      var heatmapCfg = {
+        radius: 20,
+        maxOpacity: .75,
+        // gradient: {
+        //   // enter n keys between 0 and 1 here
+        //   // for gradient color customization
+        //   '.35': 'lime',
+        //   '.54': 'yellow',
+        //   '.7': 'red',
+        //   '.99': 'purple'
+        // },
+        scaleRadius: false,
+        useLocalExtrema: false,
+        latField: 'lat',
+        lngField: 'lng',
+        valueField: 'count'
+      };
+
+      heatmapLayer = new HeatmapOverlay(heatmapCfg);
+      // Open Weather Map layer
+      // var clouds = L.OWM.clouds({showLegend: false, opacity: 0.5});
+      // var temp = L.OWM.temperature({opacity: 0.5});
+      // var city = L.OWM.current({intervall: 15, lang: 'en'});
+      // var precipitation = L.OWM.precipitation({opacity: 0.3});
+      // var rain = L.OWM.rain({opacity: 0.3});
+      // var wind = L.OWM.wind({opacity: 0.3});
+      // var pressure = L.OWM.pressure({opacity: 0.3});
+      // var overlayMaps = { "Clouds": clouds, "Temperature": temp, "Precipitation":precipitation, "Rain":rain, "Wind":wind , "Pressure":pressure ,"Cities": city };
+
+      map = L.map("map", {
+        zoom: 8,
+        center: [25.0391667, 121.525],
+        layers: [mapquestOSM, heatmapLayer],
+        zoomControl: true,
+        attributionControl: false
+      });
+
+      //var layerControl = L.control.layers(overlayMaps).addTo(map);
+
+      // Setup map width
+      $('#map').width($('.panel-body-map').width());
+      getAQI();
+      setInterval(function(){ getAQI() }, 1000*5);
     });
     </script>
 
