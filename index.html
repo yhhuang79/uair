@@ -83,7 +83,7 @@
                   <li class="active">
                       <a class="" href="index.html">
                           <i class="icon_house_alt"></i>
-                          <span>Dashboard</span>
+                          <span>空氣品質</span>
                       </a>
                   </li>
                   <li>
@@ -109,6 +109,11 @@
                           <li><a class="" href="form_validation.html">Form Validation</a></li>
                       </ul>
                   </li>
+                  <li>
+                      <a class="" href="lassmap.html">
+                          <span>LASS開源公益環境感測</span>
+                      </a>
+                  </li>
               </ul>
               <!-- sidebar menu end-->
           </div>
@@ -124,40 +129,36 @@
 					<h3 class="page-header" id="sitelocation"><i class="fa fa-laptop"></i> Dashboard</h3>
 					<ol class="breadcrumb">
 						<li><i class="fa fa-home"></i><a href="index.html">Home</a></li>
-						<li><i class="fa fa-laptop"></i>Dashboard</li>
+						<li><i class="fa fa-laptop"></i>空氣品質</li>
 					</ol>
 				</div>
 			</div>
 
             <div class="row">
 				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-					<div class="info-box blue-bg">
-						<i class="fa fa-tachometer"></i>
-						<div class="count" id="box-PSI">-.--</div>
+					<div class="info-box lass-blue-bg">
+						<div class="circle" id="box-PSI">-.--</div>
 						<div class="title">PSI空氣污染指數</div>
 					</div><!--/.info-box-->
 				</div><!--/.col-->
 
 				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-					<div class="info-box brown-bg">
-						<i class="fa fa-cloud"></i>
-						<div class="count" id="box-PM10">-.--</div>
+					<div class="info-box lass-blue-bg">
+						<div class="circle" id="box-PM10">-.--</div>
 						<div class="title">PM 10觀測值</div>
 					</div><!--/.info-box-->
 				</div><!--/.col-->
 
 				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-					<div class="info-box dark-bg">
-						<i class="fa fa-soundcloud"></i>
-						<div class="count" id="box-PM25">-.--</div>
+					<div class="info-box lass-blue-bg">
+						<div class="circle" id="box-PM25">-.--</div>
 						<div class="title">PM 2.5觀測值</div>
 					</div><!--/.info-box-->
 				</div><!--/.col-->
 
 				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-					<div class="info-box green-bg">
-						<i class="fa fa-globe"></i>
-						<div class="count" id="box-WBGT">-.--</div>
+					<div class="info-box lass-blue-bg">
+						<div class="circle" id="box-WBGT">-.--</div>
 						<div class="title">WBGT熱危害指數</div>
 					</div><!--/.info-box-->
 				</div><!--/.col-->
@@ -577,9 +578,45 @@
           });
           $('#sitelocation').html("<i class=\"fa fa-laptop\"></i> 觀測站："+nearbySiteName);
           $("#box-PSI").html(nearbyPSI);
+          if((parseFloat(nearbyPSI)>51) && (parseFloat(nearbyPSI)<100)){
+            $("#box-PSI").css("background-color","#ffd600");
+          } else if ((parseFloat(nearbyPSI)>101) && (parseFloat(nearbyPSI)<199)) {
+            $("#box-PSI").css("background-color","#ff5252");
+          } else if ((parseFloat(nearbyPSI)>200) && (parseFloat(nearbyPSI)<299)) {
+            $("#box-PSI").css("background-color","#795548");
+          } else if (parseFloat(nearbyPSI)>300) {
+            $("#box-PSI").css("background-color","#673ab7");
+          }
           $("#box-PM10").html(nearbyPM10);
+          if((parseFloat(nearbyPM10)>51) && (parseFloat(nearbyPM10)<150)){
+            $("#box-PM10").css("background-color","#ffd600");
+          } else if ((parseFloat(nearbyPM10)>151) && (parseFloat(nearbyPM10)<350)) {
+            $("#box-PM10").css("background-color","#ff5252");
+          } else if ((parseFloat(nearbyPM10)>351) && (parseFloat(nearbyPM10)<420)) {
+            $("#box-PM10").css("background-color","#795548");
+          } else if (parseFloat(nearbyPM10)>421) {
+            $("#box-PM10").css("background-color","#673ab7");
+          }
           $("#box-PM25").html(nearbyPM25);
+          if((parseFloat(nearbyPM25)>36) && (parseFloat(nearbyPM25)<53)){
+            $("#box-PM25").css("background-color","#ffd600");
+          } else if ((parseFloat(nearbyPM25)>54) && (parseFloat(nearbyPM25)<64)) {
+            $("#box-PM25").css("background-color","#ff5252");
+          } else if ((parseFloat(nearbyPM25)>65) && (parseFloat(nearbyPM25)<70)) {
+            $("#box-PM25").css("background-color","#795548");
+          } else if (parseFloat(nearbyPM25)>71) {
+            $("#box-PM25").css("background-color","#673ab7");
+          }
           $("#box-WBGT").html(nearbyWBGT.toFixed(1));
+          if((parseFloat(nearbyWBGT)>26.7) && (parseFloat(nearbyWBGT)<29.3)){
+            $("#box-WBGT").css("background-color","#ffd600");
+          } else if ((parseFloat(nearbyWBGT)>29.4) && (parseFloat(nearbyWBGT)<31.0)) {
+            $("#box-WBGT").css("background-color","#ff5252");
+          } else if ((parseFloat(nearbyWBGT)>31.1) && (parseFloat(nearbyWBGT)<32.1)) {
+            $("#box-WBGT").css("background-color","#795548");
+          } else if (parseFloat(nearbyWBGT)>32.2) {
+            $("#box-WBGT").css("background-color","#673ab7");
+          }
 
           var url = baseURL + "/api/seriesAQI/" + nearbySiteName;
           $.getJSON(url, function(data) {
