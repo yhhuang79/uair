@@ -261,7 +261,7 @@
 
       // Setup map width
       $('#map').width($('.panel-body-map').width());
-      $('#map').height($(document).width() - 60 - 120 - 35);
+      $('#map').height($(window).width() - 60 - 120 - 35);
       getAQI();
       setInterval(function(){ getAQI() }, 1000*5);
     });
