@@ -237,7 +237,7 @@
         lngField: 'lng',
         valueField: 'count'
       };
-// 60 120 35
+
       heatmapLayer = new HeatmapOverlay(heatmapCfg);
       // Open Weather Map layer
       // var clouds = L.OWM.clouds({showLegend: false, opacity: 0.5});
@@ -261,7 +261,7 @@
 
       // Setup map width
       $('#map').width($('.panel-body-map').width());
-      $('#map').height($(window).width() - 60 - 120 - 35);
+      $('#map').height($(window).height() - 215);
       getAQI();
       setInterval(function(){ getAQI() }, 1000*5);
     });
