@@ -1,5 +1,9 @@
 var express = require('express');
+//var fileUpload = require('express-fileupload');
 var router = express.Router();
+//var app = express();
+// default options 
+//app.use(fileUpload());
 
 var array = require('array');
 
@@ -542,5 +546,30 @@ router.get('/weeklyStat/:siteName', function(req, res) {
   });
 });
 
+// For Pica Test
+router.post('/uploadCSV', function(req, res) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+  var csvFile;
+  
+  console.log(JSON.stringify(req.files));
+
+  if (!req.files) {
+    res.json('{message:"No files were uploaded."}');
+    return;
+  }
+  var timestamp = Math.floor(Date.now());
+  var newPath = '/tmp/' + timestamp + '.csv';
+  console.log(newPath);
+  csvFile = req.files.uploadCSV;
+  csvFile.mv(newPath, function(err) {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.json('{message:"ok"}');
+    }
+  });
+  //res.json('{message:"error"}');
+});
 
 module.exports = router;
