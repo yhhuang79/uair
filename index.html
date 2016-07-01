@@ -114,6 +114,9 @@
                           <span>LASS開源公益環境感測</span>
                       </a>
                   </li>
+                  <li>
+                     <img src="img/Logo-MOL.jpg" class="img-responsive" alt="Cinque Terre"> 
+                  </li>
               </ul>
               <!-- sidebar menu end-->
           </div>
@@ -522,6 +525,7 @@
                   lineColor: '#999',
                   fillColor: '#ffd4aa'});
 
+
               $("#todayspark2").sparkline(data.SO2.reverse(), {
                   type: 'line',
                   width: '250',
@@ -555,7 +559,7 @@
       });
       map.on('locationfound', function (e) {
         var radius = e.accuracy / 2;
-        var myLocationIcon = new L.icon({iconUrl: 'img/currentLoc.png',iconAnchor:[14, 38]})
+        var myLocationIcon = new L.icon({iconUrl: 'img/currentLoc.png',iconAnchor:[14, 38]});
 			  L.marker(e.latlng, {icon: myLocationIcon}).addTo(map)
 				    .bindPopup("You are within " + radius + " meters from this point").openPopup();
 			  L.circle(e.latlng, radius).addTo(map);
@@ -564,6 +568,7 @@
           var geojson = L.geoJson(data, {
             onEachFeature: function (feature, layer) {
                 //console.log(feature.geometry.coordinates +":"+ e.latlng);
+                console.log(feature);
                 var slatlng = L.latLng(feature.geometry.coordinates[1],feature.geometry.coordinates[0]);
                 if(slatlng.distanceTo(e.latlng) < d){
                   nearbySiteName = feature.properties.SiteName;
@@ -576,6 +581,7 @@
                 }
             }
           });
+
           $('#sitelocation').html("<i class=\"fa fa-laptop\"></i> 觀測站："+nearbySiteName);
           $("#box-PSI").html(nearbyPSI);
           if((parseFloat(nearbyPSI)>51) && (parseFloat(nearbyPSI)<100)){
@@ -657,6 +663,10 @@
                 fillColor: '#aad4ff'});
           });
         });
+      });
+
+      map.on('locationerror', function(e){
+        alert("Sorry, We can not get your current loaction.");
       });
       geojson.addTo(map);
       $('#observeStationList').html(listTable);
