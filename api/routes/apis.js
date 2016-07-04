@@ -2,7 +2,7 @@ var express = require('express');
 //var fileUpload = require('express-fileupload');
 var router = express.Router();
 //var app = express();
-// default options 
+// default options
 //app.use(fileUpload());
 
 var array = require('array');
@@ -24,7 +24,7 @@ r.connect( {host: rethinkdbHost, port: 28015}, function(err, conn) {
 
 // Example API
 router.get('/images', function(req, res) {
-    res.json({ message: "第一個API!" });
+    res.json({ message: "LAB第一個API!" });
 });
 
 // Get Current Air Quilty Index
@@ -551,7 +551,7 @@ router.post('/uploadCSV', function(req, res) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'X-Requested-With');
   var csvFile;
-  
+
   console.log(JSON.stringify(req.files));
 
   if (!req.files) {
