@@ -14,5 +14,11 @@
     "morgan": "~1.5.3",
     "serve-favicon": "~2.2.1",
     "jsonfile": "^2.0.1"
+  },
+  "devDependencies": {
+    "array": "^0.4.3",
+    "express-fileupload": "0.0.5",
+    "rethinkdb": "^2.3.2",
+    "webpack": "^1.13.1"
   }
 }

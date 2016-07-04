@@ -22,3 +22,7 @@ Ankh.NoLoad
 *.rar
 *.tar
 *.zip
+
+
+#Don't upload node_module files, they should be installed by "npm install"
+api/node_modules
