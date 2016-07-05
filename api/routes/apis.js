@@ -8,9 +8,10 @@ var router = express.Router();
 var array = require('array');
 
 // Static data
+// Currently, we have some physical information about wbgt and airstation, like location and name.
 var airstation = array();
 airstation  = require('../public/sensorData/airstation.json');
-// WBGT
+
 var wbgt = require('../public/testData/wbgt_1hr.json');
 // RethinkDB Connection
 var r = require('rethinkdb');
@@ -51,13 +52,12 @@ router.get('/stations', function(req, res) {
 router.get('/geojsonAQI', function(req, res) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  console.log(wbgt);
   r.table('air').filter({epochtime: r.table('air').max('epochtime')('epochtime')})
       .run(connection, function(err, cursor) {
     if (err) throw err;
     cursor.toArray(function(err, result) {
       if (err) throw err;
-      console.log(result);
+      console.log(result.length);
       for(var i = 0, ilen = airstation.features.length; i < ilen; i++){
         for(var j = 0, jlen = result.length; j < jlen; j++){
           if(airstation.features[i].properties.SiteName == result[j].SiteName){
@@ -572,4 +572,33 @@ router.post('/uploadCSV', function(req, res) {
   //res.json('{message:"error"}');
 });
 
+//Get Current Temperature  Index
+router.get('/getjsonTI', function(req, res)  {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  r.table('taiwan_hot_test').filter({epochtime: r.table('taiwan_hot_test').max('epochtime')('epochtime')})
+    .run(connection,  function(err, cursor) {
+      if (err) {
+        throw err;
+      } else{
+        cursor.toArray(function (err, result) {
+          res.send(result);
+        })
+      }
+    })
+})
+router.post('/uploadLaborDataSet', function (req, res) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+  imei = req.body.imei;
+  // console.log(req.body.dataSet);
+  dataSet = req.body.dataSet;
+  r.db('test').table('laborSensorData').insert({
+    "imei": imei,
+    "dataset": dataSet
+  }).run(connection, function(err, result) {
+      if (err) throw err;
+      res.send('helloworld');
+  });
+});
 module.exports = router;
