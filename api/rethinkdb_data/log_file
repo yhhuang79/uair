@@ -1,0 +1,8 @@
+2016-07-05T09:34:23.131883000 0.008371s notice: Recursively removing directory /Users/tony/git/uair/api/rethinkdb_data/tmp
+2016-07-05T09:34:23.133104000 0.009596s notice: Initializing directory /Users/tony/git/uair/api/rethinkdb_data
+2016-07-05T09:34:23.133210000 0.009697s info: Creating a default database for your convenience. (This is because you ran 'rethinkdb' without 'create', 'serve', or '--join', and the directory '/Users/tony/git/uair/api/rethinkdb_data' did not already exist or is empty.)
+2016-07-05T09:34:23.133241000 0.009728s notice: Running rethinkdb 2.3.4 (CLANG 7.3.0 (clang-703.0.31))...
+2016-07-05T09:34:23.138861000 0.015350s notice: Running on Darwin 15.5.0 x86_64
+2016-07-05T09:34:23.138923000 0.015410s notice: Loading data from directory /Users/tony/git/uair/api/rethinkdb_data
+2016-07-05T09:34:23.208252000 0.084739s info: Automatically using cache size of 1270 MB
+2016-07-05T09:34:23.208771000 0.085258s error: TCP socket creation failed for port 29015: Address already in use.
