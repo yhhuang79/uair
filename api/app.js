@@ -1,5 +1,4 @@
 var express = require('express');
-var expressWs = require('express-ws');
 var fileUpload = require('express-fileupload');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -12,8 +11,7 @@ var users = require('./routes/users');
 var apis = require('./routes/apis');
 var hots  = require('./routes/hots');
 // var websockets  = require('./routes/websockets');
-var expressWs = expressWs(express());
-var app = expressWs.app;
+var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
