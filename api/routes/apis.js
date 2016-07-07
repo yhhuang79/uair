@@ -11,7 +11,8 @@ var array = require('array');
 // Currently, we have some physical information about wbgt and airstation, like location and name.
 var airstation = array();
 airstation  = require('../public/sensorData/airstation.json');
-
+var airstation_TI = array();
+airstation_TI  = require('../public/sensorData/airstation.json');
 var wbgt = require('../public/testData/wbgt_1hr.json');
 // RethinkDB Connection
 var laborLive = require('../laborLive');
@@ -32,7 +33,7 @@ router.get('/images', function(req, res) {
 });
 
 // Get Current Air Quilty Index
-router.get('/currentAQI', function(req, res) {
+  router.get('/currentAQI', function(req, res) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
   r.table('air').filter({PublishTime: r.table('air').max('epochtime')('PublishTime')})
@@ -580,14 +581,34 @@ router.post('/uploadCSV', function(req, res) {
 router.get('/geojsonTI', function(req, res)  {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  console.log("heworld");
   r.db('Heat_Wave').table('WBGT').filter({epochtime: r.db('Heat_Wave').table('WBGT').max('epochtime')('epochtime')})
     .run(connection,  function(err, cursor) {
       if (err) {
         throw err;
       } else{
         cursor.toArray(function (err, result) {
-          res.send(result);
+          if (err)  throw err;
+          // console.log(result.length+":result");
+          // console.log(result.length+":station");
+
+          for(var i = 0, ilen = airstation_TI.features.length; i < ilen; i++){
+            for(var j = 0, jlen = result.length; j < jlen; j++){
+              if(airstation_TI.features[i].properties.SiteName == result[j].SiteName){
+                console.log("find");
+                airstation_TI.features[i].properties['RH'] = result[j].RH;
+                airstation_TI.features[i].properties['Ta'] = result[j].Ta;
+                airstation_TI.features[i].properties['epochtime'] = result[j].epochtime;
+                airstation_TI.features[i].properties['id'] = result[j].id;
+                airstation_TI.features[i].properties['index'] = result[j].index;
+                airstation_TI.features[i].properties['wbgto_max'] = result[j].wbgto_max;
+                airstation_TI.features[i].properties['wbgto_min'] = result[j].wbgto_mib;
+                airstation_TI.features[i].properties['ws'] = result[j].ws;
+              }
+            }
+
+          }
+          console.log("done");
+          res.json(airstation_TI);
         })
       }
     })
