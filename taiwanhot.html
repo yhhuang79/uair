@@ -39,12 +39,21 @@
     <link href="css/style-responsive.css" rel="stylesheet" />
 	  <link href="css/xcharts.min.css" rel=" stylesheet">
 	  <link href="css/jquery-ui-1.10.4.min.css" rel="stylesheet">
+    <style >
+    #chartdiv {
+width: 100%;
+height: 200px;
+}
+
+    </style>
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
     <!--[if lt IE 9]>
       <script src="js/html5shiv.js"></script>
       <script src="js/respond.min.js"></script>
       <script src="js/lte-ie7.js"></script>
     <![endif]-->
+
+
   </head>
 
   <body>
@@ -76,9 +85,8 @@
       <!--header end-->
 
       <!--sidebar start-->
-      <aside>
+      <!-- <aside>
           <div id="sidebar"  class="nav-collapse ">
-              <!-- sidebar menu start-->
               <ul class="sidebar-menu">
                   <li class="active">
                       <a class="" href="index.html">
@@ -125,13 +133,12 @@
                   </li>
 
               </ul>
-              <!-- sidebar menu end-->
           </div>
-      </aside>
+      </aside> -->
       <!--sidebar end-->
 
       <!--main content start-->
-      <section id="main-content">
+      <section id=" content">
           <section class="wrapper">
               <!--overview start-->
 			  <div class="row">
@@ -189,43 +196,57 @@
 							</div>
 						</div>
 						<div class="panel-body-map">
-							<div id="map" style="height:380px;"></div>
+							<div id="map" style="height:450px;"></div>
 						</div>
 
 					</div>
 				</div>
               <div class="col-md-3">
-              <!-- List starts -->
-				<ul class="today-datas">
-                <!-- List #1 -->
-				<li>
-                  <!-- Graph -->
-                  <div><span id="todayspark1" class="spark"></span></div>
-                  <!-- Text -->
-                  <div class="datas-text">PSI觀測值</div>
-                </li>
-                <li>
-                  <div><span id="todayspark2" class="spark"></span></div>
-                  <div class="datas-text">二氧化硫(SO<sub>2</sub>)觀測值</div>
-                </li>
-                <li>
-                  <div><span id="todayspark3" class="spark"></span></div>
-                  <div class="datas-text">一氧化碳(CO)觀測值</div>
-                </li>
-                <li>
-                  <div><span id="todayspark4" class="spark"></span></div>
-                  <div class="datas-text">臭氧(O<sub>3</sub>)觀測值</div>
-                </li>
-                <li>
-                  <div><span id="todayspark5" class="spark"></span></div>
-                  <div class="datas-text">二氧化氮(NO<sub>2</sub>)觀測值</div>
-                </li>
-              </ul>
-              </div>
 
+                					<div class="panel panel-default">
+                						<div class="panel-heading">
+                							<h2><i class="fa fa-map-marker red"></i><strong>自身周圍即時空氣品質 </strong></h2>
+                							<div class="panel-actions">
+                								<a href="index.html#" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
+                								<a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                								<a href="index.html#" class="btn-close"><i class="fa fa-times"></i></a>
+                							</div>
+                						</div>
+                						<div class="panel-body" style="margin-top:0px">
+                							<div id="aircondition">
+                                <!-- List starts -->
+                  				<ul class="today-datas" style="">
+                                  <!-- List #1 -->
+                  				<li>
+                                    <!-- Graph -->
+                                    <div><span id="todayspark1" class="spark"></span></div>
+                                    <!-- Text -->
+                                    <div class="datas-text">PSI觀測值</div>
+                                  </li>
+                                  <li>
+                                    <div><span id="todayspark2" class="spark"></span></div>
+                                    <div class="datas-text">二氧化硫(SO<sub>2</sub>)觀測值</div>
+                                  </li>
+                                  <li>
+                                    <div><span id="todayspark3" class="spark"></span></div>
+                                    <div class="datas-text">一氧化碳(CO)觀測值</div>
+                                  </li>
+                                  <li>
+                                    <div><span id="todayspark4" class="spark"></span></div>
+                                    <div class="datas-text">臭氧(O<sub>3</sub>)觀測值</div>
+                                  </li>
+                                  <li>
+                                    <div><span id="todayspark5" class="spark"></span></div>
+                                    <div class="datas-text">二氧化氮(NO<sub>2</sub>)觀測值</div>
+                                  </li>
+                                </ul>
+                                </div>
 
-           </div>
+                             </div>
+                              </div>
+                						</div>
 
+                					</div>
 
 		  <!-- Today status end -->
 
@@ -236,7 +257,7 @@
 				<div class="col-lg-9 col-md-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h2><i class="fa fa-flag-o red"></i><strong>觀測站列表</strong></h2>
+							<h2><i class="fa fa-flag-o red"></i><strong>勞工之LaborMotion手機即時感測資料曲線圖</strong></h2>
 							<div class="panel-actions">
 								<a href="index.html#" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
 								<a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
@@ -244,48 +265,52 @@
 							</div>
 						</div>
 						<div class="panel-body">
-							<table class="table bootstrap-datatable countries">
-								<thead>
-									<tr>
-										<th></th>
-										<th>觀測站</th>
-										<th>PM 10</th>
-										<th>PM 2.5</th>
-										<th>空污指標</th>
-									</tr>
-								</thead>
-								<tbody id=observeStationList>
-									<!-- <tr>
-										<td><img src="img/Germany.png" style="height:18px; margin-top:-2px;"></td>
-										<td>Germany</td>
-										<td>2563</td>
-										<td>1025</td>
-										<td>
-											<div class="progress thin">
-												<div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="73" aria-valuemin="0" aria-valuemax="100" style="width: 73%">
-												</div>
-												<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="27" aria-valuemin="0" aria-valuemax="100" style="width: 27%">
-											  	</div>
-											</div>
-											<span class="sr-only">73%</span>
-										</td>
-									</tr> -->
-								</tbody>
-							</table>
+
+              <div id="chartdiv"></div>
+
 						</div>
 
 					</div>
 
 				</div><!--/col-->
 				<div class="col-md-3">
-				<div class="col-md-3">
+          <div class="row">
+            <div class="panel panel-default">
+  						<div class="panel-heading">
+  							<h2><i class="fa fa-map-marker red"></i><strong>勞工活動模式偵測</strong></h2>
+  							<div class="panel-actions">
+  								<a href="index.html#" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
+  								<a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+  								<a href="index.html#" class="btn-close"><i class="fa fa-times"></i></a>
+  							</div>
+  						</div>
+  						<div class="panel-body">
+                <div id="labor_active" style="height:50px">
 
-				</div><!--/col-->
-				<div class="col-md-3">
+                </div>
+  						</div>
+  					</div>
+          </div>
+          <div class="row">
+            <div class="panel panel-default">
+  						<div class="panel-heading">
+  							<h2><i class="fa fa-map-marker red"></i><strong>勞工熱危害預警通知與建議</strong></h2>
+  							<div class="panel-actions">
+  								<a href="index.html#" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
+  								<a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+  								<a href="index.html#" class="btn-close"><i class="fa fa-times"></i></a>
+  							</div>
+  						</div>
+  						<div class="panel-body">
+                <div id="labor_active" style="height:50px">
 
-				</div><!--/col-->
+                </div>
+  						</div>
+  					</div>
+          </div>
+        </div>
 
-              </div>
+      </div>
 
 
 
@@ -364,6 +389,9 @@
   <script src="http://leaflet.github.io/Leaflet.heat/dist/leaflet-heat.js"></script>
   <script src="http://leaflet.github.io/Leaflet.markercluster/example/realworld.10000.js"></script>
 
+  <script src="http://www.amcharts.com/lib/3/amcharts.js"></script>
+  <script src="http://www.amcharts.com/lib/3/serial.js"></script>
+  <script src="http://www.amcharts.com/lib/3/themes/light.js"></script>
   <script>
 
       //knob
@@ -690,9 +718,129 @@
     //   map.locate({setView: true, maxZoom: 16});
     // });
 
-
+    startDemo();
   });
 
+
+  var interval;
+var websocket;
+
+var websocketEchoServerUri = "ws://echo.websocket.org/";
+var chartData = []; //will be updated by our simulated server
+var serverLog = document.getElementById("server-log");
+var utton = document.getElementById('start-demo');
+var endButton = document.getElementById('end-demo');
+var chart = AmCharts.makeChart("chartdiv", {
+  "type": "serial",
+  "theme": "light",
+  "dataDateFormat": "YYYY-MM-DD",
+  "valueAxes": [{
+    "id": "v1",
+    "position": "left"
+  }],
+  "graphs": [{
+    "id": "g1",
+    "bullet": "round",
+    "valueField": "value",
+    "balloonText": "[[category]]: [[value]]"
+  }],
+  "categoryField": "date",
+  "categoryAxis": {
+    "parseDates": true,
+    "equalSpacing": true,
+    "dashLength": 1,
+    "minorGridEnabled": true
+  },
+  "dataProvider": chartData
+});
+
+function startDemo() {
+  websocket = initWebSocket(websocketEchoServerUri);
+}
+
+function endDemo() {
+  startButton.disabled = "";
+  endButton.disabled = "disabled";
+  websocket.close();
+}
+
+function initWebSocket(wsUri) {
+  var ws = new WebSocket(wsUri);
+  ws.onopen = onConnect;
+  ws.onclose = onClose;
+  ws.onerror = onError;
+  ws.onmessage = updateChart;
+  return ws;
+}
+
+/*
+ * Called during the onmessage event. Your application will need
+ * to parse  your websocket server's response into a data object
+ * or array of dataObjects your chart expects
+ */
+function updateChart(wsEvent) {
+  var newData = JSON.parse(wsEvent.data);
+  chartData.push.apply(chartData, newData);
+  // keep only 50 datapoints on screen for the demo
+  if (chartData.length > 50) {
+    chartData.splice(0, chartData.length - 50);
+  }
+  writeToScreen("<span style='color: blue'>Received: " + wsEvent.data + "</span>");
+  chart.validateData(); //call to redraw the chart with new data
+}
+
+function onConnect(wsEvent) {
+  writeToScreen("Server connection successful. Listening for data now.");
+  interval = setInterval(getDataFromServer, 2000); //we're simulating a datafeed by calling our getDataFromServer method every 2 seconds
+}
+
+function onError(wsEvent) {
+  writeToScreen("<span style='color: red'>ERROR:" + wsEvent + "</span>");
+}
+
+function onClose(wsEvent) {
+  writeToScreen("Server connection closed");
+  clearInterval(interval);
+}
+
+//For debug messaging
+function writeToScreen(message) {
+  var pre = document.createElement("p");
+  pre.style.wordWrap = "break-word";
+  pre.innerHTML = message;
+}
+
+/*
+ * This simulates a data response from the server
+ * using websocket.org's echo server. The method generates
+ * a random sized array of values and writes it to
+ * the server in the form of a JSON string,
+ * which will be echoed back to the client
+ */
+function getDataFromServer() {
+  var newDate;
+  var newValue;
+  var newData = [];
+  var newDataSize = Math.round(Math.random() + 3) + 1;
+
+  if (chartData.length) {
+    newDate = new Date(chartData[chartData.length - 1].date);
+  } else {
+    newDate = new Date();
+  }
+
+  for (var i = 0; i < newDataSize; ++i) {
+    newValue = Math.round(Math.random() * (40 + i)) + 10 + i;
+    newDate.setDate(newDate.getDate() + 1);
+
+    newData.push({
+      date: newDate,
+      value: newValue
+    });
+  }
+
+  websocket.send(JSON.stringify(newData));
+}
 
   </script>
 
