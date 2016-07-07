@@ -14,14 +14,18 @@ airstation  = require('../public/sensorData/airstation.json');
 
 var wbgt = require('../public/testData/wbgt_1hr.json');
 // RethinkDB Connection
+var laborLive = require('../laborLive');
+var laborLiveListener;
 var r = require('rethinkdb');
 var rethinkdbHost = "plash3.iis.sinica.edu.tw";
 var connection = null;
 r.connect( {host: rethinkdbHost, port: 28015}, function(err, conn) {
     if (err) throw err;
     connection = conn;
-})
+    laborLiveListener = laborLive.rethinkDbListener(r,connection);
 
+});
+// var laborLiveListener = laborLive.rethinkDbListener(r,connection);
 // Example API
 router.get('/images', function(req, res) {
     res.json({ message: "LAB第一個API!" });
@@ -598,7 +602,8 @@ router.post('/uploadLaborDataSet', function (req, res) {
     "dataset": dataSet
   }).run(connection, function(err, result) {
       if (err) throw err;
-      res.send('helloworld');
+      res.send('hello_pica');
   });
 });
+
 module.exports = router;

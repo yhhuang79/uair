@@ -18,7 +18,10 @@
   "devDependencies": {
     "array": "^0.4.3",
     "express-fileupload": "0.0.5",
+    "express-ws-routes": "^1.1.0",
+    "path": "^0.12.7",
     "rethinkdb": "^2.3.2",
-    "webpack": "^1.13.1"
+    "webpack": "^1.13.1",
+    "websocket": "^1.0.23"
   }
 }

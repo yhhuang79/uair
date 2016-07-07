@@ -1,4 +1,5 @@
 var express = require('express');
+var expressWs = require('express-ws');
 var fileUpload = require('express-fileupload');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -9,8 +10,10 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var apis = require('./routes/apis');
-
-var app = express();
+var hots  = require('./routes/hots');
+// var websockets  = require('./routes/websockets');
+var expressWs = expressWs(express());
+var app = expressWs.app;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -22,14 +25,16 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
 app.use(express.static(path.join(__dirname, 'public')));
-// default options 
+// default options
 app.use(fileUpload());
 
 app.use('/', routes);
 app.use('/users', users);
 app.use('/api', apis);
-
+app.use('/hots', hots);
+// app.use('/ws',websockets);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -60,6 +65,7 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
+
 
 
 module.exports = app;
