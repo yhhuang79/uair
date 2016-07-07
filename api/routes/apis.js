@@ -577,7 +577,7 @@ router.post('/uploadCSV', function(req, res) {
 });
 
 //Get Current Temperature  Index
-router.get('/getjsonTI', function(req, res)  {
+router.get('/geojsonTI', function(req, res)  {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
   console.log("heworld");

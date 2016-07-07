@@ -480,7 +480,7 @@
     $('#map').width($('.panel-body-map').width());
 
     // Get Air Quilty Data
-    $.getJSON(baseURL + "/api/geojsonTI", function(data) {
+    $.getJSON("http://taiwanair.plash.tw/api/geojsonTI", function(data) {
       var listTable;
       var siteMenu = "";
       var geojson = L.geoJson(data, {
@@ -522,7 +522,7 @@
             $("#box-PM25").html(feature.properties['PM2.5']);
             $("#box-WBGT").html(feature.properties.WBGT.toFixed(1));
 
-            var url = baseURL + "/api/seriesAQI/" + feature.properties.SiteName;
+            var url = "http://taiwanair.plash.tw/api/geojsonTI" + feature.properties.SiteName;
             $.getJSON(url, function(data) {
               //alert(JSON.stringify(data));
               $("#todayspark1").sparkline(data.PSI.reverse(), {
@@ -570,8 +570,10 @@
 			  L.marker(e.latlng, {icon: myLocationIcon}).addTo(map)
 				    .bindPopup("You are within " + radius + " meters from this point").openPopup();
 			  L.circle(e.latlng, radius).addTo(map);
-        $.getJSON(baseURL + "/api/geojsonAQI", function(data) {
-          var nearbySiteName, nearbyPSI, nearbyPM10, nearbyPM25, nearbyWBGT, d=300000;
+        //currently , using absolutely node server url.
+        $.getJSON("http://taiwanair.plash.tw/api/geojsonTI", function(data) {
+          console.log(data);
+          var nearbySiteName, nearby1K, nearby10M, nearbyPM25, nearbyWBGT, d=300000;
           var geojson = L.geoJson(data, {
             onEachFeature: function (feature, layer) {
                 //console.log(feature.geometry.coordinates +":"+ e.latlng);
