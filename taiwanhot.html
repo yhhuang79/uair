@@ -295,36 +295,8 @@
 				</div>
 				<div class="col-md-3">
 
-					<div class="social-box google-plus">
-						<i class="fa fa-google-plus"></i>
-						<ul>
-							<li>
-								<strong>962</strong>
-								<span>followers</span>
-							</li>
-							<li>
-								<strong>256</strong>
-								<span>circles</span>
-							</li>
-						</ul>
-					</div><!--/social-box-->
-
 				</div><!--/col-->
 				<div class="col-md-3">
-
-					<div class="social-box twitter">
-						<i class="fa fa-twitter"></i>
-						<ul>
-							<li>
-								<strong>1562k</strong>
-								<span>followers</span>
-							</li>
-							<li>
-								<strong>2562</strong>
-								<span>tweets</span>
-							</li>
-						</ul>
-					</div><!--/social-box-->
 
 				</div><!--/col-->
 
@@ -489,7 +461,7 @@
       //   0.4: 'blue', 0.65: 'lime', 0.65: 'red'}
       // }
       // ).addTo(map);
-      var heat = L.heatLayer(dataset,{radius:100}
+      var heat = L.heatLayer(dataset,{radius:150}
       ).addTo(map);
 
 
@@ -507,7 +479,7 @@
         //currently , using absolutely node server url.
         $.getJSON("http://taiwanair.plash.tw/api/geojsonTI", function(data) {
           console.log(data);
-          var nearbySiteName, nearby1K, nearby10M, averageTmp, highestTmp, d=300000;
+          var nearbySiteName, nearby1K, nearby10M, averageTmp=0, highestTmp=0, d=300000 ,d_10m=10,count=0;
           var geojson = L.geoJson(data, {
             onEachFeature: function (feature, layer) {
                 //console.log(feature.geometry.coordinates +":"+ e.latlng);
@@ -515,31 +487,45 @@
                 var slatlng = L.latLng(feature.geometry.coordinates[1],feature.geometry.coordinates[0]);
                 if(slatlng.distanceTo(e.latlng) < d){
                   nearbySiteName = feature.properties.SiteName;
-                  nearby1K = feature.properties.wbgto_max;
-                  nearby10M = feature.properties.wbgto_max;
-                  averageTmp = feature.properties.wbgto_max;
-                  highestTmp = feature.properties.wbgto_max;
+                  nearby1K = (feature.properties.wbgto_max);
+                  nearby10M = (feature.properties.wbgto_max);
+                  averageTmp = (feature.properties.wbgto_max);
+                  highestTmp = (feature.properties.wbgto_max);
                   d = slatlng.distanceTo(e.latlng);
                   //console.log(d);
+                }
+                if(slatlng.distanceTo(e.latlng) < d_10m) {
+                  nearby10M = (feature.properties.wbgto_max);
+                  d_10m = slatlng.distanceTo(e.latlng);
+                }
+
+                averageTmp=averageTmp+feature.properties.wbgto_max;
+                count=count+1;
+
+                if(highestTmp<  feature.properties.wbgto_max){
+                  highestTmp  = feature.properties.wbgto_max;
                 }
             }
 
           });
-          console.log("nearbySiteName:"+nearbySiteName);
-
+          console.log("nearbySiteName:"+nearby1K);
+          averageTmp  = (averageTmp  / count );
           $('#sitelocation').html("<i class=\"fa fa-laptop\"></i> 觀測站："+nearbySiteName);
-          $("#box-1K").html(wbgto_max);
+          $("#box-1K").html(nearby1K.toFixed(1));
 
-          if((parseFloat(wbgto_max)>51) && (parseFloat(wbgto_max)<100)){
+          if((parseFloat(nearby1K)>51) && (parseFloat(nearby1K)<100)){
             $("#box-PSI").css("background-color","#ffd600");
-          } else if ((parseFloat(wbgto_max)>101) && (parseFloat(wbgto_max)<199)) {
+          } else if ((parseFloat(nearby1K)>101) && (parseFloat(nearby1K)<199)) {
             $("#box-PSI").css("background-color","#ff5252");
-          } else if ((parseFloat(wbgto_max)>200) && (parseFloat(wbgto_max)<299)) {
+          } else if ((parseFloat(nearby1K)>200) && (parseFloat(nearby1K)<299)) {
             $("#box-PSI").css("background-color","#795548");
-          } else if (parseFloat(wbgto_max)>300) {
+          } else if (parseFloat(nearby1K)>300) {
             $("#box-PSI").css("background-color","#673ab7");
           }
-          $("#box-PM10").html(nearbyPM10);
+
+          var nearbyPM10 = nearby10M;
+
+          $("#box-PM10").html(nearbyPM10.toFixed(1));
           if((parseFloat(nearbyPM10)>51) && (parseFloat(nearbyPM10)<150)){
             $("#box-PM10").css("background-color","#ffd600");
           } else if ((parseFloat(nearbyPM10)>151) && (parseFloat(nearbyPM10)<350)) {
@@ -549,7 +535,9 @@
           } else if (parseFloat(nearbyPM10)>421) {
             $("#box-PM10").css("background-color","#673ab7");
           }
-          $("#box-PM25").html(nearbyPM25);
+
+          var nearbyPM25  =28;
+          $("#box-PM25").html(nearbyPM25.toFixed(1));
           if((parseFloat(nearbyPM25)>36) && (parseFloat(nearbyPM25)<53)){
             $("#box-PM25").css("background-color","#ffd600");
           } else if ((parseFloat(nearbyPM25)>54) && (parseFloat(nearbyPM25)<64)) {
@@ -559,6 +547,8 @@
           } else if (parseFloat(nearbyPM25)>71) {
             $("#box-PM25").css("background-color","#673ab7");
           }
+
+          var nearbyWBGT  = highestTmp;
           $("#box-WBGT").html(nearbyWBGT.toFixed(1));
           if((parseFloat(nearbyWBGT)>26.7) && (parseFloat(nearbyWBGT)<29.3)){
             $("#box-WBGT").css("background-color","#ffd600");
