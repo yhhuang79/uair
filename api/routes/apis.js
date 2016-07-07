@@ -580,7 +580,8 @@ router.post('/uploadCSV', function(req, res) {
 router.get('/getjsonTI', function(req, res)  {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  r.table('taiwan_hot_test').filter({epochtime: r.table('taiwan_hot_test').max('epochtime')('epochtime')})
+  console.log("heworld");
+  r.db('Heat_Wave').table('WBGT').filter({epochtime: r.db('Heat_Wave').table('WBGT').max('epochtime')('epochtime')})
     .run(connection,  function(err, cursor) {
       if (err) {
         throw err;

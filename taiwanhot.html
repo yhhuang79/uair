@@ -480,7 +480,7 @@
     $('#map').width($('.panel-body-map').width());
 
     // Get Air Quilty Data
-    $.getJSON(baseURL + "/api/geojsonAQI", function(data) {
+    $.getJSON(baseURL + "/api/geojsonTI", function(data) {
       var listTable;
       var siteMenu = "";
       var geojson = L.geoJson(data, {
