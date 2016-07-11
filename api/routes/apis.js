@@ -18,7 +18,7 @@ var wbgt = require('../public/testData/wbgt_1hr.json');
 var laborLive = require('../laborLive');
 var laborLiveListener;
 var r = require('rethinkdb');
-var rethinkdbHost = "plash3.iis.sinica.edu.tw";
+var rethinkdbHost = "140.109.18.136";
 var connection = null;
 r.connect( {host: rethinkdbHost, port: 28015}, function(err, conn) {
     if (err) throw err;
