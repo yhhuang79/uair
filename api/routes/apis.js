@@ -594,7 +594,6 @@ router.get('/geojsonTI', function(req, res)  {
           for(var i = 0, ilen = airstation_TI.features.length; i < ilen; i++){
             for(var j = 0, jlen = result.length; j < jlen; j++){
               if(airstation_TI.features[i].properties.SiteName == result[j].SiteName){
-                console.log("find");
                 airstation_TI.features[i].properties['RH'] = result[j].RH;
                 airstation_TI.features[i].properties['Ta'] = result[j].Ta;
                 airstation_TI.features[i].properties['epochtime'] = result[j].epochtime;
