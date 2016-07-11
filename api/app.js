@@ -6,6 +6,16 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var io = require('socket.io')();
+var laborLive =require('./laborLive');
+
+io.sockets.on('connection', function (socket) {
+    console.log('client connect');
+    laborLive.WSConstruct(socket);
+    socket.emit('news', { hello: 'world' });
+    socket.on('echo', function (data) {
+    io.sockets.emit('message', data);
+ });
+});
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -67,12 +77,6 @@ app.use(function(err, req, res, next) {
   });
 });
 
-// app.io.on('connection', function (socket) {
-//   socket.emit('news', { hello: 'world' });
-//   socket.on('my other event', function (data) {
-//     console.log(data);
-//   });
-// });
 
 
 module.exports = app;
