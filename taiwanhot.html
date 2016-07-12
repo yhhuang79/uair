@@ -155,7 +155,7 @@ height: 200px;
 					<h3 class="page-header" id="sitelocation"><i class="fa fa-laptop"></i> Dashboard</h3>
 					<ol class="breadcrumb">
 						<li><i class="fa fa-home"></i><a href="index.html">Home</a></li>
-						<li><i class="fa fa-laptop"></i>空氣品質</li>
+						<li><i class="fa fa-laptop"></i> WBGT溫度分析 </li>
 					</ol>
 				</div>
 			</div>
@@ -221,36 +221,25 @@ height: 200px;
                 								<a href="index.html#" class="btn-close"><i class="fa fa-times"></i></a> -->
                 							</div>
                 						</div>
-                						<div class="panel-body" style="margin-top:ppx">
-                							<div id="aircondition">
-                                <!-- List starts -->
-                  				<ul class="today-datas" style="">
-                                  <!-- List #1 -->
-                  				<li>
-                                    <!-- Graph -->
-                                    <div><span id="todayspark1" class="spark"></span></div>
-                                    <!-- Text -->
-                                    <div class="datas-text">PSI觀測值</div>
-                                  </li>
-                                  <li>
-                                    <div><span id="todayspark2" class="spark"></span></div>
-                                    <div class="datas-text">二氧化硫(SO<sub>2</sub>)觀測值</div>
-                                  </li>
-                                  <li>
-                                    <div><span id="todayspark3" class="spark"></span></div>
-                                    <div class="datas-text">一氧化碳(CO)觀測值</div>
-                                  </li>
-                                  <li>
-                                    <div><span id="todayspark4" class="spark"></span></div>
-                                    <div class="datas-text">臭氧(O<sub>3</sub>)觀測值</div>
-                                  </li>
-                                  <li>
-                                    <div><span id="todayspark5" class="spark"></span></div>
-                                    <div class="datas-text">二氧化氮(NO<sub>2</sub>)觀測值</div>
-                                  </li>
-                                </ul>
-                                </div>
+                						<div class="panel-body" style="height=380px;">
+                              <pre>
+                              LaborWBGT 溫度顏色定義
 
+
+                              36.1°C ~ 40°C 紫色, 淺色漸層至深色
+
+
+                              32.1°C ~ 36°C 紅色, 淺色漸層至深色
+
+
+                              24.1°C ~ 32°C 棕色, 淺色漸層至深色
+
+
+                              11.1°C ~ 24°C 綠色, 深色漸層至淺色
+
+
+                                -1°C ~ 11°C 藍色, 深色漸層至淺色
+                              </pre>
                              </div>
                               </div>
                 						</div>
@@ -261,95 +250,143 @@ height: 200px;
 
 
 
-			<div class="row">
+            			<div class="row">
 
-				<div class="col-lg-9 col-md-12">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h2><i class="fa fa-flag-o red"></i><strong>勞工之LaborMotion手機即時感測資料曲線圖</strong></h2>
-							<div class="panel-actions">
-								<!-- <a href="index.html#" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
-								<a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
-								<a href="index.html#" class="btn-close"><i class="fa fa-times"></i></a> -->
-							</div>
-						</div>
-						<div class="panel-body">
-              <!-- Nav tabs -->
-              <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
-                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
-                <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
-                <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
-              </ul>
+            				<div class="col-lg-9 col-md-12">
+            					<div class="panel panel-default">
+            						<div class="panel-heading">
+            							<h2><i class="fa fa-flag-o red"></i><strong>勞工之LaborMotion手機即時感測資料曲線圖</strong></h2>
+            							<div class="panel-actions">
+            								<!-- <a href="index.html#" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
+            								<a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+            								<a href="index.html#" class="btn-close"><i class="fa fa-times"></i></a> -->
+            							</div>
+            						</div>
+            						<div class="panel-body">
+                          <!-- Nav tabs -->
+                          <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
+                            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
+                            <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
+                            <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+                          </ul>
 
-              <div class="tab-content">
-                <div role="tabpanel" class="tab-pane fade in active" id="home">
-                  <div id="chartdiv"></div>
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="profile">
-                  <div id="chartdiv"></div>
+                          <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane fade in active" id="home">
+                              <div id="chartdiv"></div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade" id="profile">
+                              <div id="chartdiv"></div>
 
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="messages">
-                  <div id="chartdiv"></div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade" id="messages">
+                              <div id="chartdiv"></div>
 
-                </div>
-                <div role="tabpanel" class="tab-pane fade" id="settings">
-                  <div id="chartdiv"></div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade" id="settings">
+                              <div id="chartdiv"></div>
 
-                </div>
-              </div>
+                            </div>
+                          </div>
 
-						</div>
+            						</div>
 
-					</div>
+            					</div>
 
-				</div><!--/col-->
-				<div class="col-md-3">
-          <div class="row">
-            <div class="panel panel-default">
-  						<div class="panel-heading">
-  							<h2><i class="fa fa-map-marker red"></i><strong>勞工活動模式偵測</strong></h2>
-  							<div class="panel-actions">
-  								<!-- <a href="index.html#" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
-  								<a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
-  								<a href="index.html#" class="btn-close"><i class="fa fa-times"></i></a> -->
-  							</div>
-  						</div>
-  						<div class="panel-body">
-                <div id="labor_active" style="height:50px">
+            				</div><!--/col-->
+            				<div class="col-md-3 ">
+                      <div class="row">
+                        <div class="panel panel-default">
+              						<div class="panel-heading">
+              							<h2><i class="fa fa-map-marker red"></i><strong>勞工活動模式偵測</strong></h2>
+              							<div class="panel-actions">
+              								<!-- <a href="index.html#" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
+              								<a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+              								<a href="index.html#" class="btn-close"><i class="fa fa-times"></i></a> -->
+              							</div>
+              						</div>
+              						<div class="panel-body">
+                            <div id="labor_active" style="height:230px">
 
-                </div>
-  						</div>
-  					</div>
-          </div>
-          <div class="row">
-            <div class="panel panel-default">
-  						<div class="panel-heading">
-  							<h2><i class="fa fa-map-marker red"></i><strong>勞工熱危害預警通知與建議</strong></h2>
-  							<div class="panel-actions">
-  								<!-- <a href="index.html#" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
-  								<a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
-  								<a href="index.html#" class="btn-close"><i class="fa fa-times"></i></a> -->
-  							</div>
-  						</div>
-  						<div class="panel-body">
-                <div id="labor_active" style="height:50px">
+                            </div>
+              						</div>
+              					</div>
+                      </div>
+                    </div>
 
-                </div>
-  						</div>
-  					</div>
-          </div>
-        </div>
+                  </div>
 
-      </div>
+                  <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <h2><i class="fa fa-flag-o red"></i><strong>熱危害預警與建議</strong></h2>
+                          <div class="panel-actions">
+                            <!-- <a href="index.html#" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
+                            <a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                            <a href="index.html#" class="btn-close"><i class="fa fa-times"></i></a> -->
+                          </div>
+                        </div>
+                        <div class="panel-body" style="height:150px">
+                          <!-- Nav tabs -->
+                        </div>
 
+                      </div>
 
+                    </div><!--/col-->
+
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <h2><i class="fa fa-flag-o red"></i><strong>空氣品質圖表</strong></h2>
+                          <div class="panel-actions">
+                            <!-- <a href="index.html#" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
+                            <a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                            <a href="index.html#" class="btn-close"><i class="fa fa-times"></i></a> -->
+                          </div>
+                        </div>
+                        <div class="panel-body" style="margin-top:0px">
+                          <!-- Nav tabs -->
+                          <div id="aircondition">
+                            <!-- List starts -->
+                              <ul class="today-datas" style="">
+                              <!-- List #1 -->
+                                <li>
+                                  <!-- Graph -->
+                                  <div><span id="todayspark1" class="spark"></span></div>
+                                  <!-- Text -->
+                                  <div class="datas-text">PSI觀測值</div>
+                                </li>
+                                <li>
+                                  <div><span id="todayspark2" class="spark"></span></div>
+                                  <div class="datas-text">二氧化硫(SO<sub>2</sub>)觀測值</div>
+                                </li>
+                                <li>
+                                  <div><span id="todayspark3" class="spark"></span></div>
+                                  <div class="datas-text">一氧化碳(CO)觀測值</div>
+                                </li>
+                                <li>
+                                  <div><span id="todayspark4" class="spark"></span></div>
+                                  <div class="datas-text">臭氧(O<sub>3</sub>)觀測值</div>
+                                </li>
+                                <li>
+                                  <div><span id="todayspark5" class="spark"></span></div>
+                                  <div class="datas-text">二氧化氮(NO<sub>2</sub>)觀測值</div>
+                                </li>
+
+                              </ul>
+                          </div>
+                        </div>
+
+                      </div>
+
+                    </div><!--/col-->
+
+                  </div>
 
                 <!-- statics end -->
-
-
-
 <!-- unused -->
                   <div class="widget-foot">
                     <!-- Footer goes here -->
@@ -597,35 +634,35 @@ height: 200px;
             //alert(JSON.stringify(data));
             $("#todayspark1").sparkline(data.PSI.reverse(), {
                 type: 'line',
-                width: '250',
+                width: '220',
                 height: '30',
                 lineColor: '#999',
                 fillColor: '#ffd4aa'});
 
             $("#todayspark2").sparkline(data.SO2.reverse(), {
                 type: 'line',
-                width: '250',
+                width: '220',
                 height: '30',
                 lineColor: '#C5CED6',
                 fillColor: '#ffffaa'});
 
             $("#todayspark3").sparkline(data.CO.reverse(), {
                 type: 'line',
-                width: '250',
+                width: '220',
                 height: '30',
                 lineColor: '#436B91',
                 fillColor: '#d4ffaa'});
 
             $("#todayspark4").sparkline(data.O3.reverse(), {
                 type: 'line',
-                width: '250',
+                width: '220',
                 height: '30',
                 lineColor: '#486b60',
                 fillColor: '#aaffff'});
 
             $("#todayspark5").sparkline(data.NO2.reverse(), {
                 type: 'line',
-                width: '250',
+                width: '220',
                 height: '30',
                 lineColor: '#436B91',
                 fillColor: '#aad4ff'});
