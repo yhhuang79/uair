@@ -6,15 +6,21 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var io = require('socket.io')();
-var laborLive =require('./laborLive');
+// var laborLive =require('./laborLive');
 
 io.sockets.on('connection', function (socket) {
     console.log('client connect');
-    laborLive.WSConstruct(socket);
-    socket.emit('news', { hello: 'world' });
-    socket.on('echo', function (data) {
-    io.sockets.emit('message', data);
- });
+    // laborLive.WSConstruct(socket);
+    socket.on('toClient', function (data) {
+      // we tell the client to execute 'new message'
+      socket.broadcast.emit('news', {
+        hello: data
+      });
+    });
+    // socket.emit('news', { hello: 'world' });
+    // socket.on('echo', function (data) {
+    // io.sockets.emit('message', data);
+    // });
 });
 
 var routes = require('./routes/index');
