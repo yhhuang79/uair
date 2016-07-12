@@ -7,6 +7,7 @@ function  rethinkDbListener(r,connection) {
         cursor.each(function (err,item) {
           mysocket.emit('news', { hello: item });
           // myio.emit('news',{hello:'tony'});
+          console.log(item);
         }
       );
 
