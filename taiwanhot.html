@@ -353,12 +353,13 @@ height: 200px;
                             <!-- List starts -->
                               <ul class="today-datas" style="">
                               <!-- List #1 -->
-                                <li>
-                                  <!-- Graph -->
-                                  <div><span id="todayspark1" class="spark"></span></div>
-                                  <!-- Text -->
-                                  <div class="datas-text">PSI觀測值</div>
-                                </li>
+                                  <li>
+                                    <!-- Graph -->
+                                    <div><span id="todayspark1" class="spark"></span></div>
+                                    <!-- Text -->
+                                    <div class="datas-text">PSI觀測值</div>
+                                  </li>
+
                                 <li>
                                   <div><span id="todayspark2" class="spark"></span></div>
                                   <div class="datas-text">二氧化硫(SO<sub>2</sub>)觀測值</div>
@@ -782,12 +783,10 @@ var websocket;
 var websocketEchoServerUri = "ws://echo.websocket.org/";
 var chartData = []; //will be updated by our simulated server
 var serverLog = document.getElementById("server-log");
-var utton = document.getElementById('start-demo');
-var endButton = document.getElementById('end-demo');
 var chart = AmCharts.makeChart("chartdiv", {
   "type": "serial",
   "theme": "light",
-  "dataDateFormat": "YYYY-MM-DD",
+  "dataDateFormat": "YYYY/MM/DD JJ:NN",
   "valueAxes": [{
     "id": "v1",
     "position": "left"
@@ -833,14 +832,15 @@ function initWebSocket(wsUri) {
  * or array of dataObjects your chart expects
  */
 function updateChart(wsEvent) {
-  var newData = JSON.parse(wsEvent.data);
-  chartData.push.apply(chartData, newData);
-  // keep only 50 datapoints on screen for the demo
-  if (chartData.length > 50) {
-    chartData.splice(0, chartData.length - 50);
-  }
-  writeToScreen("<span style='color: blue'>Received: " + wsEvent.data + "</span>");
-  chart.validateData(); //call to redraw the chart with new data
+  // var newData = JSON.parse(wsEvent.data);
+  // // console.log("get new data:"+newData);
+  // chartData.push.apply(chartData, newData);
+  // // keep only 50 datapoints on screen for the demo
+  // if (chartData.length > 50) {
+  //   chartData.splice(0, chartData.length - 50);
+  // }
+  // writeToScreen("<span style='color: blue'>Received: " + wsEvent.data + "</span>");
+  // chart.validateData(); //call to redraw the chart with new data
 }
 
 function onConnect(wsEvent) {
@@ -884,7 +884,7 @@ function getDataFromServer() {
   }
 
   for (var i = 0; i < newDataSize; ++i) {
-    newValue = Math.round(Math.random() * (40 + i)) + 10 + i;
+    newValue = Math.round(Math.random() * (4000 + i)) +  + i;
     newDate.setDate(newDate.getDate() + 1);
 
     newData.push({
@@ -897,9 +897,24 @@ function getDataFromServer() {
 }
 
 var socket = io.connect('http://localhost:3000');
+var a;
 socket.on('news', function (data) {
-  console.log(data);
-  socket.emit('my other event', { my: 'data' });
+  a = data;
+  var newData = data.hello.hello.new_val.dataset.map(p=>({
+    value:p.GRAVITY[0],
+    // GRAVITY_Y:p.GRAVITY[1],
+    // GRAVITY_Z:p.GRAVITY[2,
+    date:p.Time
+  }));
+  console.log(newData);
+  chartData.push.apply(chartData, newData);
+  // keep only 50 datapoints on screen for the demo
+  if (chartData.length > 50) {
+    chartData.splice(0, chartData.length - 50);
+  }
+  // writeToScreen("<span style='color: blue'>Received: " + wsEvent.data + "</span>");
+  chart.validateData(); //call to redraw the chart with new data
+  // socket.emit('my other event', { my: 'data' });
 });
 
   </script>
