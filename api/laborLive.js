@@ -16,13 +16,14 @@ function  rethinkDbListener(r,connection) {
           //     console.log('Server Connected!');
           //
           // });
-          // socket.emit('toClient', { hello: item });
           // myio.emit('news',{hello:'tony'});
           currentDataTime = (item.new_val.dataset.Time/1000).toFixed(0);
           //  Compare
           if(currentDataTime  > lastDataTime){
             lastDataTime  = currentDataTime;
             console.log("send!");
+            socket.emit('toClient', { hello: item });
+
           }
           // console.log(item.new_val.dataset.Time);
         }
