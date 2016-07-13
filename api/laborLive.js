@@ -17,7 +17,7 @@ function  rethinkDbListener(r,connection) {
           //
           // });
           // myio.emit('news',{hello:'tony'});
-          console.item(items);
+          console.item(item);
           currentDataTime = (item.new_val.dataset.Time/1000).toFixed(0);
           //  Compare
           if(currentDataTime  > lastDataTime){
