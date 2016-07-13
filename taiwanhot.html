@@ -901,13 +901,11 @@ var a;
 socket.on('news', function (data) {
   a = data;
   console.log("pica's data: "+data)
-  var newData = data.hello.hello.new_val.dataset.map(p=>({
-    value:p.GravityX,
-    // GRAVITY_Y:p.GRAVITY[1],
-    // GRAVITY_Z:p.GRAVITY[2,
-    date:p.Time
-  }));
-  console.log(newData);
+  var newData = {
+    value:data.hello.hello.new_val.dataset.GravityX,
+    date:data.hello.hello.new_val.dataset.Time
+  }
+  // console.log(newData);
   chartData.push.apply(chartData, newData);
   // keep only 50 datapoints on screen for the demo
   if (chartData.length > 50) {
