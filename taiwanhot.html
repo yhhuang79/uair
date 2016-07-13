@@ -912,7 +912,7 @@ socket.on('news', function (data) {
     date:data.hello.hello.new_val.dataset.Time,
 
   }];
-  // console.log(newData);
+   console.log("Received data");
   chartData.push.apply(chartData, newData);
   // keep only 50 datapoints on screen for the demo
   if (chartData.length > 300) {
