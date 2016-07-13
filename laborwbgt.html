@@ -399,7 +399,8 @@ height: 200px;
 	<script src="js/jquery.slimscroll.min.js"></script>
 
   <!-- leaflet map -->
-  <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
+  <script src="https://www.mapquestapi.com/sdk/leaflet/v2.2/mq-map.js?key=yUoKtz9vSoTTALff0okCUguWuoxcZTh9"></script>
   <script src="http://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js"></script>
   <script src="http://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.24.0/L.Control.Locate.js"></script>
   <script src="assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.js"></script>
@@ -460,45 +461,109 @@ height: 200px;
     });
 
 
-    var map = L.map('map',{
-      maxZoom:13
-    }).setView([25.0391667, 121.525], 12);
+    map = L.map("map", {
+      zoom: 8,
+      center: [25.0391667, 121.525],
+      layers: [mapquestOSM, markerClusters],
+      zoomControl: true,
+      attributionControl: false
+    });
 
-    var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(map);
+    // Setup map width
+    $('#map').width($('.panel-body-map').width());
 
-    addressPoints = addressPoints.map(function (p) { return [p[0], p[1]]; });
-    var dataset;
-    $.getJSON("http://taiwanair.plash.tw/api/geojsonTI", function(data) {
-      // console.log(data);
-      dataset = data.features.map(function (p) {
-        return [p.geometry.coordinates[1],p.geometry.coordinates[0] ,p.properties.wbgto_max*(1/35)] ;
+    $.getJSON(baseURL + "/api/geojsonAQI", function(data) {
+      var listTable;
+      var siteMenu = "";
+      var geojson = L.geoJson(data, {
+        onEachFeature: function (feature, layer) {
+          //console.log("feture id : " + JSON.stringify(layer));
+          content = "<table class='table table-striped table-bordered table-condensed'>"
+            + "<tr><th>測站名稱</th><td>" + feature.properties.SiteName + "監測站"
+            + "</td></tr>" + "<tr><th>縣市</th><td>" + feature.properties.County
+            + "</td></tr>" + "<tr><th>狀態</th><td>" + feature.properties.Status
+            + "</td></tr>" + "<tr><th>資料更新時間</th><td>" + feature.properties.PublishTime
+            + "</td></tr>" + "<tr><th>地址</th><td>" + feature.properties.SiteAddres
+            + "</td></tr>" + "<table>";
+          listTable += "<tr><td>"
+            + "<img src=\"img/Taiwan.png\" style=\"height:18px; margin-top:-2px;\"></td>"
+            + "<td>" + feature.properties.SiteName + "</td>"
+            + "<td>" + feature.properties.PM10 + "</td>"
+            + "<td>" + feature.properties['PM2.5'] + "</td>"
+            + "<td><div class=\"progress thin\">"
+            +  "<div class=\"progress-bar progress-bar-danger\""
+            +  " role=\"progressbar\" aria-valuenow=\""+ feature.properties.PSI
+            + "\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: "
+            + feature.properties.PSI + "% \"></div>"
+            + "<div class=\"progress-bar progress-bar-info\""
+            + " role=\"progressbar\" aria-valuenow=\""
+            + (100 - feature.properties.PSI) + "\" aria-valuemin=\"0\""
+            + " aria-valuemax=\"100\" style=\"width: "
+            + (100-feature.properties.PSI) + "%\"></div></div>"
+            + "<span class=\"sr-only\">" + feature.properties.PSI + "</span>"
+            + "</td></tr>";
+          siteMenu += "<li><a class=\"\" href=\"chart-chartjs.html?site="
+            + feature.properties.SiteName + "\">"
+            + feature.properties.SiteName + "</a></li>";
+          layer.bindPopup(content);
+
+          // Click event
+          layer.on('click', function (e) {
+            $("#box-PSI").html(feature.properties.PSI);
+            $("#box-PM10").html(feature.properties.PM10);
+            $("#box-PM25").html(feature.properties['PM2.5']);
+            $("#box-WBGT").html(feature.properties.WBGT.toFixed(1));
+
+            var url = baseURL + "/api/seriesAQI/" + feature.properties.SiteName;
+            $.getJSON(url, function(data) {
+              //alert(JSON.stringify(data));
+              $("#todayspark1").sparkline(data.PSI.reverse(), {
+                  type: 'line',
+                  width: '250',
+                  height: '30',
+                  lineColor: '#999',
+                  fillColor: '#ffd4aa'});
+
+
+              $("#todayspark2").sparkline(data.SO2.reverse(), {
+                  type: 'line',
+                  width: '250',
+                  height: '30',
+                  lineColor: '#C5CED6',
+                  fillColor: '#ffffaa'});
+
+              $("#todayspark3").sparkline(data.CO.reverse(), {
+                  type: 'line',
+                  width: '250',
+                  height: '30',
+                  lineColor: '#436B91',
+                  fillColor: '#d4ffaa'});
+
+              $("#todayspark4").sparkline(data.O3.reverse(), {
+                  type: 'line',
+                  width: '250',
+                  height: '30',
+                  lineColor: '#486b60',
+                  fillColor: '#aaffff'});
+
+              $("#todayspark5").sparkline(data.NO2.reverse(), {
+                  type: 'line',
+                  width: '250',
+                  height: '30',
+                  lineColor: '#436B91',
+                  fillColor: '#aad4ff'});
+            });
+          });
+        }
       });
-
-      // var heat = L.heatLayer(dataset,{radius:150,gradient:  {
-      //   0.4: 'blue', 0.65: 'lime', 0.9: 'red'}
-      // }
-      // ).addTo(map);
-      var heat = L.heatLayer(dataset,{radius:88,blur:50}
-      ).addTo(map);
-
-
-      map.locate({setView:true,maxZoom:12});
-      map.on('locationerror', function(e){
-        console.log("Sorry, We can not get your current loaction.");
-      });
-
       map.on('locationfound', function (e) {
         var radius = e.accuracy / 2;
         var myLocationIcon = new L.icon({iconUrl: 'img/currentLoc.png',iconAnchor:[14, 38]});
 			  L.marker(e.latlng, {icon: myLocationIcon}).addTo(map)
 				    .bindPopup("You are within " + radius + " meters from this point").openPopup();
 			  L.circle(e.latlng, radius).addTo(map);
-        //currently , using absolutely node server url.
-        $.getJSON("http://taiwanair.plash.tw/api/geojsonTI", function(data) {
-          console.log(data);
-          var nearbySiteName, nearby1K, nearby10M, averageTmp=0, highestTmp=0, d=300000 ,d_10m=10,count=0;
+        $.getJSON(baseURL + "/api/geojsonAQI", function(data) {
+          var nearbySiteName, nearbyPSI, nearbyPM10, nearbyPM25, nearbyWBGT, d=300000;
           var geojson = L.geoJson(data, {
             onEachFeature: function (feature, layer) {
                 //console.log(feature.geometry.coordinates +":"+ e.latlng);
@@ -506,45 +571,28 @@ height: 200px;
                 var slatlng = L.latLng(feature.geometry.coordinates[1],feature.geometry.coordinates[0]);
                 if(slatlng.distanceTo(e.latlng) < d){
                   nearbySiteName = feature.properties.SiteName;
-                  nearby1K = (feature.properties.wbgto_max);
-                  nearby10M = (feature.properties.wbgto_max);
-                  averageTmp = (feature.properties.wbgto_max);
-                  highestTmp = (feature.properties.wbgto_max);
+                  nearbyPSI = feature.properties.PSI;
+                  nearbyPM10 = feature.properties.PM10;
+                  nearbyPM25 = feature.properties['PM2.5'];
+                  nearbyWBGT = feature.properties.WBGT;
                   d = slatlng.distanceTo(e.latlng);
                   //console.log(d);
                 }
-                if(slatlng.distanceTo(e.latlng) < d_10m) {
-                  nearby10M = (feature.properties.wbgto_max);
-                  d_10m = slatlng.distanceTo(e.latlng);
-                }
-
-                averageTmp=averageTmp+feature.properties.wbgto_max;
-                count=count+1;
-
-                if(highestTmp<  feature.properties.wbgto_max){
-                  highestTmp  = feature.properties.wbgto_max;
-                }
             }
-
           });
-          console.log("nearbySiteName:"+nearby1K);
-          averageTmp  = (averageTmp  / count );
-          $('#sitelocation').html("<i class=\"fa fa-laptop\"></i> 觀測站："+nearbySiteName);
-          $("#box-1K").html(nearby1K.toFixed(1));
 
-          if((parseFloat(nearby1K)>51) && (parseFloat(nearby1K)<100)){
+          $('#sitelocation').html("<i class=\"fa fa-laptop\"></i> 觀測站："+nearbySiteName);
+          $("#box-PSI").html(nearbyPSI);
+          if((parseFloat(nearbyPSI)>51) && (parseFloat(nearbyPSI)<100)){
             $("#box-PSI").css("background-color","#ffd600");
-          } else if ((parseFloat(nearby1K)>101) && (parseFloat(nearby1K)<199)) {
+          } else if ((parseFloat(nearbyPSI)>101) && (parseFloat(nearbyPSI)<199)) {
             $("#box-PSI").css("background-color","#ff5252");
-          } else if ((parseFloat(nearby1K)>200) && (parseFloat(nearby1K)<299)) {
+          } else if ((parseFloat(nearbyPSI)>200) && (parseFloat(nearbyPSI)<299)) {
             $("#box-PSI").css("background-color","#795548");
-          } else if (parseFloat(nearby1K)>300) {
+          } else if (parseFloat(nearbyPSI)>300) {
             $("#box-PSI").css("background-color","#673ab7");
           }
-
-          var nearbyPM10 = nearby10M;
-
-          $("#box-PM10").html(nearbyPM10.toFixed(1));
+          $("#box-PM10").html(nearbyPM10);
           if((parseFloat(nearbyPM10)>51) && (parseFloat(nearbyPM10)<150)){
             $("#box-PM10").css("background-color","#ffd600");
           } else if ((parseFloat(nearbyPM10)>151) && (parseFloat(nearbyPM10)<350)) {
@@ -554,9 +602,7 @@ height: 200px;
           } else if (parseFloat(nearbyPM10)>421) {
             $("#box-PM10").css("background-color","#673ab7");
           }
-
-          var nearbyPM25  =28;
-          $("#box-PM25").html(nearbyPM25.toFixed(1));
+          $("#box-PM25").html(nearbyPM25);
           if((parseFloat(nearbyPM25)>36) && (parseFloat(nearbyPM25)<53)){
             $("#box-PM25").css("background-color","#ffd600");
           } else if ((parseFloat(nearbyPM25)>54) && (parseFloat(nearbyPM25)<64)) {
@@ -566,8 +612,6 @@ height: 200px;
           } else if (parseFloat(nearbyPM25)>71) {
             $("#box-PM25").css("background-color","#673ab7");
           }
-
-          var nearbyWBGT  = highestTmp;
           $("#box-WBGT").html(nearbyWBGT.toFixed(1));
           if((parseFloat(nearbyWBGT)>26.7) && (parseFloat(nearbyWBGT)<29.3)){
             $("#box-WBGT").css("background-color","#ffd600");
@@ -579,117 +623,61 @@ height: 200px;
             $("#box-WBGT").css("background-color","#673ab7");
           }
 
+          var url = baseURL + "/api/seriesAQI/" + nearbySiteName;
+          $.getJSON(url, function(data) {
+            //alert(JSON.stringify(data));
+            $("#todayspark1").sparkline(data.PSI.reverse(), {
+                type: 'line',
+                width: '250',
+                height: '30',
+                lineColor: '#999',
+                fillColor: '#ffd4aa'});
 
+            $("#todayspark2").sparkline(data.SO2.reverse(), {
+                type: 'line',
+                width: '250',
+                height: '30',
+                lineColor: '#C5CED6',
+                fillColor: '#ffffaa'});
+
+            $("#todayspark3").sparkline(data.CO.reverse(), {
+                type: 'line',
+                width: '250',
+                height: '30',
+                lineColor: '#436B91',
+                fillColor: '#d4ffaa'});
+
+            $("#todayspark4").sparkline(data.O3.reverse(), {
+                type: 'line',
+                width: '250',
+                height: '30',
+                lineColor: '#486b60',
+                fillColor: '#aaffff'});
+
+            $("#todayspark5").sparkline(data.NO2.reverse(), {
+                type: 'line',
+                width: '250',
+                height: '30',
+                lineColor: '#436B91',
+                fillColor: '#aad4ff'});
+          });
         });
       });
+
+      map.on('locationerror', function(e){
+        alert("Sorry, We can not get your current loaction.");
+      });
+      geojson.addTo(map);
+      $('#observeStationList').html(listTable);
+      $('#siteMenu').html(siteMenu);
+      map.locate({setView: true, maxZoom: 16});
     });
-    //
-    // var heat = L.heatLayer(dataset,{radius:50}
-    // ).addTo(map);
-
-
-    // Setup map width
-    $('#map').width($('.panel-body-map').width());
-
-    // Get Air Quilty Data
-    // $.getJSON("http://taiwanair.plash.tw/api/geojsonTI", function(data) {
-    //   var listTable;      // var geojson = L.geoJson(data, {
-    //   //
-    //   //   onEachFeature: function (feature, layer) {
-    //   //     //console.log("feture id : " + JSON.stringify(layer));
-    //   //     content = "<table class='table table-striped table-bordered table-condensed'>"
-    //   //       + "<tr><th>測站名稱</th><td>" + feature.properties.SiteName + "監測站"
-    //   //       + "</td></tr>" + "<tr><th>縣市</th><td>" + feature.properties.County
-    //   //       + "</td></tr>" + "<tr><th>狀態</th><td>" + feature.properties.Status
-    //   //       + "</td></tr>" + "<tr><th>資料更新時間</th><td>" + feature.properties.PublishTime
-    //   //       + "</td></tr>" + "<tr><th>地址</th><td>" + feature.properties.SiteAddres
-    //   //       + "</td></tr>" + "<table>";
-    //   //
-    //   //     listTable += "<tr><td>"
-    //   //       + "<img src=\"img/Taiwan.png\" style=\"height:18px; margin-top:-2px;\"></td>"
-    //   //       + "<td>" + feature.properties.SiteName + "</td>"
-    //   //       + "<td>" + feature.properties.PM10 + "</td>"
-    //   //       + "<td>" + feature.properties['PM2.5'] + "</td>"
-    //   //       + "<td><div class=\"progress thin\">"
-    //   //       +  "<div class=\"progress-bar progress-bar-danger\""
-    //   //       +  " role=\"progressbar\" aria-valuenow=\""+ feature.properties.PSI
-    //   //       + "\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: "
-    //   //       + feature.properties.PSI + "% \"></div>"
-    //   //       + "<div class=\"progress-bar progress-bar-info\""
-    //   //       + " role=\"progressbar\" aria-valuenow=\""
-    //   //       + (100 - feature.properties.PSI) + "\" aria-valuemin=\"0\""
-    //   //       + " aria-valuemax=\"100\" style=\"width: "
-    //   //       + (100-feature.properties.PSI) + "%\"></div></div>"
-    //   //       + "<span class=\"sr-only\">" + feature.properties.PSI + "</span>"
-    //   //       + "</td></tr>";
-    //   //
-    //   //     siteMenu += "<li><a class=\"\" href=\"chart-chartjs.html?site="
-    //   //       + feature.properties.SiteName + "\">"
-    //   //       + feature.properties.SiteName + "</a></li>";
-    //   //     layer.bindPopup(content);
-    //   //
-    //   //     // Click event
-    //   //     layer.on('click', function (e) {
-    //   //       $("#box-PSI").html(feature.properties.PSI);
-    //   //       $("#box-PM10").html(feature.properties.PM10);
-    //   //       $("#box-PM25").html(feature.properties['PM2.5']);
-    //   //       $("#box-WBGT").html(feature.properties.WBGT.toFixed(1));
-    //   //
-    //   //       var url = "http://taiwanair.plash.tw/api/geojsonTI" + feature.properties.SiteName;
-    //   //       $.getJSON(url, function(data) {
-    //   //         //alert(JSON.stringify(data));
-    //   //         $("#todayspark1").sparkline(data.PSI.reverse(), {
-    //   //             type: 'line',
-    //   //             width: '250',
-    //   //             height: '30',
-    //   //             lineColor: '#999',
-    //   //             fillColor: '#ffd4aa'});
-    //   //
-    //   //
-    //   //         $("#todayspark2").sparkline(data.SO2.reverse(), {
-    //   //             type: 'line',
-    //   //             width: '250',
-    //   //             height: '30',
-    //   //             lineColor: '#C5CED6',
-    //   //             fillColor: '#ffffaa'});
-    //   //
-    //   //         $("#todayspark3").sparkline(data.CO.reverse(), {
-    //   //             type: 'line',
-    //   //             width: '250',
-    //   //             height: '30',
-    //   //             lineColor: '#436B91',
-    //   //             fillColor: '#d4ffaa'});
-    //   //
-    //   //         $("#todayspark4").sparkline(data.O3.reverse(), {
-    //   //             type: 'line',
-    //   //             width: '250',
-    //   //             height: '30',
-    //   //             lineColor: '#486b60',
-    //   //             fillColor: '#aaffff'});
-    //   //
-    //   //         $("#todayspark5").sparkline(data.NO2.reverse(), {
-    //   //             type: 'line',
-    //   //             width: '250',
-    //   //             height: '30',
-    //   //             lineColor: '#436B91',
-    //   //             fillColor: '#aad4ff'});
-    //   //       });
-    //   //     });
-    //   //   }
-    //   // });
-    //
-    //
-    //
-    //   $('#observeStationList').html(listTable);
-    //   $('#siteMenu').html(siteMenu);
-    //   map.locate({setView: true, maxZoom: 16});
-    // });
 
     startDemo();
-  });
+});
 
 
-  var interval;
+var interval;
 var websocket;
 
 var websocketEchoServerUri = "ws://echo.websocket.org/";
