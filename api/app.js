@@ -7,13 +7,13 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var io = require('socket.io')();
 // var laborLive =require('./laborLive');
-io.socket.set(‘transports’, [
-  ‘websocket’
-  , ‘flashsocket’
-  , ‘htmlfile’
-  , ‘xhr-polling’
-  , ‘jsonp-polling’
-]);
+// io.socket.set('transports', [
+//   'websocket',
+//   'flashsocket',
+//   'htmlfile',
+//   'xhr-polling',
+//   'jsonp-polling'
+// ]);
 io.sockets.on('connection', function (socket) {
     console.log('client connect');
     // laborLive.WSConstruct(socket);
