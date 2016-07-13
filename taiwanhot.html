@@ -900,11 +900,26 @@ var socket = io.connect('http://140.109.18.141:3000');
 var a;
 socket.on('news', function (data) {
   a = data;
+<<<<<<< HEAD
   console.log("pica's data: "+data)
   var newData = {
     value:data.hello.hello.new_val.dataset.GravityX,
     date:data.hello.hello.new_val.dataset.Time
   }
+=======
+  // var newData = data.hello.hello.new_val.dataset.map(p=>({
+  //   value:p.GravityX,
+  //   // GRAVITY_Y:p.GRAVITY[1],
+  //   // GRAVITY_Z:p.GRAVITY[2,
+  //   date:p.Time
+  // }));
+
+  var newData = [{
+    value:data.hello.hello.new_val.dataset.GravityX,
+    date:data.hello.hello.new_val.dataset.Time,
+
+  }];
+>>>>>>> fix
   // console.log(newData);
   chartData.push.apply(chartData, newData);
   // keep only 50 datapoints on screen for the demo
