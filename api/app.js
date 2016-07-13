@@ -62,6 +62,9 @@ app.use('/hots', hots);
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
+  res.setHeader('Access-Control-Allow-Origin', "http://"+req.headers.host+':3000');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
   next(err);
 });
 

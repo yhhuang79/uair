@@ -33,7 +33,6 @@ server.on('listening', onListening);
  * Socket.io
  */
  var io     = app.io
- io.origins(*);
  io.attach( server );
 
 /**
