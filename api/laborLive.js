@@ -13,6 +13,7 @@ function  rethinkDbListener(r,connection) {
           // socket.on('connect', function (socket) {
           //     console.log('Server Connected!');
           // });
+          console.log("send to client");
           socket.emit('news', { hello: item });
           // myio.emit('news',{hello:'tony'});
           // console.log(item);
