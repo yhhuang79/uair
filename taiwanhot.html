@@ -900,6 +900,7 @@ var socket = io.connect('http://140.109.18.141:3000');
 var a;
 socket.on('news', function (data) {
   a = data;
+  console.log("pica's data: "+data)
   var newData = data.hello.hello.new_val.dataset.map(p=>({
     value:p.GRAVITY[0],
     // GRAVITY_Y:p.GRAVITY[1],
