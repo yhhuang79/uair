@@ -902,7 +902,7 @@ socket.on('news', function (data) {
   a = data;
   console.log("pica's data: "+data)
   var newData = data.hello.hello.new_val.dataset.map(p=>({
-    value:p.GRAVITY[0],
+    value:p.GravityX,
     // GRAVITY_Y:p.GRAVITY[1],
     // GRAVITY_Z:p.GRAVITY[2,
     date:p.Time
