@@ -398,9 +398,10 @@ height: 200px;
 	<script src="js/charts.js"></script>
 	<script src="js/jquery.slimscroll.min.js"></script>
 
-  <!-- leaflet map -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
-  <script src="https://www.mapquestapi.com/sdk/leaflet/v2.2/mq-map.js?key=yUoKtz9vSoTTALff0okCUguWuoxcZTh9"></script>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.5/leaflet.js"></script>
+  <script src="https://www.mapquestapi.com/sdk/leaflet/v2.s/mq-map.js?key=yUoKtz9vSoTTALff0okCUguWuoxcZTh9"></script>
   <script src="http://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js"></script>
   <script src="http://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.24.0/L.Control.Locate.js"></script>
   <script src="assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.js"></script>
@@ -446,7 +447,7 @@ height: 200px;
     var markerMap = {};
     var map;
     /* Basemap Layers */
-    var mapquestOSM = L.tileLayer("http://{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png", {
+    var mapquestOSM = L.tileLayer("http://a.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,
       subdomains: ["otile1", "otile2", "otile3", "otile4"],
       attribution: 'Tiles courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">. Map data (c) <a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> contributors, CC-BY-SA.'
@@ -673,7 +674,6 @@ height: 200px;
       map.locate({setView: true, maxZoom: 16});
     });
 
-    startDemo();
 });
 
 
@@ -707,70 +707,14 @@ var chart = AmCharts.makeChart("chartdiv", {
   "dataProvider": chartData
 });
 
-function startDemo() {
-  websocket = initWebSocket(websocketEchoServerUri);
-}
-
-function endDemo() {
-  startButton.disabled = "";
-  endButton.disabled = "disabled";
-  websocket.close();
-}
-
-function initWebSocket(wsUri) {
-  var ws = new WebSocket(wsUri);
-  ws.onopen = onConnect;
-  ws.onclose = onClose;
-  ws.onerror = onError;
-  ws.onmessage = updateChart;
-  return ws;
-}
 
 /*
  * Called during the onmessage event. Your application will need
  * to parse  your websocket server's response into a data object
  * or array of dataObjects your chart expects
  */
-function updateChart(wsEvent) {
-  // var newData = JSON.parse(wsEvent.data);
-  // // console.log("get new data:"+newData);
-  // chartData.push.apply(chartData, newData);
-  // // keep only 50 datapoints on screen for the demo
-  // if (chartData.length > 50) {
-  //   chartData.splice(0, chartData.length - 50);
-  // }
-  // writeToScreen("<span style='color: blue'>Received: " + wsEvent.data + "</span>");
-  // chart.validateData(); //call to redraw the chart with new data
-}
 
-function onConnect(wsEvent) {
-  writeToScreen("Server connection successful. Listening for data now.");
-  interval = setInterval(getDataFromServer, 2000); //we're simulating a datafeed by calling our getDataFromServer method every 2 seconds
-}
 
-function onError(wsEvent) {
-  writeToScreen("<span style='color: red'>ERROR:" + wsEvent + "</span>");
-}
-
-function onClose(wsEvent) {
-  writeToScreen("Server connection closed");
-  clearInterval(interval);
-}
-
-//For debug messaging
-function writeToScreen(message) {
-  var pre = document.createElement("p");
-  pre.style.wordWrap = "break-word";
-  pre.innerHTML = message;
-}
-
-/*
- * This simulates a data response from the server
- * using websocket.org's echo server. The method generates
- * a random sized array of values and writes it to
- * the server in the form of a JSON string,
- * which will be echoed back to the client
- */
 function getDataFromServer() {
   var newDate;
   var newValue;
@@ -796,7 +740,7 @@ function getDataFromServer() {
   websocket.send(JSON.stringify(newData));
 }
 
-var socket = io.connect('http://140.109.18.141:3000');
+var socket = io.connect(baseURL+":3000");
 var a;
 socket.on('news', function (data) {
   a = data;
