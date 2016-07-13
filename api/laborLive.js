@@ -5,7 +5,8 @@ var io = require('socket.io-client');
 var mysocket;
 var socket = io.connect('http://localhost:3000', {reconnect: true});
 
-
+var currentDataTime=0;
+var lastDataTime=0;
 function  rethinkDbListener(r,connection) {
 
     r.table('laborSensorData').changes().run(connection, function(err, cursor) {
@@ -17,7 +18,13 @@ function  rethinkDbListener(r,connection) {
           // });
           // socket.emit('toClient', { hello: item });
           // myio.emit('news',{hello:'tony'});
-          console.log(item.new_val.dataset.Time);
+          currentDataTime = (item.new_val.dataset.Time/1000).toFixed(0);
+          //  Compare
+          if(currentDateTime  > lastDataTime){
+            lastDataTime  = currentDateTime;
+            console.log("send!");
+          }
+          // console.log(item.new_val.dataset.Time);
         }
       );
 
