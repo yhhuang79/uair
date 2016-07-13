@@ -462,7 +462,7 @@ height: 200px;
   <script src="http://www.amcharts.com/lib/3/amcharts.js"></script>
   <script src="http://www.amcharts.com/lib/3/serial.js"></script>
   <script src="http://www.amcharts.com/lib/3/themes/light.js"></script>
-  <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+  <script src="http://140.109.18.141:3000/socket.io/socket.io.js"></script>
 
   <script>
 
@@ -896,7 +896,7 @@ function getDataFromServer() {
   websocket.send(JSON.stringify(newData));
 }
 
-var socket = io.connect('http://140.109.18.141/hots/');
+var socket = io.connect('http://140.109.18.141:3000');
 var a;
 socket.on('news', function (data) {
   a = data;
