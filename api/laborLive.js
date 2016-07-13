@@ -20,8 +20,8 @@ function  rethinkDbListener(r,connection) {
           // myio.emit('news',{hello:'tony'});
           currentDataTime = (item.new_val.dataset.Time/1000).toFixed(0);
           //  Compare
-          if(currentDateTime  > lastDataTime){
-            lastDataTime  = currentDateTime;
+          if(currentDataTime  > lastDataTime){
+            lastDataTime  = currentDataTime;
             console.log("send!");
           }
           // console.log(item.new_val.dataset.Time);
