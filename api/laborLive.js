@@ -20,7 +20,7 @@ function  rethinkDbListener(r,connection) {
           currentDataTime = (item.new_val.dataset.Time/1000).toFixed(0);
           //  Compare
           console.log(currentDataTime);
-
+          console.log("item+"+item);
           if(currentDataTime  > lastDataTime){
             lastDataTime  = currentDataTime;
             console.log("send!");

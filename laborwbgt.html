@@ -606,7 +606,7 @@ socket.on('news', function (data) {
   //   // GRAVITY_Z:p.GRAVITY[2,
   //   date:p.Time
   // }));
-
+  console.log("date:"+data.hello.hello.new_val.dataset.Time);
   var newData = [{
     value:data.hello.hello.new_val.dataset.GravityX,
     date:data.hello.hello.new_val.dataset.Time
