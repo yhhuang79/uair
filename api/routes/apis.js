@@ -625,6 +625,11 @@ router.post('/uploadLaborDataSet', function (req, res) {
   }).run(connection, function(err, result) {
       if (err) throw err;
       res.send('hello_pica');
+
+      // Send back to front end page
+      //  Compare
+
+    });
 });
 
 
