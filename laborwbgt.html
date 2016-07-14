@@ -41,9 +41,17 @@
 	  <link href="css/jquery-ui-1.10.4.min.css" rel="stylesheet">
     <style >
     #chartdiv {
-width: 100%;
-height: 200px;
-}
+    width: 100%;
+    height: 200px;
+  }
+  #chart2div {
+    width: 100%;
+    height: 200px;
+  }
+  #chart3div {
+    width: 100%;
+    height: 200px;
+  }
 
     </style>
 
@@ -203,28 +211,24 @@ height: 200px;
             						<div class="panel-body">
                           <!-- Nav tabs -->
                           <ul class="nav nav-tabs" role="tablist">
-                            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
-                            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
-                            <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
-                            <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+                            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">重力三軸感測器</a></li>
+                            <li role="presentation"><a href="#accelerate" aria-controls="accelerate" role="tab" data-toggle="tab">加速度感測器</a></li>
+                            <li role="presentation"><a href="#gyro" aria-controls="gyro" role="tab" data-toggle="tab">陀螺儀</a></li>
                           </ul>
 
                           <div class="tab-content">
                             <div role="tabpanel" class="tab-pane fade in active" id="home">
                               <div id="chartdiv"></div>
                             </div>
-                            <div role="tabpanel" class="tab-pane fade" id="profile">
-                              <div id="chartdiv"></div>
+                            <div role="tabpanel" class="tab-pane fade" id="accelerate">
+                              <div id="chart2div"></div>
 
                             </div>
-                            <div role="tabpanel" class="tab-pane fade" id="messages">
-                              <div id="chartdiv"></div>
+                            <div role="tabpanel" class="tab-pane fade" id="gyro">
+                              <div id="chart3div"></div>
 
                             </div>
-                            <div role="tabpanel" class="tab-pane fade" id="settings">
-                              <div id="chartdiv"></div>
 
-                            </div>
                           </div>
 
             						</div>
@@ -562,12 +566,16 @@ var websocket;
 
 var websocketEchoServerUri = "ws://echo.websocket.org/";
 var chartData = []; //will be updated by our simulated server
-var serverLog = document.getElementById("server-log");
+var chartData2 = [];
+var chartData3 = [];
+
 var chart = AmCharts.makeChart("chartdiv", {
   "type": "serial",
   "theme": "light",
   "dataDateFormat": "HH:NN:SS",
-
+  "legend": {
+      "useGraphSettings": true
+  },
   "valueAxes": [{
     "id": "v1",
     "position": "left"
@@ -584,18 +592,73 @@ var chart = AmCharts.makeChart("chartdiv", {
   "graphs": [{
     "id": "g1",
     "bullet": "triangleUp",
-    "valueField": "value",
-    "balloonText": "[[category]]: [[value]]"
+    "title": "X軸 重力感測器",
+    "valueField": "valueGX",
+    "balloonText": "[[category]]: [[valueGX]]"
   },{
     "id": "g2",
     "bullet": "square",
-    "valueField": "value2",
-    "balloonText": "[[category]]: [[value]]"
+    "title": "Y軸 重力感測器",
+    "valueField": "valueGY",
+    "balloonText": "[[category]]: [[valueGY]]"
   },{
     "id": "g3",
     "bullet": "round",
-    "valueField": "value3",
-    "balloonText": "[[category]]: [[value]]"
+    "lineColor": "#FF6600",
+    "title": "Ｚ軸 重力感測器",
+    "valueField": "valueGZ",
+    "balloonText": "[[category]]: [[valueGZ]]"
+  }],
+  "categoryField": "date",
+  "categoryAxis": {
+    "parseDates": false,
+    "equalSpacing": true,
+    "dashLength": 10,
+    "minorGridEnabled": true
+  },
+  // "startDate" :
+  "synchronizeGrid":true,
+  "dataProvider": chartData
+});
+var chart2 = AmCharts.makeChart("chart2div", {
+  "type": "serial",
+  "theme": "light",
+  "dataDateFormat": "HH:NN:SS",
+  "legend": {
+      "useGraphSettings": true
+  },
+  "valueAxes": [{
+    "id": "v1",
+    "position": "left"
+  },{
+    "id": "v2",
+    "position": "left",
+    "axisColor": ""
+  },{
+    "id": "v3",
+    "position": "left",
+    "axisColor": "#FCD202"
+  },],
+
+  "graphs": [{
+    "id": "g1",
+    "bullet": "triangleUp",
+    "title": "X軸 重力感測器",
+    "valueField": "valueAX",
+    "balloonText": "[[category]]: [[valueAX]]"
+  },{
+    "id": "g2",
+    "bullet": "square",
+    "title": "Y軸 重力感測器",
+    "valueField": "valueAY",
+    "balloonText": "[[category]]: [[valueAY]]"
+  },{
+    "id": "g3",
+    "bullet": "round",
+    "lineColor": "#FF6600",
+    "title": "Ｚ軸 重力感測器",
+    "valueField": "valueAZ",
+    "balloonText": "[[category]]: [[valueAZ]]"
   }],
   "categoryField": "date",
   "categoryAxis": {
@@ -619,6 +682,72 @@ var chart = AmCharts.makeChart("chartdiv", {
   //
   },
   // "startDate" :
+  "synchronizeGrid":true,
+  "dataProvider": chartData
+});
+var chart3 = AmCharts.makeChart("chart3div", {
+  "type": "serial",
+  "theme": "light",
+  "dataDateFormat": "HH:NN:SS",
+  "legend": {
+      "useGraphSettings": true
+  },
+  "valueAxes": [{
+    "id": "v1",
+    "position": "left"
+  },{
+    "id": "v2",
+    "position": "left",
+    "axisColor": ""
+  },{
+    "id": "v3",
+    "position": "left",
+    "axisColor": "#FCD202"
+  },],
+
+  "graphs": [{
+    "id": "g1",
+    "bullet": "triangleUp",
+    "title": "X軸 重力感測器",
+    "valueField": "valueGyroX",
+    "balloonText": "[[category]]: [[valueGX]]"
+  },{
+    "id": "g2",
+    "bullet": "square",
+    "title": "Y軸 重力感測器",
+    "valueField": "valueGyroY",
+    "balloonText": "[[category]]: [[valueGY]]"
+  },{
+    "id": "g3",
+    "bullet": "round",
+    "lineColor": "#FF6600",
+    "title": "Ｚ軸 重力感測器",
+    "valueField": "valueGyroZ",
+    "balloonText": "[[category]]: [[valueGZ]]"
+  }],
+  "categoryField": "date",
+  "categoryAxis": {
+    "parseDates": false,
+    "equalSpacing": true,
+    "dashLength": 10,
+    "minorGridEnabled": true,
+  //   "dateFormats": [{
+  //       period: 'DD',
+  //       format: 'DD'
+  //   }, {
+  //       period: 'WW',
+  //       format: 'MMM DD'
+  //   }, {
+  //       period: 'MM',
+  //       format: 'MMM DD SS'
+  //   }, {
+  //       period: 'YYYY',
+  //       format: 'YYYY'
+  //   }]
+  //
+  },
+  // "startDate" :
+  "synchronizeGrid":true,
   "dataProvider": chartData
 });
 
@@ -646,22 +775,54 @@ socket.on('news', function (data) {
   var mydate = new Date(data.hello.hello.new_val.dataset.Time*1);
 
   console.log("date:"+mydate);
-  var newData = [{
-    value:data.hello.hello.new_val.dataset.GravityX,
-    value2:data.hello.hello.new_val.dataset.GravityY,
-    value3:data.hello.hello.new_val.dataset.GravityZ,
+  var newDataGravity = [{
+    valueGX:data.hello.hello.new_val.dataset.GravityX,
+    valueGY:data.hello.hello.new_val.dataset.GravityY,
+    valueGZ:data.hello.hello.new_val.dataset.GravityZ,
+    valueAX:data.hello.hello.new_val.dataset.AccelerometerX,
+    valueAY:data.hello.hello.new_val.dataset.AccelerometerY,
+    valueAZ:data.hello.hello.new_val.dataset.AccelerometerZ,
+    valueGyroX:data.hello.hello.new_val.dataset.GyroscopeX,
+    valueGyroY:data.hello.hello.new_val.dataset.GyroscopeY,
+    valueGyroZ:data.hello.hello.new_val.dataset.GyroscopeZ,
+
+    date:mydate.getHours()+":"+mydate.getMinutes()+":"+mydate.getSeconds(),
+
+    }];
+  var newDataAccelerate = [{
+    valueAY:data.hello.hello.new_val.dataset.AccelerometerY,
+    valueAZ:data.hello.hello.new_val.dataset.AccelerometerZ,
+    date:mydate.getHours()+":"+mydate.getMinutes()+":"+mydate.getSeconds()
+    }];
+  var newDataGyro = [{
+    valueGyroX:data.hello.hello.new_val.dataset.GyroscopeX,
+    valueGyroY:data.hello.hello.new_val.dataset.GyroscopeY,
+    valueGyroZ:data.hello.hello.new_val.dataset.GyroscopeZ,
     date:mydate.getHours()+":"+mydate.getMinutes()+":"+mydate.getSeconds()
     }];
 
-  console.log("date:"+newData[0].date);
+  console.log("date:"+newDataAccelerate[0].valueAX);
   console.log("Received data");
-  chartData.push.apply(chartData, newData);
+  chartData.push.apply(chartData, newDataGravity);
+  chartData2.push.apply(chartData2, newDataAccelerate);
+  chartData3.push.apply(chartData3, newDataGyro);
+
   // keep only 50 datapoints on screen for the demo
   if (chartData.length > 10) {
     chartData.splice(0, chartData.length - 10);
   }
+  if (chartData2.length > 10) {
+    chartData2.splice(0, chartData2.length - 10);
+  }
+  if (chartData3.length > 10) {
+    chartData3.splice(0, chartData3.length - 10);
+  }
+
   // writeToScreen("<span style='color: blue'>Received: " + wsEvent.data + "</span>");
   chart.validateData(); //call to redraw the chart with new data
+  chart2.validateData(); //call to redraw the chart with new data
+  chart3.validateData(); //call to redraw the chart with new data
+
   // socket.emit('my other event', { my: 'data' });
 });
 
