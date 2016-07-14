@@ -42,15 +42,15 @@
     <style >
     #chartdiv {
     width: 100%;
-    height: 200px;
+    height: 300px;
   }
   #chart2div {
     width: 100%;
-    height: 200px;
+    height: 300px;
   }
   #chart3div {
     width: 100%;
-    height: 200px;
+    height: 300px;
   }
 
     </style>
@@ -594,12 +594,14 @@ var chart = AmCharts.makeChart("chartdiv", {
     "bullet": "triangleUp",
     "title": "X軸 重力感測器",
     "valueField": "valueGX",
-    "balloonText": "[[category]]: [[valueGX]]"
+    "balloonText": "[[category]]: [[valueGX]]",
+    "type": "smoothedLine"
   },{
     "id": "g2",
     "bullet": "square",
     "title": "Y軸 重力感測器",
     "valueField": "valueGY",
+    "type": "smoothedLine",
     "balloonText": "[[category]]: [[valueGY]]"
   },{
     "id": "g3",
@@ -607,6 +609,7 @@ var chart = AmCharts.makeChart("chartdiv", {
     "lineColor": "#FF6600",
     "title": "Ｚ軸 重力感測器",
     "valueField": "valueGZ",
+    "type": "smoothedLine",
     "balloonText": "[[category]]: [[valueGZ]]"
   }],
   "categoryField": "date",
