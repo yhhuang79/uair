@@ -9,29 +9,29 @@ var currentDataTime=0;
 var lastDataTime=0;
 function  rethinkDbListener(r,connection) {
 
-    // r.table('laborSensorData').changes().run(connection, function(err, cursor) {
-    //
-    //     cursor.each(function (err,item) {
-    //       // socket.on('connect', function (socket) {
-    //       //     console.log('Server Connected!');
-    //       //
-    //       // });
-    //       // myio.emit('news',{hello:'tony'});
-    //       currentDataTime = (item.new_val.dataset.Time/1000).toFixed(0);
-    //       //  Compare
-    //       console.log(currentDataTime);
-    //
-    //       if(currentDataTime  > lastDataTime){
-    //         lastDataTime  = currentDataTime;
-    //         console.log("send!");
-    //         socket.emit('toClient', { hello: item });
-    //
-    //       }
-    //       // console.log(item.new_val.dataset.Time);
-    //     }
-    //   );
-    //
-    // });
+    r.table('laborSensorData').changes().run(connection, function(err, cursor) {
+
+        cursor.each(function (err,item) {
+          // socket.on('connect', function (socket) {
+          //     console.log('Server Connected!');
+          //
+          // });
+          // myio.emit('news',{hello:'tony'});
+          currentDataTime = (item.new_val.dataset.Time/1000).toFixed(0);
+          //  Compare
+          console.log(currentDataTime);
+
+          if(currentDataTime  > lastDataTime){
+            lastDataTime  = currentDataTime;
+            console.log("send!");
+            socket.emit('toClient', { hello: item });
+
+          }
+          // console.log(item.new_val.dataset.Time);
+        }
+      );
+
+    });
 
 }
 function WSConstruct(socket) {

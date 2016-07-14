@@ -1,7 +1,4 @@
 var express = require('express');
-//socket
-var io = require('socket.io-client');
-var socket = io.connect('http://localhost:3000', {reconnect: true});
 
 //var fileUpload = require('express-fileupload');
 var router = express.Router();
@@ -628,18 +625,6 @@ router.post('/uploadLaborDataSet', function (req, res) {
   }).run(connection, function(err, result) {
       if (err) throw err;
       res.send('hello_pica');
-
-      // Send back to front end page
-      currentDataTime = (item.new_val.dataset.Time/1000).toFixed(0);
-      //  Compare
-      console.log(currentDataTime);
-
-      if(currentDataTime  > lastDataTime){
-        lastDataTime  = currentDataTime;
-        console.log("send!");
-        socket.emit('toClient', { hello: item });
-
-      }  });
 });
 
 
