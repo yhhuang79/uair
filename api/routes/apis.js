@@ -600,7 +600,7 @@ router.get('/geojsonTI', function(req, res)  {
                 airstation_TI.features[i].properties['id'] = result[j].id;
                 airstation_TI.features[i].properties['index'] = result[j].index;
                 airstation_TI.features[i].properties['wbgto_max'] = result[j].wbgto_max;
-                airstation_TI.features[i].properties['wbgto_min'] = result[j].wbgto_mib;
+                airstation_TI.features[i].properties['wbgto_min'] = result[j].wbgto_min;
                 airstation_TI.features[i].properties['ws'] = result[j].ws;
               }
             }
