@@ -566,24 +566,59 @@ var serverLog = document.getElementById("server-log");
 var chart = AmCharts.makeChart("chartdiv", {
   "type": "serial",
   "theme": "light",
-  "dataDateFormat": "YYYY/MM/DD JJ:NN",
+  "dataDateFormat": "HH:NN:SS",
+
   "valueAxes": [{
     "id": "v1",
     "position": "left"
-  }],
+  },{
+    "id": "v2",
+    "position": "left",
+    "axisColor": ""
+  },{
+    "id": "v3",
+    "position": "left",
+    "axisColor": "#FCD202"
+  },],
+
   "graphs": [{
     "id": "g1",
-    "bullet": "round",
+    "bullet": "triangleUp",
     "valueField": "value",
+    "balloonText": "[[category]]: [[value]]"
+  },{
+    "id": "g2",
+    "bullet": "square",
+    "valueField": "value2",
+    "balloonText": "[[category]]: [[value]]"
+  },{
+    "id": "g3",
+    "bullet": "round",
+    "valueField": "value3",
     "balloonText": "[[category]]: [[value]]"
   }],
   "categoryField": "date",
   "categoryAxis": {
-    "parseDates": true,
+    "parseDates": false,
     "equalSpacing": true,
-    "dashLength": 1,
-    "minorGridEnabled": true
+    "dashLength": 10,
+    "minorGridEnabled": true,
+  //   "dateFormats": [{
+  //       period: 'DD',
+  //       format: 'DD'
+  //   }, {
+  //       period: 'WW',
+  //       format: 'MMM DD'
+  //   }, {
+  //       period: 'MM',
+  //       format: 'MMM DD SS'
+  //   }, {
+  //       period: 'YYYY',
+  //       format: 'YYYY'
+  //   }]
+  //
   },
+  // "startDate" :
   "dataProvider": chartData
 });
 
@@ -598,6 +633,7 @@ var chart = AmCharts.makeChart("chartdiv", {
 
 var socket = io.connect(baseURL+":3000");
 var a;
+var i=0
 socket.on('news', function (data) {
   a = data;
   // var newData = data.hello.hello.new_val.dataset.map(p=>({
@@ -606,17 +642,23 @@ socket.on('news', function (data) {
   //   // GRAVITY_Z:p.GRAVITY[2,
   //   date:p.Time
   // }));
-  console.log("date:"+data.hello.hello.new_val.dataset.Time);
+  // var timestamp = 1293683278;
+  var mydate = new Date(data.hello.hello.new_val.dataset.Time*1);
+
+  console.log("date:"+mydate);
   var newData = [{
     value:data.hello.hello.new_val.dataset.GravityX,
-    date:data.hello.hello.new_val.dataset.Time
+    value2:data.hello.hello.new_val.dataset.GravityY,
+    value3:data.hello.hello.new_val.dataset.GravityZ,
+    date:mydate.getHours()+":"+mydate.getMinutes()+":"+mydate.getSeconds()
+    }];
 
-  }];
-   console.log("Received data");
+  console.log("date:"+newData[0].date);
+  console.log("Received data");
   chartData.push.apply(chartData, newData);
   // keep only 50 datapoints on screen for the demo
-  if (chartData.length > 300) {
-    chartData.splice(0, chartData.length - 300);
+  if (chartData.length > 10) {
+    chartData.splice(0, chartData.length - 10);
   }
   // writeToScreen("<span style='color: blue'>Received: " + wsEvent.data + "</span>");
   chart.validateData(); //call to redraw the chart with new data
