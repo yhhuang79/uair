@@ -644,12 +644,14 @@ var chart2 = AmCharts.makeChart("chart2div", {
     "bullet": "triangleUp",
     "title": "X軸 加速度感測器",
     "valueField": "valueAX",
+    "type": "smoothedLine",
     "balloonText": "[[category]]: [[valueAX]]"
   },{
     "id": "g2",
     "bullet": "square",
     "title": "Y軸 加速度感測器",
     "valueField": "valueAY",
+    "type": "smoothedLine",
     "balloonText": "[[category]]: [[valueAY]]"
   },{
     "id": "g3",
@@ -657,6 +659,7 @@ var chart2 = AmCharts.makeChart("chart2div", {
     "lineColor": "#FF6600",
     "title": "Ｚ軸 加速度感測器",
     "valueField": "valueAZ",
+    "type": "smoothedLine",
     "balloonText": "[[category]]: [[valueAZ]]"
   }],
   "categoryField": "date",
@@ -709,12 +712,14 @@ var chart3 = AmCharts.makeChart("chart3div", {
     "bullet": "triangleUp",
     "title": "X軸 陀螺儀感測器",
     "valueField": "valueGyroX",
+    "type": "smoothedLine",
     "balloonText": "[[category]]: [[valueGX]]"
   },{
     "id": "g2",
     "bullet": "square",
     "title": "Y軸 陀螺儀感測器",
     "valueField": "valueGyroY",
+    "type": "smoothedLine",
     "balloonText": "[[category]]: [[valueGY]]"
   },{
     "id": "g3",
@@ -722,6 +727,7 @@ var chart3 = AmCharts.makeChart("chart3div", {
     "lineColor": "#FF6600",
     "title": "Ｚ軸 陀螺儀感測器",
     "valueField": "valueGyroZ",
+    "type": "smoothedLine",
     "balloonText": "[[category]]: [[valueGZ]]"
   }],
   "categoryField": "date",
@@ -730,20 +736,6 @@ var chart3 = AmCharts.makeChart("chart3div", {
     "equalSpacing": true,
     "dashLength": 10,
     "minorGridEnabled": true,
-  //   "dateFormats": [{
-  //       period: 'DD',
-  //       format: 'DD'
-  //   }, {
-  //       period: 'WW',
-  //       format: 'MMM DD'
-  //   }, {
-  //       period: 'MM',
-  //       format: 'MMM DD SS'
-  //   }, {
-  //       period: 'YYYY',
-  //       format: 'YYYY'
-  //   }]
-  //
   },
   // "startDate" :
   "synchronizeGrid":true,
