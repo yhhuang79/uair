@@ -632,5 +632,20 @@ router.post('/uploadLaborDataSet', function (req, res) {
     });
 });
 
+router.post('/uploadDiaryDataSet', function (req, res) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+  imei = req.body.imei;
+  // console.log(req.body.dataSet);
+  dataSet = req.body.dataSet;
+  r.db('test').table('Plash_intern_diary').insert({
+    "imei": imei,
+    "dataset": dataSet
+  }).run(connection, function(err, result) {
+      if (err) throw err;
+      res.send('hello_ethan');
+
+    });
+});
 
 module.exports = router;
