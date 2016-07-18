@@ -115,7 +115,7 @@
                       </a>
                   </li>
                   <li>
-                     <img src="img/Logo-MOL.jpg" class="img-responsive" alt="Cinque Terre"> 
+                     <img src="img/Logo-MOL.jpg" class="img-responsive" alt="Cinque Terre">
                   </li>
               </ul>
               <!-- sidebar menu end-->
@@ -390,6 +390,7 @@
 	<script src="js/charts.js"></script>
 	<script src="js/jquery.slimscroll.min.js"></script>
 
+
   <!-- leaflet map -->
   <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
   <script src="http://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js"></script>
@@ -408,7 +409,6 @@
           }
         })
       });
-
       //carousel
       $(document).ready(function() {
           $("#owl-slider").owlCarousel({
@@ -419,7 +419,6 @@
 
           });
       });
-
       //custom select box
 
       $(function(){
@@ -447,7 +446,7 @@
     var markerMap = {};
     var map;
     /* Basemap Layers */
-    var mapquestOSM = L.tileLayer("http://{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png", {
+    var mapquestOSM = L.tileLayer("http://a.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,
       subdomains: ["otile1", "otile2", "otile3", "otile4"],
       attribution: 'Tiles courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">. Map data (c) <a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> contributors, CC-BY-SA.'
