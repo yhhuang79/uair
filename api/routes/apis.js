@@ -637,14 +637,75 @@ router.post('/uploadDiaryDataSet', function (req, res) {
   res.header('Access-Control-Allow-Headers', 'X-Requested-With');
   imei = req.body.imei;
   // console.log(req.body.dataSet);
-  dataSet = req.body.dataSet;
+  AccelerometerX = req.body.AccelerometerX;
+  AccelerometerY = req.body.AccelerometerY;
+  AccelerometerZ = req.body.AccelerometerZ;
+  dataSet = req.body.ActivityType;
+  GravityX = req.body.GravityX;
+  GravityY = req.body.GravityY;
+  GravityZ = req.body.GravityZ;
+  GyroscopeX = req.body.GyroscopeX;
+  GyroscopeY = req.body.GyroscopeY;
+  GyroscopeZ = req.body.GyroscopeZ;
+  Humidity = req.body.Humidity;
+  Light = req.body.Light;
+  LinearAccelerationX = req.body.LinearAccelerationX;
+  LinearAccelerationY = req.body.LinearAccelerationY;
+  LinearAccelerationZ = req.body.LinearAccelerationZ;
+  MagneticFieldX = req.body.MagneticFieldX;
+  MagneticFieldY = req.body.MagneticFieldY;
+  MagneticFieldZ = req.body.MagneticFieldZ;
+  OrientationX = req.body.OrientationX;
+  OrientationY = req.body.OrientationY;
+  OrientationZ = req.body.OrientationZ;
+  Pressure = req.body.Pressure;
+  Proximity = req.body.Proximity;
+  RotationVectorAccuracy = req.body.RotationVectorAccuracy;
+  RotationVectorXsin = req.body.RotationVectorXsin;
+  RotationVectorYsin = req.body.RotationVectorYsin;
+  RotationVectorZsin = req.body.RotationVectorZsin;
+  RotationVectorcos = req.body.RotationVectorcos;
+  Temperature = req.body.Temperature;
+  Time = req.body.Time;
+  UserName = req.body.UserName;
+
   r.db('test').table('Plash_intern_diary').insert({
-    "imei": imei,
-    "dataset": dataSet
+    imei : req.body.imei,
+    // console.log(req.body.dataSet);
+    AccelerometerX : req.body.AccelerometerX,
+    AccelerometerY : req.body.AccelerometerY,
+    AccelerometerZ : req.body.AccelerometerZ,
+    dataSet : req.body.ActivityType,
+    GravityX : req.body.GravityX,
+    GravityY : req.body.GravityY,
+    GravityZ : req.body.GravityZ,
+    GyroscopeX : req.body.GyroscopeX,
+    GyroscopeY : req.body.GyroscopeY,
+    GyroscopeZ : req.body.GyroscopeZ,
+    Humidity : req.body.Humidity,
+    Light : req.body.Light,
+    LinearAccelerationX : req.body.LinearAccelerationX,
+    LinearAccelerationY : req.body.LinearAccelerationY,
+    LinearAccelerationZ : req.body.LinearAccelerationZ,
+    MagneticFieldX : req.body.MagneticFieldX,
+    MagneticFieldY : req.body.MagneticFieldY,
+    MagneticFieldZ : req.body.MagneticFieldZ,
+    OrientationX : req.body.OrientationX,
+    OrientationY : req.body.OrientationY,
+    OrientationZ : req.body.OrientationZ,
+    Pressure : req.body.Pressure,
+    Proximity : req.body.Proximity,
+    RotationVectorAccuracy : req.body.RotationVectorAccuracy,
+    RotationVectorXsin : req.body.RotationVectorXsin,
+    RotationVectorYsin : req.body.RotationVectorYsin,
+    RotationVectorZsin : req.body.RotationVectorZsin,
+    RotationVectorcos : req.body.RotationVectorcos,
+    Temperature : req.body.Temperature,
+    Time : req.body.Time,
+    UserName : req.body.UserName
   }).run(connection, function(err, result) {
       if (err) throw err;
       res.send('hello_ethan');
-
     });
 });
 
