@@ -705,7 +705,7 @@ router.post('/uploadDiaryDataSet', function (req, res) {
     UserName : req.body.UserName
   }).run(connection, function(err, result) {
       if (err) throw err;
-      res.send('hello_ethan');
+      res.send('hello_allen');
     });
 });
 
