@@ -88,11 +88,7 @@
 			  <div class="row">
 				<div class="col-lg-12">
 					<h3 class="page-header" id="sitelocation"><i class="fa fa-laptop"></i>觀測站</h3>
-					<ol class="breadcrumb">
-						<li><i class="fa fa-home"></i><a href="index.html">Home</a></li>
-						<li><i class="fa fa-laptop"></i></li>
-            <li><h1>2b</h1></li>
-					</ol>
+            <h4><i class="fa fa-map-marker red"></i><strong>  WBGT溫度分析</strong></h4>
 				</div>
 			</div>
 
@@ -100,14 +96,14 @@
 				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
 					<div class="info-box lass-blue-bg">
 						<div class="circle" id="box-1K">--.-</div>
-						<div class="title"><h4>自身周圍1公里溫度</h4></div>
+						<div class="title"><h4 id="domIdNearBy1K">自身周圍1公里溫度</h4></div>
 					</div><!--/.info-box-->
 				</div><!--/.col-->
 
 				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
 					<div class="info-box lass-blue-bg">
 						<div class="circle" id="box-10M">--.-</div>
-						<div class="title"><h4>自身周圍10公尺溫度</h4></div>
+						<div class="title"><h4 id="domIdNearBy10M">自身周圍10公尺溫度</h4></div>
 					</div><!--/.info-box-->
 				</div><!--/.col-->
 
@@ -133,7 +129,7 @@
 
     					<div class="panel panel-default">
     						<div class="panel-heading">
-    							<h2><i class="fa fa-map-marker red"></i><strong>WBGT熱點地圖模組</strong></h2>
+    							<h4><i class="fa fa-map-marker red"></i><strong>WBGT熱點地圖模組</strong></h4>
     							<div class="panel-actions">
     								<!-- <a href="index.html#" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
     								<a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
@@ -403,7 +399,7 @@
 
     // Setup map width
     $('#map').width($('.panel-body-map').width());
-
+  var a
     $.getJSON(baseURL + "/api/geojsonTI", function(data) {
       var listTable;
       var siteMenu = "";
@@ -420,30 +416,18 @@
             + "</td></tr>" + "<tr><th>資料更新時間</th><td>" + feature.properties.PublishTime
             + "</td></tr>" + "<tr><th>地址</th><td>" + feature.properties.SiteAddres
             + "</td></tr>" + "<table>";
-          listTable += "<tr><td>"
-            + "<img src=\"img/Taiwan.png\" style=\"height:18px; margin-top:-2px;\"></td>"
-            + "<td>" + feature.properties.SiteName + "</td>"
-            + "<td>" + feature.properties.PM10 + "</td>"
-            + "<td>" + feature.properties['PM2.5'] + "</td>"
-            + "<td><div class=\"progress thin\">"
-            +  "<div class=\"progress-bar progress-bar-danger\""
-            +  " role=\"progressbar\" aria-valuenow=\""+ feature.properties.PSI
-            + "\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: "
-            + feature.properties.PSI + "% \"></div>"
-            + "<div class=\"progress-bar progress-bar-info\""
-            + " role=\"progressbar\" aria-valuenow=\""
-            + (100 - feature.properties.PSI) + "\" aria-valuemin=\"0\""
-            + " aria-valuemax=\"100\" style=\"width: "
-            + (100-feature.properties.PSI) + "%\"></div></div>"
-            + "<span class=\"sr-only\">" + feature.properties.PSI + "</span>"
-            + "</td></tr>";
-          siteMenu += "<li><a class=\"\" href=\"chart-chartjs.html?site="
-            + feature.properties.SiteName + "\">"
-            + feature.properties.SiteName + "</a></li>";
           layer.bindPopup(content);
 
           // Click event
+
           layer.on('click', function (e) {
+            console.log("layer:click"+e.target.feature.properties);
+            $("#box-1K").html((e.target.feature.properties.wbgto_max).toFixed(1));
+            $("#box-10M").html((e.target.feature.properties.wbgto_max).toFixed(1));
+            $("#domIdNearBy10M").html("測站周圍10公尺溫度");
+            $("#domIdNearBy1K").html("測站周圍1公里溫度");
+
+            a = e;
           });
         }
       });
@@ -491,53 +475,61 @@
                 }
             }
           });
-          averageTmp = (averageTmp/count);
+          averageTmp = (averageTmp/count).toFixed();
 
           $('#sitelocation').html("<i class=\"fa fa-laptop\"></i> 觀測站："+nearbySiteName);
           $("#box-1K").html(nearby1K);
 
-          if((parseFloat(nearby1K)<26.6)){
+          if((parseFloat(nearby1K)<=26.6)){
             $("#box-1K").css("background-color","#ffffff");
-          } else if ((parseFloat(nearby1K)>26.7) && (parseFloat(nearby1K)<29.3)) {
+          } else if ((parseFloat(nearby1K)>=26.7) && (parseFloat(nearby1K)<=29.3)) {
             $("#box-1K").css("background-color","#52ff63");
-          } else if ((parseFloat(nearby1K)>29.4) && (parseFloat(nearby1K)<31.0)) {
-            $("#box-1K").css("background-color","rgb(255, 255, 0)");
-          } else if ((parseFloat(nearby1K)>31.1) && (parseFloat(nearby1K)<32.1)) {
-            $("#box-1K").css("background-color","rgb(255, 0, 0)");
-          } else if (parseFloat(nearby1K)>32.2) {
+          } else if ((parseFloat(nearby1K)>=29.4) && (parseFloat(nearby1K)<=31.0)) {
+            $("#box-1K").css("background-color","#ffd600");
+          } else if ((parseFloat(nearby1K)>=31.1) && (parseFloat(nearby1K)<=32.1)) {
+            $("#box-1K").css("background-color","#ff5252");
+          } else if (parseFloat(nearby1K)>=32.2) {
             $("#box-1K").css("background-color","#000000");
           }
+
           $("#box-10M").html(nearby10M);
-          if((parseFloat(nearby10M)>51) && (parseFloat(nearby10M)<150)){
-            $("#box-PM10").css("background-color","#ffd600");
-          } else if ((parseFloat(nearby10M)>151) && (parseFloat(nearby10M)<350)) {
-            $("#box-PM10").css("background-color","#ff5252");
-          } else if ((parseFloat(nearby10M)>351) && (parseFloat(nearby10M)<420)) {
-            $("#box-PM10").css("background-color","#795548");
-          } else if (parseFloat(nearby10M)>421) {
-            $("#box-PM10").css("background-color","#673ab7");
-          }
-          $("#box-AVR").html(averageTmp.toFixed(1));
-          if((parseFloat(averageTmp)>36) && (parseFloat(averageTmp)<53)){
-            $("#box-PM25").css("background-color","#ffd600");
-          } else if ((parseFloat(averageTmp)>54) && (parseFloat(averageTmp)<64)) {
-            $("#box-PM25").css("background-color","#ff5252");
-          } else if ((parseFloat(averageTmp)>65) && (parseFloat(averageTmp)<70)) {
-            $("#box-PM25").css("background-color","#795548");
-          } else if (parseFloat(averageTmp)>71) {
-            $("#box-PM25").css("background-color","#673ab7");
-          }
-          $("#box-HIGHEST").html(highestTmp);
-          if((parseFloat(highestTmp)>26.7) && (parseFloat(highestTmp)<29.3)){
-            $("#box-WBGT").css("background-color","#ffd600");
-          } else if ((parseFloat(highestTmp)>29.4) && (parseFloat(highestTmp)<31.0)) {
-            $("#box-WBGT").css("background-color","#ff5252");
-          } else if ((parseFloat(highestTmp)>31.1) && (parseFloat(highestTmp)<32.1)) {
-            $("#box-WBGT").css("background-color","#795548");
-          } else if (parseFloat(highestTmp)>32.2) {
-            $("#box-WBGT").css("background-color","#673ab7");
+          if((parseFloat(nearby10M)<=26.6)){
+            $("#box-10M").css("background-color","#ffffff");
+          } else if ((parseFloat(nearby10M)>=26.7) && (parseFloat(nearby10M)<=29.3)) {
+            $("#box-10M").css("background-color","#52ff63");
+          } else if ((parseFloat(nearby10M)>=29.4) && (parseFloat(nearby10M)<=31.0)) {
+            $("#box-10M").css("background-color","#ffd600");
+          } else if ((parseFloat(nearby10M)>=31.1) && (parseFloat(nearby10M)<=32.1)) {
+            $("#box-10M").css("background-color","#ff5252");
+          } else if (parseFloat(nearby10M)>=32.2) {
+            $("#box-10M").css("background-color","#000000");
           }
 
+          $("#box-AVR").html(averageTmp);
+          if((parseFloat(averageTmp)<=26.6)){
+            $("#box-AVR").css("background-color","#ffffff");
+          } else if ((parseFloat(averageTmp)>=26.7) && (parseFloat(averageTmp)<=29.3)) {
+            $("#box-AVR").css("background-color","#52ff63");
+          } else if ((parseFloat(averageTmp)>=29.4) && (parseFloat(averageTmp)<=31.0)) {
+            $("#box-AVR").css("background-color","#ffd600");
+          } else if ((parseFloat(averageTmp)>=31.1) && (parseFloat(averageTmp)<=32.1)) {
+            $("#box-AVR").css("background-color","#ff5252");
+          } else if (parseFloat(averageTmp)>=32.2) {
+            $("#box-AVR").css("background-color","#000000");
+          }
+
+          $("#box-HIGHEST").html(highestTmp);
+          if((parseFloat(highestTmp)<=26.6)){
+            $("#box-HIGHEST").css("background-color","#ffffff");
+          } else if ((parseFloat(highestTmp)>=26.7) && (parseFloat(highestTmp)<=29.3)) {
+            $("#box-HIGHEST").css("background-color","#52ff63");
+          } else if ((parseFloat(highestTmp)>=29.4) && (parseFloat(highestTmp)<=31.0)) {
+            $("#box-HIGHEST").css("background-color","#ffd600");
+          } else if ((parseFloat(highestTmp)>=31.1) && (parseFloat(highestTmp)<=32.1)) {
+            $("#box-HIGHEST").css("background-color","#ff5252");
+          } else if (parseFloat(highestTmp)>=32.2) {
+            $("#box-HIGHEST").css("background-color","#000000");
+          }
         });
       });
 
@@ -553,7 +545,6 @@
       $(window).on('orientationchange pageshow resize', function () {
         $("#map").width($("#map-container").width());
         map.invalidateSize();
-
       }).trigger('resize');
 
     });
@@ -668,22 +659,7 @@ var chart2 = AmCharts.makeChart("chart2div", {
     "equalSpacing": true,
     "dashLength": 10,
     "minorGridEnabled": true,
-  //   "dateFormats": [{
-  //       period: 'DD',
-  //       format: 'DD'
-  //   }, {
-  //       period: 'WW',
-  //       format: 'MMM DD'
-  //   }, {
-  //       period: 'MM',
-  //       format: 'MMM DD SS'
-  //   }, {
-  //       period: 'YYYY',
-  //       format: 'YYYY'
-  //   }]
-  //
   },
-  // "startDate" :
   "synchronizeGrid":true,
   "dataProvider": chartData
 });
