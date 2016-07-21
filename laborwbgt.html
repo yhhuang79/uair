@@ -559,8 +559,8 @@
           map.panTo(new L.LatLng(e.latlng.lat,e.latlng.lng));
           $("#box-1K").html(nearby1K);
           $("#box-10M").html(nearby10M);
-          $("#domIdNearBy10M").html("自身周圍10公尺溫度");
-          $("#domIdNearBy1K").html("自身周圍1公里溫度");
+          $("#domIdNearBy10M").html("自身周圍10公尺WBGT模組");
+          $("#domIdNearBy1K").html("自身周圍1公里WBGT模組");
         }).addTo(map);
 
 			  L.marker(e.latlng, {icon: myLocationIcon}).addTo(map)
