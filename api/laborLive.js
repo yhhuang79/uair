@@ -23,7 +23,7 @@ function  rethinkDbListener(r,connection) {
           console.log("item+"+item);
           if(currentDataTime  > lastDataTime){
             lastDataTime  = currentDataTime;
-            console.log("send!");
+            console.log("send to server!");
             socket.emit('toClient', { hello: item });
 
           }
