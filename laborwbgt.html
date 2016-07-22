@@ -96,28 +96,53 @@
 				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
 					<div class="info-box lass-blue-bg">
 						<div class="circle" id="box-1K">--.-</div>
-						<div class="title"><h4 id="domIdNearBy1K">自身周圍1公里WBGT模組</h4></div>
+            <div>
+              <div class="title" style="font-size:150%;font-weight:300" id="domIdNearBy1K">
+                自身周圍1公里
+                <br>
+                WBGT模組
+              </div>
+            </div>
 					</div><!--/.info-box-->
 				</div><!--/.col-->
 
 				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
 					<div class="info-box lass-blue-bg">
 						<div class="circle" id="box-10M">--.-</div>
-						<div class="title"><h4 id="domIdNearBy10M">自身周圍10公尺WBGT模組</h4></div>
+            <div>
+              <div class="title" style="font-size:150%;font-weight:300" id="domIdNearBy10M">
+                自身周圍10公尺
+                <br>
+                WBGT模組
+              </div>
+            </div>
+
 					</div><!--/.info-box-->
 				</div><!--/.col-->
 
 				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
 					<div class="info-box lass-blue-bg">
 						<div class="circle" id="box-AVR">--.-</div>
-						<div class="title"><h4>全國即時平均WBGT模組</h4></div>
+            <div>
+              <div class="title" style="font-size:150%;font-weight:300">
+                全國即時平均
+                <br>
+                WBGT模組
+              </div>
+            </div>
 					</div><!--/.info-box-->
 				</div><!--/.col-->
 
 				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
 					<div class="info-box lass-blue-bg">
 						<div class="circle" id="box-HIGHEST">--.-</div>
-						<div class="title"><h4>全國即時最高WBGT模組</h4></div>
+            <div>
+              <div class="title" style="font-size:150%;font-weight:300">
+                全國即時最高
+                <br>
+                WBGT模組
+              </div>
+            </div>
 					</div><!--/.info-box-->
 				</div><!--/.col-->
 
@@ -125,7 +150,7 @@
 
 
            <div class="row">
-    		    <div class="col-lg-9 col-md-12">
+    		    <div class="col-lg-12 col-md-12">
 
     					<div class="panel panel-default">
     						<div class="panel-heading">
@@ -142,7 +167,7 @@
 
     					</div>
     				</div>
-              <div class="col-lg-3 col-md-12">
+              <!-- <div class="col-lg-3 col-md-12">
 
                 					<div class="panel panel-default">
                 						<div class="panel-heading">
@@ -153,13 +178,13 @@
                 								<a href="index.html#" class="btn-close"><i class="fa fa-times"></i></a> -->
                 							</div>
                 						</div>
-                						<div class="panel-body" style="height:380px;">
+                						<!-- <div class="panel-body" style="height:380px;">
                               <h1  class="text-center" style="color:#ffd600">溫度顏色定義</h1>
 
                                 <p class="text-center">白色 <= 26.6</p>
                                 <br>
-                                <p class="text-center">綠色 26.7 - 29.3</p>
-<br>
+                                <p class="text-center">綠色 26.7 - 29.3</p> -->
+<!-- <br>
                                 <p class="text-center">黃色 29.4 - 31.0</p>
 <br>
                                 <p class="text-center">紅色 31.1 - 32.1</p>
@@ -167,9 +192,9 @@
                                 <p class="text-center">黑色 >= 32.2</p>
                              </div>
                               </div>
-                						</div>
+                						</div> -->
 
-                					</div>
+                					<!-- </div> -->
 
 		  <!-- Today status end -->
 
@@ -559,8 +584,8 @@
           map.panTo(new L.LatLng(e.latlng.lat,e.latlng.lng));
           $("#box-1K").html(nearby1K);
           $("#box-10M").html(nearby10M);
-          $("#domIdNearBy10M").html("自身周圍10公尺WBGT模組");
-          $("#domIdNearBy1K").html("自身周圍1公里WBGT模組");
+          $("#domIdNearBy10M").html("自身周圍10公尺<br>WBGT模組");
+          $("#domIdNearBy1K").html("自身周圍1公里<br>WBGT模組");
         }).addTo(map);
 
 			  L.marker(e.latlng, {icon: myLocationIcon}).addTo(map)
