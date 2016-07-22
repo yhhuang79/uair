@@ -621,65 +621,56 @@
           averageTmp = (averageTmp/count).toFixed();
 
           $('#sitelocation').html("<i class=\"fa fa-laptop\"></i> 觀測站："+nearbySiteName);
+
+          // if((parseFloat(nearby1K)<=26.6)){
+          //   // $("#box-1K").css("background-color","#ffffff");
+          //   // $("#box-1K").css("color","#000000");
+          //
+          // } else
           $("#box-1K").html(nearby1K);
 
-          if((parseFloat(nearby1K)<=26.6)){
-            $("#box-1K").css("background-color","#ffffff");
-            $("#box-1K").css("color","#000000");
-
-          } else if ((parseFloat(nearby1K)>=26.7) && (parseFloat(nearby1K)<=29.3)) {
+          if (parseFloat(nearby1K)<=25) {
             $("#box-1K").css("background-color","#52ff63");
-          } else if ((parseFloat(nearby1K)>=29.4) && (parseFloat(nearby1K)<=31.0)) {
+          } else if ((parseFloat(nearby1K)>=25.1) && (parseFloat(nearby1K)<27)) {
             $("#box-1K").css("background-color","#ffd600");
-          } else if ((parseFloat(nearby1K)>=31.1) && (parseFloat(nearby1K)<=32.1)) {
+          } else if ((parseFloat(nearby1K)>=27) && (parseFloat(nearby1K)<30)) {
+            $("#box-1K").css("background-color","#ff8200");
+          } else if (parseFloat(nearby1K)>=30) {
             $("#box-1K").css("background-color","#ff5252");
-          } else if (parseFloat(nearby1K)>=32.2) {
-            $("#box-1K").css("background-color","#000000");
           }
-
           $("#box-10M").html(nearby10M);
-          if((parseFloat(nearby10M)<=26.6)){
-            $("#box-10M").css("background-color","#ffffff");
-            $("#box-10M").css("color","#000000");
 
-          } else if ((parseFloat(nearby10M)>=26.7) && (parseFloat(nearby10M)<=29.3)) {
+          if (parseFloat(nearby10M)<=25) {
             $("#box-10M").css("background-color","#52ff63");
-          } else if ((parseFloat(nearby10M)>=29.4) && (parseFloat(nearby10M)<=31.0)) {
+          } else if ((parseFloat(nearby10M)>=25.1) && (parseFloat(nearby10M)<27)) {
             $("#box-10M").css("background-color","#ffd600");
-          } else if ((parseFloat(nearby10M)>=31.1) && (parseFloat(nearby10M)<=32.1)) {
+          } else if ((parseFloat(nearby10M)>=27) && (parseFloat(nearby10M)<30)) {
+            $("#box-10M").css("background-color","#ff8200");
+          } else if (parseFloat(nearby10M)>=30) {
             $("#box-10M").css("background-color","#ff5252");
-          } else if (parseFloat(nearby10M)>=32.2) {
-            $("#box-10M").css("background-color","#000000");
           }
-
           $("#box-AVR").html(averageTmp);
-          if((parseFloat(averageTmp)<=26.6)){
-            $("#box-AVR").css("background-color","#ffffff");
-            $("#box-AVR").css("color","#000000");
 
-          } else if ((parseFloat(averageTmp)>=26.7) && (parseFloat(averageTmp)<=29.3)) {
+          if (parseFloat(averageTmp)<=25) {
             $("#box-AVR").css("background-color","#52ff63");
-          } else if ((parseFloat(averageTmp)>=29.4) && (parseFloat(averageTmp)<=31.0)) {
+          } else if ((parseFloat(averageTmp)>=25.1) && (parseFloat(averageTmp)<27)) {
             $("#box-AVR").css("background-color","#ffd600");
-          } else if ((parseFloat(averageTmp)>=31.1) && (parseFloat(averageTmp)<=32.1)) {
+          } else if ((parseFloat(averageTmp)>=27) && (parseFloat(averageTmp)<30)) {
+            $("#box-AVR").css("background-color","#ff8200");
+          } else if (parseFloat(averageTmp)>=30) {
             $("#box-AVR").css("background-color","#ff5252");
-          } else if (parseFloat(averageTmp)>=32.2) {
-            $("#box-AVR").css("background-color","#000000");
           }
 
           $("#box-HIGHEST").html(highestTmp);
-          if((parseFloat(highestTmp)<=26.6)){
-            $("#box-HIGHEST").css("background-color","#ffffff");
-            $("#box-HIGHEST").css("color","#000000");
 
-          } else if ((parseFloat(highestTmp)>=26.7) && (parseFloat(highestTmp)<=29.3)) {
+          if (parseFloat(highestTmp)<=25) {
             $("#box-HIGHEST").css("background-color","#52ff63");
-          } else if ((parseFloat(highestTmp)>=29.4) && (parseFloat(highestTmp)<=31.0)) {
+          } else if ((parseFloat(highestTmp)>=25.1) && (parseFloat(highestTmp)<27)) {
             $("#box-HIGHEST").css("background-color","#ffd600");
-          } else if ((parseFloat(highestTmp)>=31.1) && (parseFloat(highestTmp)<=32.1)) {
+          } else if ((parseFloat(highestTmp)>=27) && (parseFloat(highestTmp)<30)) {
+            $("#box-HIGHEST").css("background-color","#ff8200");
+          } else if (parseFloat(highestTmp)>=30) {
             $("#box-HIGHEST").css("background-color","#ff5252");
-          } else if (parseFloat(highestTmp)>=32.2) {
-            $("#box-HIGHEST").css("background-color","#000000");
           }
         });
       });
