@@ -27,13 +27,13 @@ var server = http.createServer(app);
 
 server.listen(port);
 server.on('error', onError);
-// server.on('listening', onListening);
-// io = socketio.listen(server, {log:false, origins:'*:*'});
+server.on('listening', onListening);
 
 /**
  * Socket.io
  */
  var io     = app.io
+ io.origins("*");
  io.attach( server );
 
 /**
