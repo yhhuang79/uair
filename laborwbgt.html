@@ -264,14 +264,16 @@
                               <div class="tab-content" >
                                 <div role="tabpanel" class="tab-pane active" id="active_light" >
                                   <h1  class="text-center">輕度工作</h1>
-                                  <h1  class="text-center"><small class="text-center">分析結果</small></h1>
+                                  <h1  class="text-center"><small class="text-center">您目前的工作經過即時分析屬於：</small></h1>
+                                  <blockquote >
                                     <p>坐姿進行手臂部動作以操縱機器、立姿進行手臂部動作以操縱機器者</p>
+                                  </blockquote>
                                     <!-- <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer> -->
                                 </div>
 
                                 <div role="tabpanel" class="tab-pane" id="active_moderate">
                                   <h1  class="text-center">中度工作</h1>
-                                  <h1  class="text-center"><small class="text-center">分析結果</small></h1>
+                                  <h1  class="text-center"><small class="text-center">您目前的工作經過即時分析，屬於：</small></h1>
                                   <blockquote>
                                     <p>走動中提舉一般重量物體、推動一般重量物體</p>
                                     <!-- <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer> -->
@@ -279,7 +281,7 @@
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="active_heavy">
                                   <h1  class="text-center">重度工作</h1>
-                                  <h1  class="text-center"><small class="text-center">分析結果</small></h1>
+                                  <h1  class="text-center"><small class="text-center">您目前的工作經過即時分析，屬於：</small></h1>
                                   <blockquote>
                                     <p>鏟之全身運動、掘之全身運動、推之全身運動</p>
                                     <!-- <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer> -->
@@ -341,7 +343,7 @@
                               <div class="col-lg-8 col-md-12">
                                 <h1  class="text-center" style="color:#ffd600">黃色等級</h1>
                                 <h1  class="text-center"><small class="text-center">分析結果</small></h1>
-                                <blockquote>
+                                
                                   <p class="text-center">您目前遭受的熱危害等級，屬於：黃色等級</p>
                                   <div>
                                     <ol>
@@ -354,7 +356,7 @@
                                     <p class="text-center">※患有高血壓、心臟病、肝疾病、消化性潰瘍、內分泌失調、無汗症及腎疾病等症狀者，均不適宜從事熱環境作業。
                                     </p>
                                   <!-- <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer> -->
-                                </blockquote>
+
                               </div>
                               <div class="col-lg-2 col-md-12"></div>
                             </div>
@@ -564,6 +566,26 @@
             $("#box-10M").html((e.target.feature.properties.wbgto_max).toFixed(1));
             $("#domIdNearBy10M").html("測站周圍10公尺溫度");
             $("#domIdNearBy1K").html("測站周圍1公里溫度");
+            $('#sitelocation').html("<i class=\"fa fa-laptop\"></i> 觀測站："+e.target.feature.properties.SiteName);
+
+            if (parseFloat((e.target.feature.properties.wbgto_max).toFixed(1))<=25) {
+              $("#box-1K").css("background-color","#52ff63");
+            } else if ((parseFloat((e.target.feature.properties.wbgto_max).toFixed(1))>=25.1) && (parseFloat((e.target.feature.properties.wbgto_max).toFixed(1))<27)) {
+              $("#box-1K").css("background-color","#ffd600");
+            } else if ((parseFloat((e.target.feature.properties.wbgto_max).toFixed(1))>=27) && (parseFloat((e.target.feature.properties.wbgto_max).toFixed(1))<30)) {
+              $("#box-1K").css("background-color","#ff8200");
+            } else if (parseFloat((e.target.feature.properties.wbgto_max).toFixed(1))>=30) {
+              $("#box-1K").css("background-color","#ff5252");
+            }
+            if (parseFloat((e.target.feature.properties.wbgto_max).toFixed(1))<=25) {
+              $("#box-10M").css("background-color","#52ff63");
+            } else if ((parseFloat((e.target.feature.properties.wbgto_max).toFixed(1))>=25.1) && (parseFloat((e.target.feature.properties.wbgto_max).toFixed(1))<27)) {
+              $("#box-10M").css("background-color","#ffd600");
+            } else if ((parseFloat((e.target.feature.properties.wbgto_max).toFixed(1))>=27) && (parseFloat((e.target.feature.properties.wbgto_max).toFixed(1))<30)) {
+              $("#box-10M").css("background-color","#ff8200");
+            } else if (parseFloat((e.target.feature.properties.wbgto_max).toFixed(1))>=30) {
+              $("#box-10M").css("background-color","#ff5252");
+            }
 
             a = e;
           });
@@ -583,6 +605,26 @@
           $("#box-10M").html(nearby10M);
           $("#domIdNearBy10M").html("自身周圍10公尺<br>WBGT模組");
           $("#domIdNearBy1K").html("自身周圍1公里<br>WBGT模組");
+
+          if (parseFloat(nearby1K)<=25) {
+            $("#box-1K").css("background-color","#52ff63");
+          } else if ((parseFloat(nearby1K)>=25.1) && (parseFloat(nearby1K)<27)) {
+            $("#box-1K").css("background-color","#ffd600");
+          } else if ((parseFloat(nearby1K)>=27) && (parseFloat(nearby1K)<30)) {
+            $("#box-1K").css("background-color","#ff8200");
+          } else if (parseFloat(nearby1K)>=30) {
+            $("#box-1K").css("background-color","#ff5252");
+          }
+          if (parseFloat(nearby10M)<=25) {
+            $("#box-10M").css("background-color","#52ff63");
+          } else if ((parseFloat(nearby10M)>=25.1) && (parseFloat(nearby10M)<27)) {
+            $("#box-10M").css("background-color","#ffd600");
+          } else if ((parseFloat(nearby10M)>=27) && (parseFloat(nearby10M)<30)) {
+            $("#box-10M").css("background-color","#ff8200");
+          } else if (parseFloat(nearby10M)>=30) {
+            $("#box-10M").css("background-color","#ff5252");
+          }
+
         }).addTo(map);
 
 			  L.marker(e.latlng, {icon: myLocationIcon}).addTo(map)
@@ -672,6 +714,15 @@
           } else if (parseFloat(highestTmp)>=30) {
             $("#box-HIGHEST").css("background-color","#ff5252");
           }
+
+          function colorWBGTchanger(dom,tmp){
+            if(tmp>5){
+              console.log("hello >5");
+            }else{
+              console.log("hello <5")
+            }
+          }
+          colorWBGTchanger(1,6);
         });
       });
 
@@ -879,7 +930,6 @@ var i=0
 //
 // });
 socket.on('news', function (data) {
-  console.log("news data in");
   a = data;
   // var newData = data.hello.hello.new_val.dataset.map(p=>({
   //   value:p.GravityX,
