@@ -32,6 +32,9 @@ io.sockets.on('connection', function (socket) {
     // socket.on('echo', function (data) {
     // io.sockets.emit('message', data);
     // });
+    socket.on('connect_failed', function(){
+    console.log('Connection Failed');
+    });
 });
 
 var routes = require('./routes/index');
