@@ -478,7 +478,7 @@
   <script src="http://www.amcharts.com/lib/3/amcharts.js"></script>
   <script src="http://www.amcharts.com/lib/3/serial.js"></script>
   <script src="http://www.amcharts.com/lib/3/themes/light.js"></script>
-  <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+  <script src="http://taiwanair.plash.tw/socket.io/socket.io.js"></script>
 
   <script>
       //knob
@@ -869,10 +869,17 @@ var chart3 = AmCharts.makeChart("chart3div", {
 
 
 
-var socket = io.connect(baseURL+":3000");
+var socket = io.connect("http://taiwanair.plash.tw/",{
+    'force new connection': true
+});
 var a;
 var i=0
+// socket.on('error', function(err) {
+//     console.log("err:+"+err);
+//
+// });
 socket.on('news', function (data) {
+  console.log("news data in");
   a = data;
   // var newData = data.hello.hello.new_val.dataset.map(p=>({
   //   value:p.GravityX,
