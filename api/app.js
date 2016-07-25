@@ -17,6 +17,10 @@ var io = require('socket.io')();
 io.sockets.on('connection', function (socket) {
     console.log('client connect');
     // laborLive.WSConstruct(socket);
+
+    socket.broadcast.emit('news', {
+      hello: "test"
+    });
     socket.on('toClient', function (data) {
       // we tell the client to execute 'new message'
       console.log("server to client!");
