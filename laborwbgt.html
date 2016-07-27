@@ -940,6 +940,9 @@ socket.on('news', function (data) {
   //   date:p.Time
   // }));
   // var timestamp = 1293683278;
+  data.hello.hello.new_val.dataset=data.hello.hello.new_val.dataset[0];
+
+  
   var mydate = new Date(data.hello.hello.new_val.dataset.Time*1);
 
   var newDataGravity = [{
