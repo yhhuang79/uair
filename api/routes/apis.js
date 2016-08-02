@@ -591,37 +591,35 @@ router.post('/uploadLaborDataSet', function (req, res) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'X-Requested-With');
   imei = req.body.imei;
-  // console.log(req.body.dataSet);
-  dataSet = req.body.dataSet;
-  r.db('test').table('laborSensorData').insert({
-    "imei": imei,
-    "dataset": dataSet
-  }).run(connection, function(err, result) {
-      if (err) throw err;
-      res.send('hello_pica');
+  dataSet = req.body.dataset;
 
-      // Send back to front end page
-      //  Compare
-
+  dataSet.forEach(function(value) {
+    value.imei = imei;
+    r.db('test').table('laborSensorData').insert(
+      value
+    ).run(connection,  function(err, result) {
+      if(err) throw err;
     });
+  })
+
+  res.send("hello_pica")
+
 });
 router.post('/uploadDiaryDataSet', function (req, res) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'X-Requested-With');
   imei = req.body.imei;
-  // console.log(req.body.dataSet);
-  dataSet = req.body.dataSet;
-  r.db('test').table('Plash_intern_diary').insert({
-    "imei": imei,
-    "dataset": dataSet
-  }).run(connection, function(err, result) {
-      if (err) throw err;
-      res.send('hello_pica');
+  dataSet = req.body.dataset;
 
-      // Send back to front end page
-      //  Compare
-
+  dataSet.forEach(function(value) {
+    value.imei = imei;
+    r.db('test').table('Plash_intern_diary').insert(
+      value
+    ).run(connection,  function(err, result) {
+      if(err) throw err;
     });
+  })
+  res.send("hello_pica")
 });
 
 module.exports = router;
