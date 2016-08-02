@@ -590,6 +590,7 @@ router.get('/geojsonTI', function(req, res)  {
 router.post('/uploadLaborDataSet', function (req, res) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+  console.log(JSON.stringify(req.body));
   imei = req.body.imei;
   dataSet = req.body.dataset;
 
