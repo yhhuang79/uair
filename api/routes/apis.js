@@ -7,6 +7,7 @@ var router = express.Router();
 //app.use(fileUpload());
 
 var array = require('array');
+var fs = require('fs');
 
 // Static data
 // Currently, we have some physical information about wbgt and airstation, like location and name.
@@ -622,5 +623,12 @@ router.post('/uploadDiaryDataSet', function (req, res) {
   })
   res.send("hello_pica")
 });
-
+router.get('/getInternData',  function  (req, res)  {
+  fs.readFile('/home/athung/python/prediction.txt', 'utf8', function (err,data) {
+    if (err) {
+      return console.log(err);
+    }
+    res.send(data);
+  });
+});
 module.exports = router;
