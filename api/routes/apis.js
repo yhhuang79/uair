@@ -631,4 +631,17 @@ router.get('/getInternData',  function  (req, res)  {
     res.send(data);
   });
 });
+
+router.get('/getAirInferenceData',function  (req, res)  {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  r.db('real_time_TP_grid_data').table('grid_data_detail').run(connection, function(err,cursor){
+    if (err)  throw err;
+    else{
+      cursor.toArray(function(err,  result){
+        res.send(result)
+      })
+    }
+  })
+})
 module.exports = router;
