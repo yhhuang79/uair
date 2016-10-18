@@ -5,10 +5,10 @@ var router = express.Router();
 //var app = express();
 // default options
 //app.use(fileUpload());
-
 var array = require('array');
 var fs = require('fs');
-
+// csv module
+var json2csv = require('json2csv');
 // Static data
 // Currently, we have some physical information about wbgt and airstation, like location and name.
 var airstation = array();
@@ -644,4 +644,40 @@ router.get('/getAirInferenceData',function  (req, res)  {
     }
   })
 })
+
+router.get('/getAirResearchPrediction',function  (req, res)  {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+
+  // reference address
+  dbName  = 'test'
+  tableName = 'air_research_test_input'
+
+  // extract request header
+  SiteEngName = req.headers.siteengname
+  epoch_time  = req.headers.epoch_time
+
+  r.db(dbName).table(tableName).filter({
+    "SiteEngName":  SiteEngName ,
+    "epoch_time":  epoch_time
+  }).run(connection,  function(err, cursor) {
+    if (err)  throw err;
+    else{
+      cursor.toArray(function(err,  result){
+        json2csv({data: result, fields: ["AvgSpd","CO","FPMI","NO2","PM10","PM25","PSI","RH","SO2","SiteEngName","TotalVol","col","dew_point",
+        "globlrad","grid_index","hw_len","id","num_intersection","precp","precp_hour","rd_len","row","sea_press","sn_press","sun_shine_hour",
+        "temperature","time","visb","wd","wd_gust","ws","ws_gust","epoch_time"]}, function(err, csv) {
+          if (err) console.log(err);
+          fs.writeFile('file.csv', csv, function(err) {
+            if (err) throw err;
+            res.send('file saved');
+          });
+        });
+      })
+    }
+  });
+
+
+})
+
 module.exports = router;
