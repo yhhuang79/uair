@@ -1,5 +1,4 @@
 var express = require('express');
-
 //var fileUpload = require('express-fileupload');
 var router = express.Router();
 //var app = express();
@@ -557,7 +556,7 @@ router.get('/weeklyStat/:siteName', function(req, res) {
 router.get('/geojsonTI', function(req, res)  {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  r.db('Heat_Wave').table('WBGT').filter({epochtime: r.db('Heat_Wave').table('WBGT').max('epochtime')('epochtime')})
+  r.db('Heat_Wave').table('WBGT').filter({epochtime: r.db('Heat_Wave').tablse('WBGT').max('epochtime')('epochtime')})
     .run(connection,  function(err, cursor) {
       if (err) {
         throw err;
@@ -635,7 +634,7 @@ router.get('/getInternData',  function  (req, res)  {
 router.get('/getAirInferenceData',function  (req, res)  {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  r.db('real_time_TP_grid_data').table('grid_data_detail').run(connection, function(err,cursor){
+  r.db('test').table('TestDataforAirPullMap').run(connection, function(err,cursor){
     if (err)  throw err;
     else{
       cursor.toArray(function(err,  result){
@@ -679,5 +678,6 @@ router.get('/getAirResearchPrediction',function  (req, res)  {
 
 
 })
+
 
 module.exports = router;
