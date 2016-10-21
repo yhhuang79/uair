@@ -556,7 +556,7 @@ router.get('/weeklyStat/:siteName', function(req, res) {
 router.get('/geojsonTI', function(req, res)  {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  r.db('Heat_Wave').table('WBGT').filter({epochtime: r.db('Heat_Wave').tablse('WBGT').max('epochtime')('epochtime')})
+  r.db('Heat_Wave').table('WBGT').filter({epochtime: r.db('Heat_Wave').table('WBGT').max('epochtime')('epochtime')})
     .run(connection,  function(err, cursor) {
       if (err) {
         throw err;

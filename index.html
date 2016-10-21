@@ -557,6 +557,7 @@
         }
       });
       map.on('locationfound', function (e) {
+        debugger;
         var radius = e.accuracy / 2;
         var myLocationIcon = new L.icon({iconUrl: 'img/currentLoc.png',iconAnchor:[14, 38]});
 
