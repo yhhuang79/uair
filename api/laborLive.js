@@ -26,14 +26,14 @@ function  rethinkDbListener(r,connection) {
           // console.log("item+"+item);
           if(currentDataTime  > lastDataTime){
             lastDataTime  = currentDataTime;
-            console.log("send to server!");
+            // console.log("send to server!");
             socket.emit('toClient', { hello: item });
 
           }
           // console.log(item.new_val.dataset.Time);
 
           //Predict module
-
+          //
           // if(currentDataTime > endrecordTime ){
           //   // Todo: Start record
           //

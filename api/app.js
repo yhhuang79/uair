@@ -23,7 +23,7 @@ io.sockets.on('connection', function (socket) {
     });
     socket.on('toClient', function (data) {
       // we tell the client to execute 'new message'
-      console.log("server to client!");
+      // console.log("server to client!");
       socket.broadcast.emit('news', {
         hello: data
       });
