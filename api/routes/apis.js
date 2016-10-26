@@ -611,7 +611,7 @@ router.post('/uploadLaborDataSet', function (req, res) {
   })
 
   //
-  console.log("Get the time" +dataSet[0].Time);
+  // console.log("Get the time" +dataSet[0].Time);
 
   // Predict Module
 
@@ -622,7 +622,7 @@ router.post('/uploadLaborDataSet', function (req, res) {
     endrecordTime = currentDataTime + interval;
     //Todo: push data into array
     console.log("Start, time is "+currentDataTime)
-
+    console.log("And EndFrame is "+endrecordTime)
   }
   else if(currentDataTime == endrecordTime){
     //Todo: Stop recording
