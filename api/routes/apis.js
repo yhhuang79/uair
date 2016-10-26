@@ -603,7 +603,7 @@ router.post('/uploadLaborDataSet', function (req, res) {
     });
   })
 
-  console.log("Get the time" ＋dataSet[0].Time);
+  console.log("Get the time" +dataSet[0].Time);
 
   res.send("hello_pica")
 
