@@ -623,7 +623,7 @@ router.post('/uploadLaborDataSet', function (req, res) {
     console.log("Start, time is "+currentDataTime);
     console.log("And EndFrame is "+endrecordTime)
   }
-  else if(currentDataTime == endrecordTime){
+  else if((currentDataTime/1000).toFixed(0) == (endrecordTime/1000).toFixed(0)){
     //Todo: Stop recording
     // 1.put array as parameter into predict module
     console.log("Stop, time is "+currentDataTime)
