@@ -615,7 +615,7 @@ router.post('/uploadLaborDataSet', function (req, res) {
 
   // Predict Module
 
-  currentDataTime = dataSet[0].Time
+  currentDataTime = parseInt(dataSet[0].Time)
   if(currentDataTime > endrecordTime ){
     // Todo: Start record
 
