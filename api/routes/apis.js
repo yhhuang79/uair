@@ -22,7 +22,7 @@ var laborLiveListener;
 // Labor predict parameter configuration
 var currentDataTime = 0;
 var endrecordTime = 0;
-var interval = 5000;
+var interval = 8000;
 var predictDataSet = [];
 // RethinkDB Connection
 var r = require('rethinkdb');
@@ -633,8 +633,8 @@ router.post('/uploadLaborDataSet', function (req, res) {
   else if(Math.round(currentDataTime/1000) == Math.round(endrecordTime/1000)){
     //Todo: Stop recording
     // 1.put array as parameter into predict module
-    console.log("--Stop")
-    console.log(predictDataSet);
+    console.log("--Stop--SaveFile!!!!!!!!")
+    // console.log(predictDataSet);
 
     fs.writeFile('/tmp/5_sec_data.json', JSON.stringify(predictDataSet), function(err) {
       if (err) throw err;
