@@ -8,6 +8,7 @@ var array = require('array');
 var fs = require('fs');
 // csv module
 var json2csv = require('json2csv');
+var jsonfile  = require('jsonfile');
 // Static data
 // Currently, we have some physical information about wbgt and airstation, like location and name.
 var airstation = array();
@@ -627,7 +628,14 @@ router.post('/uploadLaborDataSet', function (req, res) {
     //Todo: Stop recording
     // 1.put array as parameter into predict module
     console.log("Stop, time is "+currentDataTime)
-    console.log(predictDataSet);
+    // console.log(predictDataSet);
+
+    var file = '5_sec_data.json'
+    var obj = predictDataSet
+     
+    jsonfile.writeFile(file, obj, function (err) {
+      console.error(err)
+    })
 
   }
   else if(currentDataTime <endrecordTime){
