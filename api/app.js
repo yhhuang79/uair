@@ -27,6 +27,9 @@ io.sockets.on('connection', function (socket) {
       socket.broadcast.emit('news', {
         hello: data
       });
+      socket.broadcast.emit('predictModule', {
+        hello: data
+      })
     });
     // socket.emit('news', { hello: 'world' });
     // socket.on('echo', function (data) {

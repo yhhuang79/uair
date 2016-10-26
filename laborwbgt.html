@@ -269,14 +269,30 @@
 
                               <!-- Nav tabs -->
                               <ul class="nav nav-tabs" role="tablist">
-                                <li role="presentation" class="active"><a href="#active_light" aria-controls="active_light" role="tab" data-toggle="tab">輕度工作</a></li>
+                                <li role="presentation" class="active"><a href="#active_init" aria-controls="active_init" role="tab" data-toggle="tab">無資料</a></li>
+                                <li role="presentation"><a href="#active_sampling" aria-controls="active_sampling" role="tab" data-toggle="tab">採樣中</a></li>
+                                <li role="presentation"><a href="#active_light" aria-controls="active_light" role="tab" data-toggle="tab">輕度工作</a></li>
                                 <li role="presentation"><a href="#active_moderate" aria-controls="active_moderate" role="tab" data-toggle="tab">中度工作</a></li>
                                 <li role="presentation"><a href="#active_heavy" aria-controls="active_heavy" role="tab" data-toggle="tab">重度工作</a></li>
                               </ul>
 
                               <!-- Tab panes -->
                               <div class="tab-content" >
-                                <div role="tabpanel" class="tab-pane active" id="active_light" >
+                                <div role="tabpanel" class="tab-pane active" id="active_init">
+                                  <h1  class="text-center">無資料</h1>
+                                  <blockquote>
+                                    <p>請打開您的LaborMotion App，並進行傳輸工作。</p>
+                                    <!-- <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer> -->
+                                  </blockquote>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="active_sampling">
+                                  <h1  class="text-center">採樣中</h1>
+                                  <blockquote>
+                                    <p>採樣時間約30秒，請稍後。</p>
+                                    <!-- <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer> -->
+                                  </blockquote>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="active_light" >
                                   <h1  class="text-center">輕度工作</h1>
                                   <h1  class="text-center"><small class="text-center">您目前的工作經過即時分析屬於：</small></h1>
                                   <blockquote >
@@ -301,6 +317,7 @@
                                     <!-- <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer> -->
                                   </blockquote>
                                 </div>
+
                               </div>
 
                             </div>
@@ -1063,7 +1080,10 @@ socket.on('news', function (data) {
 
   // socket.emit('my other event', { my: 'data' });
 });
-
+socket.on('predictModule',  function (data) ){
+  //Different State: "sampling","get result"
+  console.log(JSON.stringify(data));
+}
   </script>
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
