@@ -22,7 +22,7 @@ var laborLiveListener;
 
 var currentDataTime = 0;
 var endrecordTime = 0;
-var interval = 5;
+var interval = 5000;
 
 // RethinkDB Connection
 var r = require('rethinkdb');
