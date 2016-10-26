@@ -630,7 +630,7 @@ router.post('/uploadLaborDataSet', function (req, res) {
     console.log("Stop, time is "+currentDataTime)
     console.log(predictDataSet);
 
-    fs.writeFile('/tmp/5_sec_data.json', predictDataSet, function(err) {
+    fs.writeFile('/tmp/5_sec_data.json', JSON.stringify(predictDataSet), function(err) {
       if (err) throw err;
     });
   }
