@@ -15,9 +15,16 @@ airstation  = require('../public/sensorData/airstation.json');
 var airstation_TI = array();
 airstation_TI  = require('../public/sensorData/airstation.json');
 var wbgt = require('../public/testData/wbgt_1hr.json');
-// RethinkDB Connection
+// Labor module
 var laborLive = require('../laborLive');
 var laborLiveListener;
+// Labor predict parameter configuration
+
+var currentDataTime = 0;
+var endrecordTime = 0;
+var interval = 5;
+
+// RethinkDB Connection
 var r = require('rethinkdb');
 var rethinkdbHost = "140.109.18.136";
 var connection = null;
@@ -590,7 +597,7 @@ router.get('/geojsonTI', function(req, res)  {
 router.post('/uploadLaborDataSet', function (req, res) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'X-Requested-With');
-  console.log(JSON.stringify(req.body));
+  // console.log(JSON.stringify(req.body));
   imei = req.body.imei;
   dataSet = req.body.dataset;
 
@@ -603,7 +610,32 @@ router.post('/uploadLaborDataSet', function (req, res) {
     });
   })
 
+  //
   console.log("Get the time" +dataSet[0].Time);
+
+  // Predict Module
+
+
+  if(currentDataTime > endrecordTime ){
+    // Todo: Start record
+
+    endrecordTime = currentDataTime + interval;
+    //Todo: push data into array
+    console.log("Start, time is "+currentDataTime)
+
+  }
+  else if(currentDataTime == endrecordTime){
+    //Todo: Stop recording
+    // 1.put array as parameter into predict module
+    console.log("Stop, time is "+currentDataTime)
+
+  }
+  else if(currentDataTime <endrecordTime){
+    //Todo: Recording
+    // 1.push data into array
+    console.log("Recording, time is "+currentDataTime)
+  }
+
 
   res.send("hello_pica")
 
