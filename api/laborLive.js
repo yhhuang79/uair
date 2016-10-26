@@ -34,25 +34,25 @@ function  rethinkDbListener(r,connection) {
 
           //Predict module
 
-          if(currentDataTime > endrecordTime ){
-            // Todo: Start record
-
-            endrecordTime = currentDataTime + interval;
-            //Todo: push data into array
-            console.log("Start, time is "+currentDataTime)
-
-          }
-          else if(currentDataTime == endrecordTime){
-            //Todo: Stop recording
-            // 1.put array as parameter into predict module
-            console.log("Stop, time is "+currentDataTime)
-
-          }
-          else if(currentDataTime <endrecordTime){
-            //Todo: Recording
-            // 1.push data into array
-            console.log("Recording, time is "+currentDataTime)
-          }
+          // if(currentDataTime > endrecordTime ){
+          //   // Todo: Start record
+          //
+          //   endrecordTime = currentDataTime + interval;
+          //   //Todo: push data into array
+          //   console.log("Start, time is "+currentDataTime)
+          //
+          // }
+          // else if(currentDataTime == endrecordTime){
+          //   //Todo: Stop recording
+          //   // 1.put array as parameter into predict module
+          //   console.log("Stop, time is "+currentDataTime)
+          //
+          // }
+          // else if(currentDataTime <endrecordTime){
+          //   //Todo: Recording
+          //   // 1.push data into array
+          //   console.log("Recording, time is "+currentDataTime)
+          // }
         }
       );
 
