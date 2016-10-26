@@ -24,6 +24,11 @@ var currentDataTime = 0;
 var endrecordTime = 0;
 var interval = 8000;
 var predictDataSet = [];
+
+// Socket io
+var io = require('socket.io-client');
+var socket = io.connect('http://localhost:3000', {reconnect: true});
+
 // RethinkDB Connection
 var r = require('rethinkdb');
 var rethinkdbHost = "140.109.18.136";
@@ -647,6 +652,8 @@ router.post('/uploadLaborDataSet', function (req, res) {
     dataSet.forEach(function(value){
       predictDataSet.push(value);
     })
+    socket.emit('toSendState', { hello: "recording" });
+
   }
 
 

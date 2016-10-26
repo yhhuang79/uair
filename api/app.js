@@ -15,22 +15,24 @@ var io = require('socket.io')();
 //   'jsonp-polling'
 // ]);
 io.sockets.on('connection', function (socket) {
-    console.log('client connect');
+    // console.log('client connect');
     // laborLive.WSConstruct(socket);
 
-    socket.broadcast.emit('news', {
-      hello: "test"
-    });
+    // socket.broadcast.emit('news', {
+    //   hello: "test"
+    // });
     socket.on('toClient', function (data) {
       // we tell the client to execute 'new message'
       // console.log("server to client!");
       socket.broadcast.emit('news', {
         hello: data
       });
+    });
+    socket.on('toSendState', function(data) {
       socket.broadcast.emit('predictModule', {
         hello: data
       })
-    });
+    })
     // socket.emit('news', { hello: 'world' });
     // socket.on('echo', function (data) {
     // io.sockets.emit('message', data);
