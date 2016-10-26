@@ -19,11 +19,10 @@ var wbgt = require('../public/testData/wbgt_1hr.json');
 var laborLive = require('../laborLive');
 var laborLiveListener;
 // Labor predict parameter configuration
-
 var currentDataTime = 0;
 var endrecordTime = 0;
 var interval = 5000;
-
+var predictDataSet = [];
 // RethinkDB Connection
 var r = require('rethinkdb');
 var rethinkdbHost = "140.109.18.136";
@@ -618,22 +617,24 @@ router.post('/uploadLaborDataSet', function (req, res) {
   currentDataTime = parseInt(dataSet[0].Time)
   if(currentDataTime > endrecordTime ){
     // Todo: Start record
-
+    predictDataSet =  [];
     endrecordTime = currentDataTime + interval;
     //Todo: push data into array
-    console.log("Start, time is "+currentDataTime)
+    console.log("Start, time is "+currentDataTime);
     console.log("And EndFrame is "+endrecordTime)
   }
   else if(currentDataTime == endrecordTime){
     //Todo: Stop recording
     // 1.put array as parameter into predict module
     console.log("Stop, time is "+currentDataTime)
+    console.log(predictDataSet);
 
   }
   else if(currentDataTime <endrecordTime){
     //Todo: Recording
     // 1.push data into array
     console.log("Recording, time is "+currentDataTime)
+    predictDataSet.push(dataSet)
   }
 
 
