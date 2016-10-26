@@ -644,7 +644,9 @@ router.post('/uploadLaborDataSet', function (req, res) {
     //Todo: Recording
     // 1.push data into array
     console.log("--Recording")
-    predictDataSet.push(dataSet)
+    dataSet.forEach(function(value){
+      predictDataSet.push(value);
+    })
   }
 
 
