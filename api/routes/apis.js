@@ -628,7 +628,7 @@ router.post('/uploadLaborDataSet', function (req, res) {
     //Todo: Stop recording
     // 1.put array as parameter into predict module
     console.log("Stop, time is "+currentDataTime)
-    // console.log(predictDataSet);
+    console.log(predictDataSet);
 
     var obj = predictDataSet
 
