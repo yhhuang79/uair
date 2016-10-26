@@ -5,8 +5,10 @@ var io = require('socket.io-client');
 var mysocket;
 var socket = io.connect('http://localhost:3000', {reconnect: true});
 
-var currentDataTime=0;
-var lastDataTime=0;
+var currentDataTime = 0;
+var lastDataTime = 0;
+var endrecordTime = 0;
+var interval = 40;
 function  rethinkDbListener(r,connection) {
 
     r.table('laborSensorData').changes().run(connection, function(err, cursor) {
@@ -18,10 +20,10 @@ function  rethinkDbListener(r,connection) {
           // });
           // myio.emit('news',{hello:'tony'});
           currentDataTime = (item.new_val.Time/1000).toFixed(0);
-          console.log("time:"+currentDataTime);
+          // console.log("time:"+curr entDataTime);
           //  Compare
-          console.log(currentDataTime);
-          console.log("item+"+item);
+          // console.log(currentDataTime);
+          // console.log("item+"+item);
           if(currentDataTime  > lastDataTime){
             lastDataTime  = currentDataTime;
             console.log("send to server!");
@@ -29,6 +31,28 @@ function  rethinkDbListener(r,connection) {
 
           }
           // console.log(item.new_val.dataset.Time);
+
+          //Predict module
+
+          if(currentDataTime > endrecordTime ){
+            // Todo: Start record
+
+            endrecordTime = currentDataTime + interval;
+            //Todo: push data into array
+            console.log("Start, time is "+currentDataTime)
+
+          }
+          else if(currentDataTime == endrecordTime){
+            //Todo: Stop recording
+            // 1.put array as parameter into predict module
+            console.log("Stop, time is "+currentDataTime)
+
+          }
+          else if(currentDataTime <endrecordTime){
+            //Todo: Recording
+            // 1.push data into array
+            console.log("Recording, time is "+currentDataTime)
+          }
         }
       );
 
