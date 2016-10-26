@@ -616,13 +616,14 @@ router.post('/uploadLaborDataSet', function (req, res) {
   // Predict Module
 
   currentDataTime = parseInt(dataSet[0].Time)
+  console.log("Start, time is "+currentDataTime);
+  console.log("And EndFrame is "+endrecordTime)
   if(currentDataTime > endrecordTime ){
     // Todo: Start record
     predictDataSet =  [];
     endrecordTime = currentDataTime + interval;
     //Todo: push data into array
-    console.log("Start, time is "+currentDataTime);
-    console.log("And EndFrame is "+endrecordTime)
+
   }
   else if((currentDataTime/1000).toFixed(0) == (endrecordTime/1000).toFixed(0)){
     //Todo: Stop recording
