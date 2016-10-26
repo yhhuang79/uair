@@ -620,8 +620,9 @@ router.post('/uploadLaborDataSet', function (req, res) {
   console.log("And EndFrame is "+endrecordTime)
 
   console.log("===compare_resule===");
-  console.log("Start:"+(currentDataTime/1000).toFixed(0));
-  console.log("End:  "+((endrecordTime/1000).toFixed(0)));
+  console.log("Start:"+(Math.round(currentDataTime/1000)));
+  console.log("End:  "+(Math.round(endrecordTime/1000)));
+  console.log("")
   if(currentDataTime > endrecordTime ){
     // Todo: Start record
     predictDataSet =  [];
@@ -629,10 +630,10 @@ router.post('/uploadLaborDataSet', function (req, res) {
     //Todo: push data into array
 
   }
-  else if((currentDataTime/1000).toFixed(0) == (endrecordTime/1000).toFixed(0)){
+  else if(Math.round(currentDataTime/1000) == Math.round(endrecordTime/1000)){
     //Todo: Stop recording
     // 1.put array as parameter into predict module
-    console.log("Stop, time is "+currentDataTime)
+    console.log("--Stop")
     console.log(predictDataSet);
 
     fs.writeFile('/tmp/5_sec_data.json', JSON.stringify(predictDataSet), function(err) {
@@ -642,7 +643,7 @@ router.post('/uploadLaborDataSet', function (req, res) {
   else if(currentDataTime <endrecordTime){
     //Todo: Recording
     // 1.push data into array
-    console.log("Recording, time is "+currentDataTime)
+    console.log("--Recording")
     predictDataSet.push(dataSet)
   }
 
