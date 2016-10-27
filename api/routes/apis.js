@@ -667,6 +667,7 @@ router.post('/uploadLaborDataSet', function (req, res) {
       // 1.push data into array
       console.log("--Recording")
       dataSet.forEach(function(value){
+        value.imei = imei;
         predictDataSet.push(value);
       })
       socket.emit('toSendState', { hello: "recording" });
