@@ -1107,7 +1107,7 @@ socket.on('predictModule',  function (data) {
 })
 
   function rePredict() {
-    $.post( baseURL + "/api/rePredict", function( data ) {
+    $.get( baseURL + "/api/rePredict", function( data ) {
       $('#active_pane a[href="#active_init"]').tab('show') // Select tab by name
       console.log(data);
     });
