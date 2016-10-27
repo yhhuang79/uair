@@ -25,6 +25,8 @@ var endrecordTime = 0;
 var interval = 8000;
 var predictDataSet = [];
 var predictFlag = 1;
+// Python shell
+var PythonShell = require('python-shell');
 // Socket io
 var io = require('socket.io-client');
 var socket = io.connect('http://localhost:3000', {reconnect: true});
@@ -647,9 +649,16 @@ router.post('/uploadLaborDataSet', function (req, res) {
         if (err) throw err;
         console.log("--Stop--SaveFile!!!!!!!!")
         //  2. call module
-
+        var options = {
+          args: ['/tmp/5_sec_data.json']
+        };
+        PythonShell.run('/var/PLASH/laborMotion/model.py', options, function (err, results) {
+          if (err) throw err;
+          // results is an array consisting of messages collected during execution
+          console.log('results: %j', results);
+          socket.emit('toSendState', {hello:"light"})
+        });
         // 3. Returning result
-        socket.emit('toSendState', {hello:"light"})
       });
     }
     else if(currentDataTime <endrecordTime){
