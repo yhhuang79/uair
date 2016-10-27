@@ -268,7 +268,7 @@
                             <div id="labor_active" style="height:340px">
 
                               <!-- Nav tabs -->
-                              <ul class="nav nav-tabs" role="tablist">
+                              <ul class="nav nav-tabs" role="tablist" id="active_pane">
                                 <li role="presentation" class="active"><a href="#active_init" aria-controls="active_init" role="tab" data-toggle="tab">無資料</a></li>
                                 <li role="presentation"><a href="#active_sampling" aria-controls="active_sampling" role="tab" data-toggle="tab">採樣中</a></li>
                                 <li role="presentation"><a href="#active_light" aria-controls="active_light" role="tab" data-toggle="tab">輕度工作</a></li>
@@ -1082,7 +1082,14 @@ socket.on('news', function (data) {
 });
 socket.on('predictModule',  function (data) {
   //Different State: "sampling","get result"
-  console.log(JSON.stringify(data));
+  console.log(data.hello.hello);
+  if(data.hello.hello == "recording"){
+    $('#active_pane a[href="#active_sampling"]').tab('show') // Select tab by name
+  }else if(data.hello.hello == "light"){
+    $('#active_pane a[href="#active_light"]').tab('show') // Select tab by name
+  }else{
+    
+  }
 })
   </script>
   <script>

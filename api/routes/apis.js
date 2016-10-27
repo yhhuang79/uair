@@ -24,7 +24,7 @@ var currentDataTime = 0;
 var endrecordTime = 0;
 var interval = 8000;
 var predictDataSet = [];
-
+var predictFlag = 1;
 // Socket io
 var io = require('socket.io-client');
 var socket = io.connect('http://localhost:3000', {reconnect: true});
@@ -628,32 +628,40 @@ router.post('/uploadLaborDataSet', function (req, res) {
   console.log("Start:"+(Math.round(currentDataTime/1000)));
   console.log("End:  "+(Math.round(endrecordTime/1000)));
   console.log("")
-  if(currentDataTime > endrecordTime ){
-    // Todo: Start record
-    predictDataSet =  [];
-    endrecordTime = currentDataTime + interval;
-    //Todo: push data into array
+  if(predictFlag != 0){
+    if(currentDataTime > endrecordTime ){
+      // Todo: Start record
+      predictDataSet =  [];
+      endrecordTime = currentDataTime + interval;
+      //Todo: push data into array
 
-  }
-  else if(Math.round(currentDataTime/1000) == Math.round(endrecordTime/1000)){
-    //Todo: Stop recording
-    // 1.put array as parameter into predict module
-    console.log("--Stop--SaveFile!!!!!!!!")
-    // console.log(predictDataSet);
+    }
+    else if(Math.round(currentDataTime/1000) == Math.round(endrecordTime/1000)){
+      //Todo: Stop recording
+      // Set predicting flag as 1
+      // 1. Saving file
+      // 2. Calling predict module
+      // 3. Returning predict result
+      predictFlag=1;
+      fs.writeFile('/tmp/5_sec_data.json', JSON.stringify(predictDataSet), function(err) {
+        if (err) throw err;
+        console.log("--Stop--SaveFile!!!!!!!!")
+        //  2. call module
+        socket.emit('toSendState', {hello:"light"})
+      });
+    }
+    else if(currentDataTime <endrecordTime){
+      //Todo: Recording
+      // 1.push data into array
+      console.log("--Recording")
+      dataSet.forEach(function(value){
+        predictDataSet.push(value);
+      })
+      socket.emit('toSendState', { hello: "recording" });
 
-    fs.writeFile('/tmp/5_sec_data.json', JSON.stringify(predictDataSet), function(err) {
-      if (err) throw err;
-    });
-  }
-  else if(currentDataTime <endrecordTime){
-    //Todo: Recording
-    // 1.push data into array
-    console.log("--Recording")
-    dataSet.forEach(function(value){
-      predictDataSet.push(value);
-    })
-    socket.emit('toSendState', { hello: "recording" });
-
+    }
+  }else{
+    //predict done
   }
 
 
