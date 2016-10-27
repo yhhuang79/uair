@@ -652,7 +652,7 @@ router.post('/uploadLaborDataSet', function (req, res) {
         var options = {
           args: ['/tmp/5_sec_data.json']
         };
-        PythonShell.run('/var/PLASH/laborMotion/model.py', options, function (err, results) {
+        PythonShell.run('./predictModule/model.py', options, function (err, results) {
           if (err) throw err;
           // results is an array consisting of messages collected during execution
           console.log('results: %j', results);
