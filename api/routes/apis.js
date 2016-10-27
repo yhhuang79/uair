@@ -108,7 +108,7 @@ router.get('/geojsonAQI', function(req, res) {
 router.get('/geojsonLASS', function(req, res) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  r.table('air').filter({epochtime: r.table('air').max('epochtime')('epochtime')})
+  r.table('air').filter({epochtime: r.table('air').max({index:'epochtime'})('epochtime')})
       .run(connection, function(err, cursor) {
     if (err) throw err;
     cursor.toArray(function(err, result) {
@@ -647,6 +647,8 @@ router.post('/uploadLaborDataSet', function (req, res) {
         if (err) throw err;
         console.log("--Stop--SaveFile!!!!!!!!")
         //  2. call module
+
+        // 3. Returning result
         socket.emit('toSendState', {hello:"light"})
       });
     }
@@ -704,6 +706,16 @@ router.get('/getAirInferenceData',function  (req, res)  {
       })
     }
   })
+})
+
+router.get('/rePredict',function  (req, res)  {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+
+  //set flag as init;
+  predictFlag = 0;
+  res.send("reset!")
+
 })
 
 router.get('/getAirResearchPrediction',function  (req, res)  {

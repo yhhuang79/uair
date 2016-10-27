@@ -298,16 +298,23 @@
                                   <blockquote >
                                     <p>坐姿進行手臂部動作以操縱機器、立姿進行手臂部動作以操縱機器者</p>
                                   </blockquote>
+                                  <div class="text-center">
+                                      <button type="button" class="btn btn-primary" onclick="rePredict()">重新辨識</button>
+                                  </div>
+
                                     <!-- <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer> -->
                                 </div>
 
                                 <div role="tabpanel" class="tab-pane" id="active_moderate">
                                   <h1  class="text-center">中度工作</h1>
-                                  <h1  class="text-center"><small class="text-center">您目前的工作經過即時分析，屬於：</small></h1>
+                                  <h1  class="text-center"><small class="text-center" >您目前的工作經過即時分析，屬於：</small></h1>
                                   <blockquote>
                                     <p>走動中提舉一般重量物體、推動一般重量物體</p>
                                     <!-- <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer> -->
                                   </blockquote>
+                                  <div class="text-center">
+                                      <button type="button" class="btn btn-primary" onclick="rePredict()">重新辨識</button>
+                                  </div>
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="active_heavy">
                                   <h1  class="text-center">重度工作</h1>
@@ -316,6 +323,12 @@
                                     <p>鏟之全身運動、掘之全身運動、推之全身運動</p>
                                     <!-- <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer> -->
                                   </blockquote>
+                                  <div class="text-center">
+                                      <button type="button" class="btn btn-primary" onclick="rePredict()">重新辨識</button>
+
+                                  </div>
+
+
                                 </div>
 
                               </div>
@@ -1087,10 +1100,18 @@ socket.on('predictModule',  function (data) {
     $('#active_pane a[href="#active_sampling"]').tab('show') // Select tab by name
   }else if(data.hello.hello == "light"){
     $('#active_pane a[href="#active_light"]').tab('show') // Select tab by name
+
   }else{
-    
+
   }
 })
+
+  function rePredict() {
+    $.post( baseURL + "/api/rePredict", function( data ) {
+      $('#active_pane a[href="#active_init"]').tab('show') // Select tab by name
+      console.log(data);
+    });
+  }
   </script>
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
