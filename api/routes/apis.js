@@ -650,7 +650,8 @@ router.post('/uploadLaborDataSet', function (req, res) {
         console.log("--Stop--SaveFile!!!!!!!!")
         //  2. call module
         var options = {
-          args: ['/tmp/5_sec_data.json']
+          args: ['/tmp/5_sec_data.json'],
+          scriptPath: './'
         };
         PythonShell.run('./predictModule/model.py', options, function (err, results) {
           if (err) throw err;
