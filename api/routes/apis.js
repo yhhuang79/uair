@@ -713,7 +713,7 @@ router.get('/rePredict',function  (req, res)  {
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
   //set flag as init;
-  predictFlag = 0;
+  predictFlag = 1;
   res.send("reset!")
 
 })
