@@ -1101,8 +1101,11 @@ socket.on('predictModule',  function (data) {
   }else if(data.hello.hello == "light"){
     $('#active_pane a[href="#active_light"]').tab('show') // Select tab by name
 
-  }else{
+  }else if(data.hello.hello == "mid"){
+    $('#active_pane a[href="#active_moderate"]').tab('show') // Select tab by name
 
+  }else if(data.hello.hello == "heavy"){
+    $('#active_pane a[href="#active_heavy"]').tab('show') // Select tab by name
   }
 })
 
