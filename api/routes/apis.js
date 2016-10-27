@@ -642,7 +642,7 @@ router.post('/uploadLaborDataSet', function (req, res) {
       // 1. Saving file
       // 2. Calling predict module
       // 3. Returning predict result
-      predictFlag=1;
+      predictFlag=0;
       fs.writeFile('/tmp/5_sec_data.json', JSON.stringify(predictDataSet), function(err) {
         if (err) throw err;
         console.log("--Stop--SaveFile!!!!!!!!")
