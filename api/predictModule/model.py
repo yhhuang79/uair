@@ -123,7 +123,7 @@ data_array = convert_data_to_model_df(df[f_col], f_col, num_group)
 # restore model
 saver = tf.train.Saver()#tf.train.import_meta_graph("mymodel.meta")
 sess = tf.Session()
-saver.restore(sess, "mymodel")
+saver.restore(sess, "/var/nginx/uair/api/predictModule/mymodel")
 
 prediction = sess.run(prediction, feed_dict={xs: data_array})
 

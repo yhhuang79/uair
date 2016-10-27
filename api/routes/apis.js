@@ -651,13 +651,13 @@ router.post('/uploadLaborDataSet', function (req, res) {
         //  2. call module
         var options = {
           args: ['/tmp/5_sec_data.json'],
-          scriptPath: './'
+          scriptPath: '/'
         };
-        PythonShell.run('./predictModule/model.py', options, function (err, results) {
+        PythonShell.run('/var/nginx/uair/api/predictModule/model.py', options, function (err, results) {
           if (err) throw err;
           // results is an array consisting of messages collected during execution
           console.log('results: %j', results);
-          socket.emit('toSendState', {hello:"light"})
+          socket.emit('toSendState', {hello:results[0]})
         });
         // 3. Returning result
       });
