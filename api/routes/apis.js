@@ -25,6 +25,7 @@ var endrecordTime = 0;
 var interval = 32000;
 var predictDataSet = [];
 var predictFlag = 1;
+var count=0;
 // Python shell
 var PythonShell = require('python-shell');
 // Socket io
@@ -631,14 +632,14 @@ router.post('/uploadLaborDataSet', function (req, res) {
   console.log("End:  "+(Math.floor(endrecordTime/1000)));
   console.log("")
   if(predictFlag != 0){
-    if(currentDataTime > endrecordTime ){
+    if(count ==0  ){
       // Todo: Start record
       predictDataSet =  [];
-      endrecordTime = currentDataTime + interval;
+      count++;
       //Todo: push data into array
 
     }
-    else if(Math.round(currentDataTime/1000) == Math.round(endrecordTime/1000)){
+    else if(count == (interval/1000)){
       //Todo: Stop recording
       // Set predicting flag as 1
       // 1. Saving file
@@ -662,7 +663,7 @@ router.post('/uploadLaborDataSet', function (req, res) {
         // 3. Returning result
       });
     }
-    else if(currentDataTime <endrecordTime){
+    else if(count <(interval/1000)){
       //Todo: Recording
       // 1.push data into array
       console.log("--Recording")
@@ -725,6 +726,7 @@ router.get('/rePredict',function  (req, res)  {
 
   //set flag as init;
   predictFlag = 1;
+  count = 0;
   res.send("reset!")
 
 })
