@@ -22,7 +22,7 @@ var laborLiveListener;
 // Labor predict parameter configuration
 var currentDataTime = 0;
 var endrecordTime = 0;
-var interval = 8000;
+var interval = 32000;
 var predictDataSet = [];
 var predictFlag = 1;
 // Python shell
@@ -608,14 +608,14 @@ router.post('/uploadLaborDataSet', function (req, res) {
   imei = req.body.imei;
   dataSet = req.body.dataset;
 
-  // dataSet.forEach(function(value) {
-  //   value.imei = imei;
-  //   r.db('test').table('laborSensorData').insert(
-  //     value
-  //   ).run(connection,  function(err, result) {
-  //     if(err) throw err;
-  //   });
-  // })
+  dataSet.forEach(function(value) {
+    value.imei = imei;
+    r.db('test').table('laborSensorData').insert(
+      value
+    ).run(connection,  function(err, result) {
+      if(err) throw err;
+    });
+  })
 
   //
   // console.log("Get the time" +dataSet[0].Time);
