@@ -639,7 +639,7 @@ router.post('/uploadLaborDataSet', function (req, res) {
       predictDataSet =  [];
       endrecordTime = currentDataTime + interval;
       //Todo: push data into array
-
+      count++;
     }
     else if(count== (interval/1000)){
       //Todo: Stop recording
