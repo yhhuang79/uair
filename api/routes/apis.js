@@ -624,13 +624,15 @@ router.post('/uploadLaborDataSet', function (req, res) {
   // Predict Module
 
   currentDataTime = parseInt(dataSet[0].Time)
-  console.log("Start, time is  "+currentDataTime);
-  console.log("And EndFrame is "+endrecordTime)
+  // console.log("Start, time is  "+currentDataTime);
+  // console.log("And EndFrame is "+endrecordTime)
+  //
+  // console.log("===compare_resule===");
+  // console.log("Start:"+(Math.floor(currentDataTime/1000)));
+  // console.log("End:  "+(Math.floor(endrecordTime/1000)));
+  // console.log("")
 
-  console.log("===compare_resule===");
-  console.log("Start:"+(Math.floor(currentDataTime/1000)));
-  console.log("End:  "+(Math.floor(endrecordTime/1000)));
-  console.log("")
+  console.log("Count: "+count);
   if(predictFlag != 0){
     if(count==0 ){
       // Todo: Start record
