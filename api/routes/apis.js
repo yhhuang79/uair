@@ -711,6 +711,7 @@ router.get('/getInternData',  function  (req, res)  {
 });
 
 router.get('/getAirInferenceData',function  (req, res)  {
+  
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
   r.db('infered_air_quality').table('web_unlabel_targets').run(connection, function(err,cursor){
