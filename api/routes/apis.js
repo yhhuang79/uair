@@ -627,8 +627,8 @@ router.post('/uploadLaborDataSet', function (req, res) {
   console.log("And EndFrame is "+endrecordTime)
 
   console.log("===compare_resule===");
-  console.log("Start:"+(Math.round(currentDataTime/1000)));
-  console.log("End:  "+(Math.round(endrecordTime/1000)));
+  console.log("Start:"+(Math.floor(currentDataTime/1000)));
+  console.log("End:  "+(Math.floor(endrecordTime/1000)));
   console.log("")
   if(predictFlag != 0){
     if(currentDataTime > endrecordTime ){
