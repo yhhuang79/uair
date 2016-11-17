@@ -42,12 +42,6 @@ r.connect( {host: rethinkdbHost, port: 28015}, function(err, conn) {
     laborLiveListener = laborLive.rethinkDbListener(r,connection);
 
 });
-// var laborLiveListener = laborLive.rethinkDbListener(r,connection);
-// Example API
-router.get('/images', function(req, res) {
-    res.json({ message: "LAB第一個API!" });
-});
-
 // Get Current Air Quilty Index
   router.get('/currentAQI', function(req, res) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -67,7 +61,6 @@ router.get('/images', function(req, res) {
 router.get('/stations', function(req, res) {
   res.json(airstation);
 });
-
 // Geojson with currentAQI
 // Get Current Air Quilty Index
 router.get('/geojsonAQI', function(req, res) {
@@ -578,9 +571,6 @@ router.get('/geojsonTI', function(req, res)  {
       } else{
         cursor.toArray(function (err, result) {
           if (err)  throw err;
-          // console.log(result.length+":result");
-          // console.log(result.length+":station");
-
           for(var i = 0, ilen = airstation_TI.features.length; i < ilen; i++){
             for(var j = 0, jlen = result.length; j < jlen; j++){
               if(airstation_TI.features[i].properties.SiteName == result[j].SiteName){
@@ -685,33 +675,8 @@ router.post('/uploadLaborDataSet', function (req, res) {
   res.send("hello_pica")
 
 });
-router.post('/uploadDiaryDataSet', function (req, res) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'X-Requested-With');
-  imei = req.body.imei;
-  dataSet = req.body.dataset;
-
-  dataSet.forEach(function(value) {
-    value.imei = imei;
-    r.db('test').table('Plash_intern_diary').insert(
-      value
-    ).run(connection,  function(err, result) {
-      if(err) throw err;
-    });
-  })
-  res.send("hello_pica")
-});
-router.get('/getInternData',  function  (req, res)  {
-  fs.readFile('/home/athung/python/prediction.txt', 'utf8', function (err,data) {
-    if (err) {
-      return console.log(err);
-    }
-    res.send(data);
-  });
-});
-
 router.get('/getAirInferenceData',function  (req, res)  {
-  
+
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
   r.db('infered_air_quality').table('web_unlabel_targets').run(connection, function(err,cursor){

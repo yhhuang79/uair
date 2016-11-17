@@ -99,11 +99,11 @@
                           <li><a class="" href="form_validation.html">Form Validation</a></li>
                       </ul>
                   </li>
-                  <li>
+                  <!-- <li>
                       <a class="" href="lassmap.html">
                           <span>LASS開源公益環境感測</span>
                       </a>
-                  </li>
+                  </li> -->
               </ul>
               <!-- sidebar menu end-->
           </div>
@@ -171,7 +171,7 @@
     $(function(){
       var map;
       /* Basemap Layers */
-      var mapquestOSM = L.tileLayer("http://{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png", {
+      var mapquestOSM = L.tileLayer("http://a.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
         subdomains: ["otile1", "otile2", "otile3", "otile4"],
         attribution: 'Tiles courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">. Map data (c) <a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> contributors, CC-BY-SA.'
