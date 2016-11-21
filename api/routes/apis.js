@@ -734,6 +734,44 @@ router.get('/getAirResearchPrediction',function  (req, res)  {
 
 
 })
+router.get('/getAnonymousData', function  (req,res) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+
+  // reference address
+  dbName  = 'test'
+  tableName = 'tony_sooooo_awesome'
+
+  // extract request header
+  SiteNo = parseInt(req.headers.siteno)
+  date  = (req.headers.time).toString()
+
+  console.log(date);
+  var found = 0;
+  // console.log(SiteNo);
+  // console.log(req.headers)
+  r.db(dbName).table(tableName).filter({SeriesNo:SiteNo})("SeriesData").run(connection,  function(err,cursor){
+    if (err ) {
+      throw err;
+    }else{
+      cursor.toArray(function(err,  result){
+        // res.send(result[0]);
+        result[0].forEach(function(element)  {
+
+          console.log(typeof(element.date))
+          console.log(typeof(date))
+          if(element.date == date){
+            res.send(element);
+            // break;
+            // found =1;
+          }
+        })
+      })
+    }
+  })
+
+
+})
 
 
 module.exports = router;
