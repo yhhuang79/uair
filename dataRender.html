@@ -31,7 +31,7 @@
     <style media="screen">
     #chartdiv {
       width	: 100%;
-      height	: 500px;
+      height	: 550px;
     }
     </style>
   </head>
@@ -188,7 +188,7 @@
     <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
     <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
     <script>
-
+    var chart
       $(function(){
 
         $( "#chooseSiteUl a" ).on( "click", function( event ) {
@@ -218,28 +218,187 @@
             }
 
             $( "#chooseDateUl a" ).on( "click", function( event ) {
-              console.log("send something")
-              time  = $(this).parent().attr('value');
-              // $.get( baseURL+"api/getAnonymousData", function( data ) {
-              //   $( ".result" ).html( data );
-              //   alert( "Load was performed." );
+              // console.log("send something")
+              time  = "0"+$(this).parent().attr('value');
+              // // $.get( baseURL+"api/getAnonymousData", function( data ) {
+              // //   $( ".result" ).html( data );
+              // //   alert( "Load was performed." );
+              // // });
+              // $.ajax({
+              //   url: baseURL,
+              //   type: 'GET',
+              //   dataType: 'json',
+              //   error: function() { alert('boo!'); },
+              //   beforeSend: setHeader
+              // }).done(function(data)  {
+              //   console.log(data);
               // });
-              $.ajax({
-                url: baseURL,
-                type: 'GET',
-                dataType: 'json',
-                error: function() { alert('boo!'); },
-                beforeSend: setHeader
-              }).done(function(data)  {
-                console.log(data);
-              });
+              //
+              //
+              // function setHeader(xhr) {
+              //   xhr.setRequestHeader('siteno', site);
+              //   xhr.setRequestHeader('time', time);
+              // }
+              //
+
+              // $.getJSON(baseURL + "/api/geojsonTI", function(data) {
+              //   console.log(data)
+              // })
+
+              console.log(time)
+              $.post( "http://localhost:3000/api/getAnonymousData", { siteno:site , time: time })
+                .done(function( data ) {
+                  // console.log(data);
+
+                  var newData = data.dateData.map(function(x){
+                    return{
+                      date:new Date(x.epoch*1000),
+                      RH:x.RH,
+                      SolarRadiation: x.SolarRadiation,
+                      T: x.T,
+                      WBGT: x.WBGT,
+                      WS: x.WS,
+                      epoch: x.epoch,
+                      minNo: x.minNo
+                    }
+                  })
+
+                  console.log(newData)
+                  chart = AmCharts.makeChart("chartdiv", {
+                      "type": "serial",
+                      // "dataDateFormat": "HH:NN:SS",
+                      "theme": "light",
+                      "legend": {
+                          "useGraphSettings": true
+                      },
+                      "dataProvider": newData,
+                      "synchronizeGrid":true,
+                      "valueAxes": [{
+                          "id":"v1",
+                          "axisColor": "#5D96DB",
+                          "axisThickness": 2,
+                          "axisAlpha": 1,
+                          "position": "left",
+                          "offset":100
+                      }
+                      , {
+                          "id":"v2",
+                          "axisColor": "#46B29D",
+                          "axisThickness": 2,
+                          "axisAlpha": 1,
+                          "position": "left"
+                      }, {
+                          "id":"v3",
+                          "axisColor": "#DEB54D",
+                          "axisThickness": 2,
+                          "gridAlpha": 0,
+                          "offset": 50,
+                          "axisAlpha": 1,
+                          "position": "left"
+                      }, {
+                          "id":"v4",
+                          "axisColor": "#E37B46",
+                          "axisThickness": 2,
+                          "gridAlpha": 0,
+                          "offset": 50,
+                          "axisAlpha": 1,
+                          "position": "right"
+                      }, {
+                          "id":"v5",
+                          "axisColor": "#D95C85",
+                          "axisThickness": 2,
+                          "gridAlpha": 0,
+                          "offset": 50,
+                          "axisAlpha": 1,
+                          "position": "right",
+                          "offset":100
+                      }
+                      ],
+                      "graphs": [{
+                          "valueAxis": "v1",
+                          "lineColor": "#5D96DB",
+                          "bullet": "round",
+                          "bulletBorderThickness": 4,
+                          "hideBulletsCount": 30,
+                          "title": "RH值",
+                          "valueField": "RH",
+                          "fillAlphas": 0
+                      }
+                      , {
+                          "valueAxis": "v2",
+                          "lineColor": "#46B29D",
+                          "bullet": "square",
+                          "bulletBorderThickness": 1,
+                          "hideBulletsCount": 30,
+                          "title": "太陽輻射",
+                          "valueField": "SolarRadiation",
+                          "fillAlphas": 0
+                      }, {
+                          "valueAxis": "v3",
+                          "lineColor": "#DEB54D",
+                          "bullet": "triangleUp",
+                          "bulletBorderThickness": 1,
+                          "hideBulletsCount": 30,
+                          "title": "溫度",
+                          "valueField": "T",
+                          "fillAlphas": 0
+                      }, {
+                          "valueAxis": "v4",
+                          "lineColor": "#E37B46",
+                          "bullet": "triangleUp",
+                          "bulletBorderThickness": 1,
+                          "hideBulletsCount": 30,
+                          "title": "WBGT",
+                          "valueField": "WBGT",
+                          "fillAlphas": 0
+                      }, {
+                          "valueAxis": "v5",
+                          "lineColor": "#D95C85",
+                          "bullet": "triangleUp",
+                          "bulletBorderThickness": 1,
+                          "hideBulletsCount": 30,
+                          "title": "風速",
+                          "valueField": "WS",
+                          "fillAlphas": 0
+                      }
+                      ],
+                      "chartScrollbar": {
+                          // "graph": "v1",
+                          // "scrollbarHeight": 80,
+                          // "backgroundAlpha": 0,
+                          // "selectedBackgroundAlpha": 0.1,
+                          // "selectedBackgroundColor": "#888888",
+                          // "graphFillAlpha": 0,
+                          // "graphLineAlpha": 0.5,
+                          // "selectedGraphFillAlpha": 0,
+                          // "selectedGraphLineAlpha": 1,
+                          // "autoGridCount": true,
+                          // "color": "#AAAAAA"
+                      },
+                      "chartCursor": {
+                          "cursorPosition": "mouse"
+                      },
+                      "categoryField": "date",
+                      "categoryAxis": {
+                          "minPeriod": "mm",
+                          "parseDates": true
+
+                      },
+                      "export": {
+                        "enabled": false,
+                          "position": "bottom-right"
+                       }
+                  });
+
+                  function zoomChart(){
+                    chart.zoomToDates((newData[0].epoch*1000),(newData[10].epoch*1000));
+                  }
+                  chart.addListener("rendered", zoomChart);
 
 
-              function setHeader(xhr) {
-                xhr.setRequestHeader('siteno', site);
-                xhr.setRequestHeader('time', time);
-              }
 
+
+                });
 
             })
 
@@ -247,120 +406,8 @@
 
         });
 
-        var parameter = QueryString();
-        console.log(parameter)
-
-          var chartData = generateChartData();
-
-          var chart = AmCharts.makeChart("chartdiv", {
-              "type": "serial",
-              "theme": "light",
-              "legend": {
-                  "useGraphSettings": true
-              },
-              "dataProvider": chartData,
-              "synchronizeGrid":true,
-              "valueAxes": [{
-                  "id":"v1",
-                  "axisColor": "#FF6600",
-                  "axisThickness": 2,
-                  "axisAlpha": 1,
-                  "position": "left"
-              }, {
-                  "id":"v2",
-                  "axisColor": "#FCD202",
-                  "axisThickness": 2,
-                  "axisAlpha": 1,
-                  "position": "right"
-              }, {
-                  "id":"v3",
-                  "axisColor": "#B0DE09",
-                  "axisThickness": 2,
-                  "gridAlpha": 0,
-                  "offset": 50,
-                  "axisAlpha": 1,
-                  "position": "left"
-              }],
-              "graphs": [{
-                  "valueAxis": "v1",
-                  "lineColor": "#FF6600",
-                  "bullet": "round",
-                  "bulletBorderThickness": 1,
-                  "hideBulletsCount": 30,
-                  "title": "red line",
-                  "valueField": "visits",
-              "fillAlphas": 0
-              }, {
-                  "valueAxis": "v2",
-                  "lineColor": "#FCD202",
-                  "bullet": "square",
-                  "bulletBorderThickness": 1,
-                  "hideBulletsCount": 30,
-                  "title": "yellow line",
-                  "valueField": "hits",
-              "fillAlphas": 0
-              }, {
-                  "valueAxis": "v3",
-                  "lineColor": "#B0DE09",
-                  "bullet": "triangleUp",
-                  "bulletBorderThickness": 1,
-                  "hideBulletsCount": 30,
-                  "title": "green line",
-                  "valueField": "views",
-              "fillAlphas": 0
-              }],
-              "chartScrollbar": {},
-              "chartCursor": {
-                  "cursorPosition": "mouse"
-              },
-              "categoryField": "date",
-              "categoryAxis": {
-                  "parseDates": true,
-                  "axisColor": "#DADADA",
-                  "minorGridEnabled": true
-              },
-              "export": {
-                "enabled": false,
-                  "position": "bottom-right"
-               }
-          });
-
-          chart.addListener("dataUpdated", zoomChart);
-          zoomChart();
-
-
-          // generate some random data, quite different range
-          function generateChartData() {
-              var chartData = [];
-              var firstDate = new Date();
-              firstDate.setDate(firstDate.getDate() - 100);
-
-              for (var i = 0; i < 100; i++) {
-                  // we create date objects here. In your data, you can have date strings
-                  // and then set format of your dates using chart.dataDateFormat property,
-                  // however when possible, use date objects, as this will speed up chart rendering.
-                  var newDate = new Date(firstDate);
-                  newDate.setDate(newDate.getDate() + i);
-
-                  var visits = Math.round(Math.sin(i * 5) * i);
-                  var hits = Math.round(Math.random() * 80) + 500 + i * 3;
-                  var views = Math.round(Math.random() * 6000) + i * 4;
-
-                  chartData.push({
-                      date: newDate,
-                      visits: visits,
-                      hits: hits,
-                      views: views
-                  });
-              }
-              return chartData;
-          }
-
-          function zoomChart(){
-              chart.zoomToIndexes(chart.dataProvider.length - 20, chart.dataProvider.length - 1);
-          }
-
-
+        // var parameter = QueryString();
+        // console.log(parameter)
 
           $('#chooseDateBox').modal('show');
 

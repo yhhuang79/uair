@@ -734,7 +734,7 @@ router.get('/getAirResearchPrediction',function  (req, res)  {
 
 
 })
-router.get('/getAnonymousData', function  (req,res) {
+router.post('/getAnonymousData', function  (req,res) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
@@ -743,8 +743,11 @@ router.get('/getAnonymousData', function  (req,res) {
   tableName = 'tony_sooooo_awesome'
 
   // extract request header
-  SiteNo = parseInt(req.headers.siteno)
-  date  = (req.headers.time).toString()
+  // SiteNo = parseInt(req.headers.siteno)
+  // date  = (req.headers.time).toString()
+
+  SiteNo = parseInt(req.param('siteno'))
+  date  = req.param('time').toString()
 
   console.log(date);
   var found = 0;
