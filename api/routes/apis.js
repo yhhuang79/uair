@@ -28,6 +28,8 @@ var predictFlag = 1;
 var count =0;
 // Python shell
 var PythonShell = require('python-shell');
+var request = require('request');
+
 // Socket io
 var io = require('socket.io-client');
 var socket = io.connect('http://localhost:3000', {reconnect: true});
@@ -101,6 +103,37 @@ router.get('/geojsonAQI', function(req, res) {
 
 // Geojson with currentAQI & LASS
 // Get Current Air Quilty Index
+router.get('/getOutsideLass',function(req,res){
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  request('http://nrl.iis.sinica.edu.tw/LASS/last-all-lass.json', function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      // console.log(body) // Show the HTML for the Google homepage.
+      res.send(body);
+    }
+  })
+})
+router.get('/getOutsideProbe',function(req,res){
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  request('http://nrl.iis.sinica.edu.tw/LASS/last-all-probecube.json', function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      // console.log(body) // Show the HTML for the Google homepage.
+      res.send(body);
+    }
+  })
+})
+router.get('/getOutsideAirBox',function(req,res){
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  request('http://nrl.iis.sinica.edu.tw/LASS/last-all-airbox.json', function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      // console.log(body) // Show the HTML for the Google homepage.
+      res.send(body);
+    }
+  })
+})
+
 router.get('/geojsonLASS', function(req, res) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");

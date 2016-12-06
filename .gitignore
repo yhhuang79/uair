@@ -30,3 +30,6 @@ api/node_modules
 # Ignore .DS_Store file
 *.DS_Store
 .DS_Store?
+
+# Ignore config.js file
+js/config.js

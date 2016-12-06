@@ -18,6 +18,13 @@
     <!-- font icon -->
     <link href="css/elegant-icons-style.css" rel="stylesheet" />
     <link href="css/font-awesome.min.css" rel="stylesheet" />
+    <!-- leaflet map -->
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css">
+    <link rel="stylesheet" href="http://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css">
+    <link rel="stylesheet" href="http://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.Default.css">
+    <link rel="stylesheet" href="http://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.24.0/L.Control.Locate.css">
+    <link rel="stylesheet" href="assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.css">
+    <link rel="stylesheet" href="assets/leaflet-openweathermap/leaflet-openweathermap.css" />
     <!-- Custom styles -->
     <link href="css/style.css" rel="stylesheet">
     <link href="css/style-responsive.css" rel="stylesheet" />
@@ -68,6 +75,7 @@
       					<ol class="breadcrumb">
       						<li><i class="fa fa-home"></i><a href="index.html">Home</a></li>
       						<li><i class="fa fa-bars"></i>資料顯示</li>
+
       					</ol>
       				</div>
       			</div>
@@ -99,7 +107,19 @@
                       <li><a href="#">Dropdown link</a></li>
                     </ul>
                   </div>
-                </div>                <div id="chartdiv"></div>
+                  <div class="btn-group" role="group">
+                    <button id="mapLayerBtn" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                      圖層顯示
+                    </button>
+                  </div>
+
+                </div>
+                <div id="dataContainer">
+                  <div id="chartdiv"></div>
+                  <div id="map" style="height:380px;"></div>
+
+                  </div>
+                </div>
 
                 <!-- <ul class="dropdown-menu" aria-labelledby="dropdownMenu4">
                   <li><a href="#">Regular link</a></li>
@@ -137,259 +157,15 @@
     <script src="https://www.amcharts.com/lib/3/serial.js"></script>
     <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
     <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
-    <script>
-    var chart
-      $(function(){
-
-        $( "#chooseSiteUl a" ).on( "click", function( event ) {
-
-            $("#chooseDateUl").empty()
-            event.preventDefault();
-            // console.log( $( this ).parent().attr('value') );
-
-            site  = $( this ).parent().attr('value');
-
-            No1_dates=["0711","0712","0713","0714"];
-            No2_dates=["0721","0722"];
-            No3_dates=["0725","0726"];
-            No4_dates=["0825","0826"];
-            No5_dates=["0706","0720"];
-
-            dateCollector = [No1_dates,No2_dates,No3_dates,No4_dates,No5_dates]
-
-            append(site,dateCollector[site-1])
-
-            function append(site,Dates){
-
-              Dates.forEach(function(element){
-                $("#chooseDateUl").append('<li value="'+element+'"><a href="#">'+element+'</a></li>')
-              });
-
-            }
-
-            $( "#chooseDateUl a" ).on( "click", function( event ) {
-              // console.log("send something")
-              time  = "0"+$(this).parent().attr('value');
-              // // $.get( baseURL+"api/getAnonymousData", function( data ) {
-              // //   $( ".result" ).html( data );
-              // //   alert( "Load was performed." );
-              // // });
-              // $.ajax({
-              //   url: baseURL,
-              //   type: 'GET',
-              //   dataType: 'json',
-              //   error: function() { alert('boo!'); },
-              //   beforeSend: setHeader
-              // }).done(function(data)  {
-              //   console.log(data);
-              // });
-              //
-              //
-              // function setHeader(xhr) {
-              //   xhr.setRequestHeader('siteno', site);
-              //   xhr.setRequestHeader('time', time);
-              // }
-              //
-
-              // $.getJSON(baseURL + "/api/geojsonTI", function(data) {
-              //   console.log(data)
-              // })
-
-              console.log(time)
-              $.post( baseURL+"/api/getAnonymousData", { siteno:site , time: time })
-                .done(function( data ) {
-                  // console.log(data);
-
-                  var newData = data.dateData.map(function(x){
-                    return{
-                      date:new Date(x.epoch*1000),
-                      RH:x.RH,
-                      SolarRadiation: x.SolarRadiation,
-                      T: x.T,
-                      WBGT: x.WBGT,
-                      WS: x.WS,
-                      epoch: x.epoch,
-                      minNo: x.minNo
-                    }
-                  })
-
-                  console.log(newData)
-                  chart = AmCharts.makeChart("chartdiv", {
-                      "type": "serial",
-                      // "dataDateFormat": "HH:NN:SS",
-                      "theme": "light",
-                      "legend": {
-                          "useGraphSettings": true
-                      },
-                      "dataProvider": newData,
-                      "synchronizeGrid":true,
-                      "valueAxes": [{
-                          "id":"v1",
-                          "axisColor": "#5D96DB",
-                          "axisThickness": 2,
-                          "axisAlpha": 1,
-                          "position": "left",
-                          "offset":100
-                      }
-                      , {
-                          "id":"v2",
-                          "axisColor": "#46B29D",
-                          "axisThickness": 2,
-                          "axisAlpha": 1,
-                          "position": "left"
-                      }, {
-                          "id":"v3",
-                          "axisColor": "#DEB54D",
-                          "axisThickness": 2,
-                          "gridAlpha": 0,
-                          "offset": 50,
-                          "axisAlpha": 1,
-                          "position": "left"
-                      }, {
-                          "id":"v4",
-                          "axisColor": "#E37B46",
-                          "axisThickness": 2,
-                          "gridAlpha": 0,
-                          "offset": 50,
-                          "axisAlpha": 1,
-                          "position": "right"
-                      }, {
-                          "id":"v5",
-                          "axisColor": "#D95C85",
-                          "axisThickness": 2,
-                          "gridAlpha": 0,
-                          "offset": 50,
-                          "axisAlpha": 1,
-                          "position": "right",
-                          "offset":100
-                      }
-                      ],
-                      "graphs": [{
-                          "valueAxis": "v1",
-                          "lineColor": "#5D96DB",
-                          "bullet": "round",
-                          "bulletBorderThickness": 4,
-                          "hideBulletsCount": 30,
-                          "title": "RH值",
-                          "valueField": "RH",
-                          "fillAlphas": 0
-                      }
-                      , {
-                          "valueAxis": "v2",
-                          "lineColor": "#46B29D",
-                          "bullet": "square",
-                          "bulletBorderThickness": 1,
-                          "hideBulletsCount": 30,
-                          "title": "太陽輻射",
-                          "valueField": "SolarRadiation",
-                          "fillAlphas": 0
-                      }, {
-                          "valueAxis": "v3",
-                          "lineColor": "#DEB54D",
-                          "bullet": "triangleUp",
-                          "bulletBorderThickness": 1,
-                          "hideBulletsCount": 30,
-                          "title": "溫度",
-                          "valueField": "T",
-                          "fillAlphas": 0
-                      }, {
-                          "valueAxis": "v4",
-                          "lineColor": "#E37B46",
-                          "bullet": "triangleUp",
-                          "bulletBorderThickness": 1,
-                          "hideBulletsCount": 30,
-                          "title": "WBGT",
-                          "valueField": "WBGT",
-                          "fillAlphas": 0
-                      }, {
-                          "valueAxis": "v5",
-                          "lineColor": "#D95C85",
-                          "bullet": "triangleUp",
-                          "bulletBorderThickness": 1,
-                          "hideBulletsCount": 30,
-                          "title": "風速",
-                          "valueField": "WS",
-                          "fillAlphas": 0
-                      }
-                      ],
-                      "chartScrollbar": {
-                          // "graph": "v1",
-                          // "scrollbarHeight": 80,
-                          // "backgroundAlpha": 0,
-                          // "selectedBackgroundAlpha": 0.1,
-                          // "selectedBackgroundColor": "#888888",
-                          // "graphFillAlpha": 0,
-                          // "graphLineAlpha": 0.5,
-                          // "selectedGraphFillAlpha": 0,
-                          // "selectedGraphLineAlpha": 1,
-                          // "autoGridCount": true,
-                          // "color": "#AAAAAA"
-                      },
-                      "chartCursor": {
-                          "cursorPosition": "mouse"
-                      },
-                      "categoryField": "date",
-                      "categoryAxis": {
-                          "minPeriod": "mm",
-                          "parseDates": true
-                      },
-                      "export": {
-                        "enabled": false,
-                          "position": "bottom-right"
-                       }
-                  });
-
-                  function zoomChart(){
-                    chart.zoomToDates((newData[0].epoch*1000),(newData[10].epoch*1000));
-                  }
-                  chart.addListener("rendered", zoomChart);
-
-
-
-
-                });
-
-            })
-
-
-
-        });
-
-        // var parameter = QueryString();
-        // console.log(parameter)
-
-          $('#chooseDateBox').modal('show');
-
-        // If: get site & date
-        // Show the chartData and close box
-        // Else: not get site &date
-        // Show the box
-
-    function QueryString(){
-      // This function is anonymous, is executed immediately and
-      // the return value is assigned to QueryString!
-      var query_string = {};
-      var query = window.location.search.substring(1);
-      var vars = query.split("&");
-      for (var i=0;i<vars.length;i++) {
-        var pair = vars[i].split("=");
-            // If first entry with this name
-        if (typeof query_string[pair[0]] === "undefined") {
-          query_string[pair[0]] = decodeURIComponent(pair[1]);
-            // If second entry with this name
-        } else if (typeof query_string[pair[0]] === "string") {
-          var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
-          query_string[pair[0]] = arr;
-            // If third or later entry with this name
-        } else {
-          query_string[pair[0]].push(decodeURIComponent(pair[1]));
-        }
-      }
-      return query_string;
-    }
-    })
-    </script>
-
+    <script src="js/dataRender.js"></script>
+    <!-- leaflet map -->
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <script src="http://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js"></script>
+    <script src="http://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.24.0/L.Control.Locate.js"></script>
+    <script src="assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.js"></script>
+    <script src="assets/leaflet-openweathermap/leaflet-openweathermap.js"></script>
+    <script src="assets/leaflet-heatmap/heatmap.js"></script>
+    <script src="assets/leaflet-heatmap/leaflet-heatmap.js"></script>
 
   </body>
 </html>
