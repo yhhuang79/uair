@@ -241,7 +241,7 @@ var airBoxData;
         map = L.map("map", {
           zoom: 8,
           center: [25.0391667, 121.525],
-          layers: [mapquestOSM, markerClusters],
+          layers: [mapquestOSM, markerClusters, lassLayer],
           zoomControl: true,
           attributionControl: false
         });
@@ -258,7 +258,16 @@ var airBoxData;
       var d1 = $.Deferred();
       $.getJSON(baseURL+"/api/getOutsideLass",function(data){
         // console.log(data);
-        lassData  = data.feeds.map(  s =>  L.marker([s.gps_lat,s.gps_lon]).bindPopup('This is Littleton, CO.'))
+        lassData  = data.feeds.map(  s =>  L.marker([s.gps_lat,s.gps_lon]).bindPopup(
+          "<table class='table table-striped table-bordered table-condensed'>"
+            + "<tr><th>測站名稱</th><td>" + s.SiteName
+            + "</td></tr>" + "<tr><th>測站id</th><td>" + s.device_id
+            + "</td></tr>" + "<tr><th>濕度</th><td>" + s.s_h0
+            + "</td></tr>" + "<tr><th>PM2.5</th><td>" + s.s_d0
+            + "</td></tr>" + "<tr><th>溫度</th><td>" + s.s_t0
+            + "</td></tr>" + "<table>"
+
+        ))
         d1.resolve();
       });
       return d1.promise();
@@ -276,7 +285,17 @@ var airBoxData;
       var d3 = $.Deferred();
       $.getJSON(baseURL+"/api/getOutsideAirBox",function(data){
         console.log(data);
-        airBoxData  = data.feeds.map(  s =>  L.marker([s.gps_lat,s.gps_lon]).bindPopup('This is Littleton, CO.'))
+        airBoxData  = data.feeds.map(  s =>  L.marker([s.gps_lat,s.gps_lon]).bindPopup(
+          "<table class='table table-striped table-bordered table-condensed'>"
+            + "<tr><th>測站名稱</th><td>" + s.SiteName
+            + "</td></tr>" + "<tr><th>測站id</th><td>" + s.device_id
+            + "</td></tr>" + "<tr><th>濕度</th><td>" + s.s_h0
+            + "</td></tr>" + "<tr><th>PM2.5</th><td>" + s.s_d0
+            + "</td></tr>" + "<tr><th>溫度</th><td>" + s.s_t0
+            + "</td></tr>" + "<table>"
+
+
+        ))
         d3.resolve();
       });
       return d3.promise();
